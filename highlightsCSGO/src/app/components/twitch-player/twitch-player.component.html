@@ -1,0 +1,8 @@
+<div id="player-div">
+    <div [style.display]="playerLoading ? 'none': 'block'" id="player"></div>
+</div>
+
+<div *ngIf="playerLoading" id="spinner-div">
+    <mat-spinner></mat-spinner>
+    <p id="loading-text">Player is loading</p>
+</div>

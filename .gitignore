@@ -1,0 +1,56 @@
+# main dir
+node_modules
+csgo_highlights_server/node_modules
+csgo_highlights_server/matches
+csgo_highlights_server/output
+app.js
+output.ts
+radio.mp3
+test.html
+
+# compiled output
+highlightsCSGO/dist
+highlightsCSGO/tmp
+highlightsCSGO/out-tsc
+# Only exists if Bazel was run
+highlightsCSGO/bazel-out
+
+# dependencies
+highlightsCSGO/node_modules
+
+# profiling files
+highlightsCSGO/chrome-profiler-events*.json
+highlightsCSGO/speed-measure-plugin*.json
+
+# IDEs and editors
+highlightsCSGO/.idea
+highlightsCSGO/.project
+highlightsCSGO/.classpath
+highlightsCSGO/.c9/
+highlightsCSGO/*.launch
+highlightsCSGO/.settings/
+highlightsCSGO/*.sublime-workspace
+
+# IDE - VSCode
+highlightsCSGO/.vscode/*
+highlightsCSGO/!.vscode/settings.json
+highlightsCSGO/!.vscode/tasks.json
+highlightsCSGO/!.vscode/launch.json
+highlightsCSGO/!.vscode/extensions.json
+highlightsCSGO/.history/*
+
+# misc
+highlightsCSGO/.sass-cache
+highlightsCSGO/connect.lock
+highlightsCSGO/coverage
+highlightsCSGO/libpeerconnection.log
+highlightsCSGO/npm-debug.log
+highlightsCSGO/yarn-error.log
+highlightsCSGO/testem.log
+highlightsCSGO/typings
+
+# System Files
+highlightsCSGO/.DS_Store
+highlightsCSGO/Thumbs.db
+.DS_Store
+Thumbs.db

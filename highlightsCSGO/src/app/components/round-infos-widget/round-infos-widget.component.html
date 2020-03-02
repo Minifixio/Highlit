@@ -1,0 +1,63 @@
+    <mat-card 
+        [style.border-color]="cardColor" 
+        class="round-infos-card" 
+        (mouseover)="hoverCard(true)"
+        (mouseleave)="hoverCard(false)"
+        (click)="sendRoundInfos()">
+        
+        <mat-chip-list class='chip-list-kills' *ngIf="killsCount > 8 && quadKills.length === 0 && aces.length === 0 && tripleKills.length === 0">
+            <mat-chip class="multi-kills-chip" id="lot-of-kill-chip" color="#0aa700" selected>
+                <p class="kills-text">
+                    <mat-icon inline="true" class='hype-icon'>grade</mat-icon>
+                    {{killsCount}} kills
+                </p>
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-chip-list class='chip-list-kills' *ngIf="tripleKills.length > 0">
+            <mat-chip class="triple-kills-chip" color="#944646" selected>
+                x3
+                <div class="multiple-kills-div"> 
+                    <p (click)="sendClipTime(triple.kills[0].time)" id="multiple-kills-text" *ngFor="let triple of tripleKills">{{triple.attackerName}}</p>
+                </div>
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-chip-list class='chip-list-kills' *ngIf="quadKills.length > 0">
+            <mat-chip class="quad-kills-chip" selected>
+                x4
+                <div class="multiple-kills-div"> 
+                    <p (click)="sendClipTime(quad.kills[0].time)" id="multiple-kills-text" *ngFor="let quad of quadKills">{{quad.attackerName}}</p>
+                </div>
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-chip-list class='chip-list-kills' *ngIf="aces.length > 0">
+            <mat-chip class="ace-kills-chip" color="warn" selected>
+                ACE
+                <div class="multiple-kills-div"> 
+                    <p (click)="sendClipTime(ace.kills[0].time)" id="multiple-kills-text" *ngFor="let ace of aces">{{ace.attackerName}}</p>
+                </div>
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-chip-list *ngIf="killsCount <= 8 && quadKills.length === 0 && aces.length === 0 && tripleKills.length === 0">
+            <mat-chip class="multi-kills-chip" [style.background-color]="isTerrorist? '#ccba7c': '#5d79ae'" selected>
+                <p [style.color]="isTerrorist? '#424242': 'white'" class="kills-text">{{killsCount}} kills</p>
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-chip-list>
+            <mat-chip class="twitch-hype-chip" [style.background-color]="twitchRatingColor" selected>
+                <mat-spinner diameter=15 *ngIf="twitchRating == 0"></mat-spinner>
+                <p *ngIf="twitchRating > 0" class="kills-text">
+                    <mat-icon inline="true" class='hype-icon'>comment</mat-icon>
+                    {{twitchRating}} %
+                </p>
+            </mat-chip>
+        </mat-chip-list>
+
+        <div [style.background-color]="cardColor" id="round-id-div">
+            <p id="round-id-text">{{roundId}}</p>
+        </div>
+</mat-card>

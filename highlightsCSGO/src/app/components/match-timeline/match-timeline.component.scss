@@ -1,0 +1,92 @@
+.clip-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#scrolling-div {
+    width: 20%;
+    flex-grow: 1;
+}
+
+#main-page {
+    display: flex;
+    flex-direction: row;
+}
+
+.main-viewport {
+    height: 100%;
+}
+
+.cardList > * {
+    box-sizing: border-box;
+}
+
+.round-infos-card-widget {
+    flex: 0 1 0px;
+}
+
+.timeline-expansion {
+    margin: 20px 30px 10px 30px;
+}
+
+.multiple-kills-div {
+    margin:0;
+    font-size: 13px;
+}
+
+.kills-text {
+    margin:0;
+    font-size: 13px;
+}
+
+.hype-icon {
+    margin-right: 2px;
+}
+
+.mat-chip {
+    margin-left: 15px;
+}
+
+#ace-kills-chip {
+    background-color: #ff1414;
+}
+
+#quad-kills-chip {
+    background-color: #ca09ec;
+}
+
+#triple-kills-chip {
+    background-color: #ff8d0091;
+}
+
+#twitch-hype-chip {
+    background-color: #424242;
+}
+
+#multiple-kills-text {
+    font-size: 13px;
+    margin-left: 8px;
+    margin: -6px 0 -6px 8px;
+    cursor: pointer;
+}
+
+#multiple-kills-text:hover {
+    font-style: oblique;
+}
+
+#lot-of-kill-chip {
+    background-color: #0aa700;
+}
+
+.mat-content {
+    flex: 0.3;
+}
+
+#round-number-title {
+    margin-top: 5px;
+    flex-grow: 0;
+}

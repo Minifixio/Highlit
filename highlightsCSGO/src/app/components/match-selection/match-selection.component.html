@@ -1,0 +1,10 @@
+<div id="main-page">
+    <mat-card class="input-card">
+        <!--<p>https://www.twitch.tv/videos/552918996?t=05h42m08s</p>-->
+        <mat-form-field class="input-field">
+            <mat-label>HLTV match link</mat-label>
+            <input matInput cdkTextareaAutosize placeholder="Twitch link" [(ngModel)]="inputLink">
+        </mat-form-field>
+        <button class='action-button' (click)="matchLinkAdded()" mat-raised-button color="warn">Validate !</button>
+    </mat-card>
+</div>

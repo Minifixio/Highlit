@@ -1,0 +1,100 @@
+.round-infos-card {
+    margin: 5px 2px 5px 2px;
+    border-radius: 11px 11px 11px 11px;
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px 11px 11px 11px;
+    border: 9px solid;
+    border-color: #000000;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.round-infos-card:hover {
+    border-color: #f44336;
+}
+
+#round-id-div {
+    background-color: #f44336;
+    width: 13%;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+#round-id-text {
+    margin-bottom: 0;
+    padding: 10px;
+    font-size: larger;
+    font-weight: 700;
+}
+
+.mat-card>:first-child {
+    margin-bottom: 4px;
+    margin-right: 10px;
+}
+
+.multiple-kills-div {
+    margin:0;
+    font-size: 13px;
+}
+
+.kills-text {
+    margin:0;
+    font-size: 13px;
+}
+
+.ace-kills-chip {
+    min-height: 30px;
+    background-color: #ff1414;
+}
+
+.quad-kills-chip {
+    min-height: 30px;
+    background-color: #ca09ec;
+}
+
+.triple-kills-chip {
+    min-height: 30px;
+    background-color: #ff8d0091;
+}
+
+.twitch-hype-chip {
+    min-height: 20px;
+    background-color: #424242;
+}
+
+.multi-kills-chip {
+    min-height: 30px;
+}
+
+.hype-icon {
+    margin-right: 2px;
+}
+
+.mat-card-content {
+    margin: 0;
+}
+
+.mat-card {
+    padding: 7px;
+}
+
+#multiple-kills-text {
+    font-size: 13px;
+    margin-left: 8px;
+    margin: -6px 0 -6px 8px;
+    cursor: pointer;
+}
+
+#multiple-kills-text:hover {
+    font-style: oblique;
+}
+
+#lot-of-kill-chip {
+    background-color: #0aa700;
+}
