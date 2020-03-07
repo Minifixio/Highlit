@@ -45,6 +45,28 @@ export class TwitchService {
     });
    }
 
+   hltvLinkAdded(hltvLink) {
+     return new Promise(async (resolve, reject) => {
+      let matchId = '';
+      const pattern = '/matches/';
+      const pos = hltvLink.indexOf(pattern) + pattern.length;
+      console.log(pos);
+      for (let i = pos; i < hltvLink.length; i++) {
+        if (!isNaN(hltvLink[i])) {
+          matchId += hltvLink[i];
+        } else {
+          break;
+        }
+      }
+      const postParams = {
+        match_id: matchId,
+        map_id: 1
+      };
+      const matchData = await this.httpService.post('match_infos', postParams).toPromise();
+      resolve(matchData);
+     });
+   }
+
    getMatchInfos(): Promise<RoundInfo[]> {
     return new Promise((resolve, reject) => {
       this.httpService.get('match_infos').subscribe((result: RoundInfo[]) => {

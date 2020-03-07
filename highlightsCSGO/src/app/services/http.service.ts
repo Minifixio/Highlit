@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { TwitchService } from './twitch.service';
+import { RoundInfo } from './models/RoundInfo';
 
 interface Comments {
   comments: Array<Comment>;
@@ -33,7 +34,7 @@ export class HttpService {
     return this.http.get(this.mainUrl + tag);
   }
 
-  post(tag, postParams) {
+  post(tag, postParams): Observable<any> {
     console.log('POST: ', postParams);
     const httpOptions = {
       headers: new HttpHeaders({
@@ -41,7 +42,7 @@ export class HttpService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(this.mainUrl + tag, JSON.stringify(postParams), httpOptions);
+    return this.http.post<any>(this.mainUrl + tag, JSON.stringify(postParams), httpOptions);
   }
 
   async getTwitchComments(videoId, startTime, endTime): Promise<number> {

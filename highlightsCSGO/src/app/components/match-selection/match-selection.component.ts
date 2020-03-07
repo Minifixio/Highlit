@@ -23,4 +23,8 @@ export class MatchSelectionComponent implements OnInit {
     await this.twitchService.matchLinkAdded(this.inputLink);
     this.router.navigate(['/match']);
   }
+
+  async hltvLinkAdded() {
+    this.twitchService.hltvLinkAdded(this.inputLink);
+  }
 }
