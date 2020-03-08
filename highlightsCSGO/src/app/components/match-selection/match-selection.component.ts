@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class MatchSelectionComponent implements OnInit {
 
   inputLink: string;
+  loading = false;
 
   constructor(
     private twitchService: TwitchService,
@@ -25,6 +26,8 @@ export class MatchSelectionComponent implements OnInit {
   }
 
   async hltvLinkAdded() {
-    this.twitchService.hltvLinkAdded(this.inputLink);
+    this.loading = true;
+    await this.twitchService.hltvLinkAdded(this.inputLink);
+    this.router.navigate(['/match']);
   }
 }

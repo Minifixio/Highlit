@@ -8,6 +8,7 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 var demoManager = require("./demo_manager.js");
+var dbManager = require("./database_manager.js");
 app.use(cors())
 
 app.use(bodyParser.json());
@@ -35,4 +36,21 @@ app.listen(3000, function () {
     console.log('[Express] Example app listening on port 3000!');
 })
 
-demoManager.findDemoInfos(2339670, 1)
+const response = {
+    id: 1,
+    twitchStreams: 'hello',
+    demoId: 34,
+    team1_name: 'team1_O',
+    team2_name: 'team2_O',
+    event: 'event_O',
+    maps: [
+        {
+            name: 'hello'
+        },
+        {
+            name: 'hello2'
+        }
+    ]
+}
+
+demoManager.findDemoInfos(2340121, 1)

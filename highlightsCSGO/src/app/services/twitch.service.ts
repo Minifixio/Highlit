@@ -31,8 +31,6 @@ export class TwitchService {
       this.startVideoTime = ((+hour) * 60 * 60 + (+minutes) * 60 + (+seconds)) - 10;
       this.videoId = parseInt(twitchLink.slice(twitchLink.search('videos') + 7, twitchLink.search('t=') - 1), 10);
 
-      this.roundInfos = await this.getMatchInfos();
-
       this.matchInfos = {
         videoId: this.videoId,
         startVideoTime: this.startVideoTime,
@@ -62,17 +60,10 @@ export class TwitchService {
         match_id: matchId,
         map_id: 1
       };
-      const matchData = await this.httpService.post('match_infos', postParams).toPromise();
-      resolve(matchData);
+      this.matchInfos = await this.httpService.post('match_infos', postParams).toPromise();
+      this.roundInfos = this.matchInfos.roundInfos;
+      this.httpService.roundsCount = this.roundInfos.length;
+      resolve(this.matchInfos);
      });
    }
-
-   getMatchInfos(): Promise<RoundInfo[]> {
-    return new Promise((resolve, reject) => {
-      this.httpService.get('match_infos').subscribe((result: RoundInfo[]) => {
-        resolve(result);
-      });
-    });
-   }
-
 }

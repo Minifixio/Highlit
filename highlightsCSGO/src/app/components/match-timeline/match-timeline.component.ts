@@ -37,8 +37,8 @@ export class MatchTimelineComponent implements OnInit {
   ngOnInit(): void {
     this.matchInfos = this.twitchService.matchInfos;
     this.roundInfos = this.twitchService.roundInfos;
-    this.videoId = this.twitchService.videoId;
-    this.startVideoTime = this.twitchService.startVideoTime;
+    this.videoId = this.matchInfos.videoId;
+    this.startVideoTime = this.matchInfos.startVideoTime;
     this.loadClips();
     this.twitchPlayer.displayTwitchVideo(this.videoId, this.startVideoTime);
   }

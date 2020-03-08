@@ -9,15 +9,24 @@ const { HLTV } = require('hltv')
 const util = require("util");
 const { unrar } = require('unrar-promise');
 var demoReader = require("./demo_reader.js");
+var dbManager = require("./database_manager.js");
 const writeFile = util.promisify(fs.writeFile);
+const unlink = util.promisify(fs.unlink);
 
 exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
+
+    let mapInfos = {
+        match_id: matchId,
+        map_number: mapNumber
+    }
 
     return new Promise (async(resolve) => {
         let path = `./matches/${matchId}`;
         if( !(fs.existsSync(path)) ) {
             console.log('[findDemoInfos] Folder doesnt exist');
             const hltvInfos = await hltvMatchInfos(matchId);
+            await dbManager.addMatchInfos(hltvInfos);
+            await dbManager.updateMapStatus(mapInfos, 'downloading');
             const twitchStreams = hltvInfos.twitchStreams;
             const demoId = hltvInfos.demoId;
 
@@ -52,23 +61,29 @@ exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
             startVideoTime: twitchLinkParsed.startVideoTime,
             roundInfos: matchJSONfile
         }
-        console.log(response);
+        await dbManager.updateMapStatus(mapInfos, 'yes');
         resolve(response);
     })
 
 }
 
 async function hltvMatchInfos(matchId) {
-    console.log('[findDemoId] Looking for informations for match ' + matchId);
+    console.log('[hltvMatchInfos] Looking for informations for match ' + matchId);
     return new Promise(async (resolve) => {
         var matchInfos = await HLTV.getMatch({id: matchId});
+        console.log(matchInfos)
         const downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
         const demoId = downloadLink.match(/(\d+)/)[0];
         const twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
 
         const response = {
+            match_id: matchInfos.id,
             twitchStreams: twitchStreams,
-            demoId: demoId
+            demoId: demoId,
+            team1_name: matchInfos.team1.name,
+            team2_name: matchInfos.team2.name,
+            event: matchInfos.event.name,
+            maps: matchInfos.maps
         }
         resolve(response);
     })
@@ -108,6 +123,7 @@ async function dowloadDemos(demoId, matchId) {
             console.log('[dowloadDemos] Finished download for demo ' + matchId);
             await unrar(`${path}/${matchId}.rar`, `${path}/dem`,);
             console.log('[dowloadDemos] Finished unrar for demo ' + matchId);
+            await unlink(`${path}/${matchId}.rar`);
             resolve(1);
         });
     })
@@ -166,8 +182,7 @@ function parseTwitchLink(twitchLink) {
     const scope = twitchLink.indexOf('&t=');
     const timeCode = twitchLink.slice(scope + 3);
 
-    if(!timeCode.indexOf('h')) {
-        console.log(timeCode)
+    if(timeCode.includes('h')) {
         var hour = timeCode.split('h')[0];
         var minutes = timeCode.split('m')[0].split('h')[1];
     } else {
