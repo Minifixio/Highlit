@@ -46,7 +46,7 @@ export class RoundInfosWidgetComponent implements OnInit {
       this.cardColor = '#5d79ae';
     }
 
-    this.httpService.getTwitchComments(this.videoId, this.startClipTime, this.endClipTime).then(total => {
+    /**this.httpService.getTwitchComments(this.videoId, this.startClipTime, this.endClipTime).then(total => {
       this.commentsAmount = total;
       this.httpService.allComments.subscribe(comments => {
         this.twitchRating = Math.round((this.commentsAmount) * 100 / (comments[comments.length - 1]));
@@ -57,7 +57,7 @@ export class RoundInfosWidgetComponent implements OnInit {
           this.twitchRatingColor = '#ffb10366';
         }
       });
-    });
+    });**/
 
     this.findMultipleKills();
   }

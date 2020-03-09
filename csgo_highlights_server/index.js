@@ -53,4 +53,3 @@ const response = {
     ]
 }
 
-demoManager.findDemoInfos(2340121, 1)

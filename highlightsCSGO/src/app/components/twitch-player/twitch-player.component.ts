@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { interval } from 'rxjs';
 declare const Twitch: any;
 
 @Component({
@@ -26,13 +28,15 @@ export class TwitchPlayerComponent implements OnInit {
       height: window.innerHeight,
       video: videoId
     };
-
     this.twitchPlayer = new Twitch.Player('player', options);
-
-    setTimeout(() => {
-      this.seekTo(startTime);
-      this.playerLoading = false;
-     }, 4000);
+    this.twitchPlayer.addEventListener(Twitch.Player.PLAYING, () => {
+      if (this.playerLoading === true) {
+        this.playerLoading = false;
+        setTimeout(() => {
+          this.seekTo(startTime);
+        }, 1000);
+      }
+    });
   }
 
 

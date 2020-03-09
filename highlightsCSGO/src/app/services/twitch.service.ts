@@ -48,7 +48,6 @@ export class TwitchService {
       let matchId = '';
       const pattern = '/matches/';
       const pos = hltvLink.indexOf(pattern) + pattern.length;
-      console.log(pos);
       for (let i = pos; i < hltvLink.length; i++) {
         if (!isNaN(hltvLink[i])) {
           matchId += hltvLink[i];

@@ -29,9 +29,10 @@ exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
             await dbManager.updateMapStatus(mapInfos, 'downloading');
             const twitchStreams = hltvInfos.twitchStreams;
             const demoId = hltvInfos.demoId;
+            const mapsCount = hltvInfos.maps.length;
 
             await dowloadDemos(demoId, matchId);
-            await makeTwitchJSONfile(matchId, twitchStreams);
+            await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
             await parseDemos(matchId, mapNumber);
         } else {
             console.log('[findDemoInfos] Folder already exists');
@@ -47,11 +48,11 @@ exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
 
         const matchJSONfile = require(`${path}/${matchId}-map${mapNumber}.json`);
         const twitchJSONfile = require(`${path}/twitch_infos.json`);
-
-        if (twitchJSONfile.length == 1) {
-            var twitchLink = twitchJSONfile[0].link;
+        
+        if (mapNumber == 1) {
+            var twitchLink = twitchJSONfile.map1[0].link;
         } else {
-            twitchLink = twitchJSONfile.filter(obj => obj.includes('Map ' + mapNumber))[0].link
+            twitchLink = twitchJSONfile["map" + mapNumber][0].link;
         }
 
         const twitchLinkParsed = parseTwitchLink(twitchLink);
@@ -86,6 +87,15 @@ async function hltvMatchInfos(matchId) {
             maps: matchInfos.maps
         }
         resolve(response);
+    })
+}
+
+exports.getMapInfos = async function getMapInfos(mapId) {
+    console.log('[getMapInfos] Looking for informations for map ' + mapId);
+    return new Promise(async (resolve) => {
+        var matchInfos = await HLTV.getMatch({id: mapId});
+        console.log(matchInfos);
+        resolve(1)
     })
 }
 
@@ -166,10 +176,20 @@ async function makeMatchJSONfile(matchId, mapNumber, matchInfos) {
     })
 }
 
-async function makeTwitchJSONfile(matchId, links) {
+async function makeTwitchJSONfile(matchId, links, mapsCount) {
     return new Promise(async(resolve) => {
+        const mapsLinks = {};
+        if (mapsCount == 1) {
+            mapsLinks["map1"] = links;
+        } else {
+           for(let i = 1; i < (mapsCount + 1); i++) {
+               let scope = links.filter(obj => obj.name.includes('Map ' + i));
+               mapsLinks["map" + i] = scope;
+           }
+        }
+
         let path = `./matches/${matchId}`;
-        const output = JSON.stringify(links);
+        const output = JSON.stringify(mapsLinks);
         writeFile(`${path}/twitch_infos.json`, output, 'utf8').then(() => {
             console.log('[parseDemos] Twitch JSON created');
             resolve(1);
