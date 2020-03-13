@@ -1,10 +1,12 @@
-/*sqlite3 -init dump.sql newsqlite.db ""*/
+/*sqlite3 -init init_db.sql matches.db ""*/
 
 create table matches(
     id INTEGER PRIMARY KEY,
     team1 VARCHAR(50),
     team2 VARCHAR(50),
-    tournament VARCHAR(50)
+    tournament VARCHAR(50),
+    maps INTEGER,
+    date INTERGER
 );
 
 create table maps_match(

@@ -56,10 +56,9 @@ export class TwitchService {
         }
       }
       const postParams = {
-        match_id: matchId,
-        map_id: 1
+        match_id: matchId
       };
-      this.matchInfos = await this.httpService.post('match_infos', postParams).toPromise();
+      this.matchInfos = await this.httpService.post('add_match', postParams).toPromise();
       this.roundInfos = this.matchInfos.roundInfos;
       this.httpService.roundsCount = this.roundInfos.length;
       resolve(this.matchInfos);

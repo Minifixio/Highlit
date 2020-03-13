@@ -9,8 +9,8 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
         let matchDatas = [];
         let maps = matchInfos.maps;
     
-        matchDatas.push(matchInfos.match_id, matchInfos.team1_name, matchInfos.team2_name, matchInfos.event);
-        const matchQuery = "INSERT INTO matches(id, team1, team2, tournament) VALUES(?, ?, ?, ?) ";
+        matchDatas.push(matchInfos.match_id, matchInfos.team1_name, matchInfos.team2_name, matchInfos.event, matchInfos.date, maps.length);
+        const matchQuery = "INSERT INTO matches(id, team1, team2, tournament, maps, date) VALUES(?, ?, ?, ?, ?, ?) ";
         matchesDB.run(matchQuery, matchDatas);
     
         maps.forEach(async(map, index) => {
@@ -25,11 +25,82 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     })
 }
 
-exports.updateMapStatus = function updateMapStatus(mapInfos, status) {
+exports.updateMapStatus = function updateMapStatus(matchId, mapNumber, status) {
     return new Promise(async (resolve) => {
-        const mapQuery = "UPDATE maps_match SET available = ? WHERE id = ? AND map_number = ?";
-        matchesDB.run(mapQuery, [status, mapInfos.match_id, mapInfos.map_number]);
-        console.log("[DB manager] Updated map " + mapInfos.map_number + " for match " + mapInfos.match_id);
+        if (mapNumber == 0) {
+            const mapDownloadingQuery = "UPDATE maps_match SET available = ? WHERE id = ?";
+            matchesDB.run(mapDownloadingQuery, [status, matchId]);
+            console.log("[DB manager] Updated maps status to " + status + " for match " + matchId);
+        } else {
+            const mapUpdateQuery = "UPDATE maps_match SET available = ? WHERE id = ? AND map_number = ?";
+            matchesDB.run(mapUpdateQuery, [status, matchId, mapNumber]);
+            console.log("[DB manager] Updated map " + mapNumber + " status to " + status + " for match " + matchId);
+        }
+
         resolve(1)
+    })
+}
+
+exports.findMatch = function findMatch(matchId) {
+    return new Promise ((resolve) => {
+        const matchQuery = "SELECT * FROM matches WHERE id = ?";
+        matchesDB.get(matchQuery, [matchId], (err, row) => {
+            if (err) {
+                console.log(err);
+            }
+            if(!row) {
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        });
+    })
+}
+
+exports.isMapAvailable = function isMapAvailable(matchId, mapNumber) {
+    return new Promise ((resolve) => {
+        const matchQuery = "SELECT available FROM maps_match WHERE id = ? AND map_number = ?";
+        matchesDB.get(matchQuery, [matchId, mapNumber], (err, row) => {
+            if (err) {
+                console.log(err);
+            }
+            if(row) {
+                if(row.available == "yes") { 
+                    resolve(true);
+                } 
+                if(row.available == "no") { // Make sure to add the case if the map is already downloading
+                    resolve(false);
+                }
+            } else {
+                resolve(false);
+            }
+        });
+    })
+}
+
+exports.countMaps = async function countMaps(matchId) {
+    return new Promise((resolve) => {
+        const mapQuery = "SELECT maps FROM matches WHERE id = ?";
+        matchesDB.get(mapQuery, [matchId], (err, row) => {
+            resolve(row.maps);
+        })
+    })
+}
+
+exports.getMapsInfos = async function getMapsInfos(matchId) {
+    return new Promise((resolve) => {
+        const mapAllInfosQuery = "SELECT * FROM maps_match WHERE id = ?";
+        matchesDB.get(mapAllInfosQuery, [matchId], (err, row) => {
+            resolve(row);
+        })
+    })
+}
+
+exports.getMatchInfos = async function getMatchInfos(matchId) {
+    return new Promise((resolve) => {
+        const matchAllInfosQuery = "SELECT * FROM matches WHERE id = ?";
+        matchesDB.get(matchAllInfosQuery, [matchId], (err, row) => {
+            resolve(row);
+        })
     })
 }

@@ -13,42 +13,33 @@ var dbManager = require("./database_manager.js");
 const writeFile = util.promisify(fs.writeFile);
 const unlink = util.promisify(fs.unlink);
 
+
+exports.addMatchInfos = async function addMatchInfos(matchId) {
+    console.log("[addMatchInfos] Adding match")
+
+    return new Promise(async(resolve) => {
+        const hltvInfos = await hltvMatchInfos(matchId);
+        console.log(hltvInfos)
+        await dbManager.addMatchInfos(hltvInfos);
+
+        const twitchStreams = hltvInfos.twitchStreams;
+        const demoId = hltvInfos.demoId;
+        const mapsCount = hltvInfos.maps.length;
+
+        await dbManager.updateMapStatus(matchId, 0, 'downloading');
+        await dowloadDemos(demoId, matchId);
+        await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
+        await dbManager.updateMapStatus(matchId, 0, 'no');
+        resolve(1);
+    });
+}
+
 exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
-
-    let mapInfos = {
-        match_id: matchId,
-        map_number: mapNumber
-    }
-
     return new Promise (async(resolve) => {
         let path = `./matches/${matchId}`;
-        if( !(fs.existsSync(path)) ) {
-            console.log('[findDemoInfos] Folder doesnt exist');
-            const hltvInfos = await hltvMatchInfos(matchId);
-            await dbManager.addMatchInfos(hltvInfos);
-            await dbManager.updateMapStatus(mapInfos, 'downloading');
-            const twitchStreams = hltvInfos.twitchStreams;
-            const demoId = hltvInfos.demoId;
-            const mapsCount = hltvInfos.maps.length;
-
-            await dowloadDemos(demoId, matchId);
-            await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
-            await parseDemos(matchId, mapNumber);
-        } else {
-            console.log('[findDemoInfos] Folder already exists');
-            const readdir = util.promisify(fs.readdir);
-            var result = await (await readdir(path)).filter(file => file.includes('map' + mapNumber));
-
-            if (result.length == 0) {
-                await parseDemos(matchId, mapNumber);
-            } else {
-                console.log('[findDemoInfos] JSON already exists');
-            }
-        }
-
         const matchJSONfile = require(`${path}/${matchId}-map${mapNumber}.json`);
         const twitchJSONfile = require(`${path}/twitch_infos.json`);
-        
+
         if (mapNumber == 1) {
             var twitchLink = twitchJSONfile.map1[0].link;
         } else {
@@ -62,17 +53,14 @@ exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
             startVideoTime: twitchLinkParsed.startVideoTime,
             roundInfos: matchJSONfile
         }
-        await dbManager.updateMapStatus(mapInfos, 'yes');
         resolve(response);
     })
-
 }
 
 async function hltvMatchInfos(matchId) {
     console.log('[hltvMatchInfos] Looking for informations for match ' + matchId);
     return new Promise(async (resolve) => {
         var matchInfos = await HLTV.getMatch({id: matchId});
-        console.log(matchInfos)
         const downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
         const demoId = downloadLink.match(/(\d+)/)[0];
         const twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
@@ -84,6 +72,7 @@ async function hltvMatchInfos(matchId) {
             team1_name: matchInfos.team1.name,
             team2_name: matchInfos.team2.name,
             event: matchInfos.event.name,
+            date: matchInfos.date,
             maps: matchInfos.maps
         }
         resolve(response);
@@ -140,15 +129,16 @@ async function dowloadDemos(demoId, matchId) {
 
 }
 
-async function parseDemos(matchId, mapNumber) {
+exports.parseDemo = async function parseDemo(matchId, mapNumber) {
     return new Promise (async(resolve) => {
-        console.log('[parseDemos] Parsing demo for match ' + matchId + ' map ' + mapNumber);
+        await dbManager.updateMapStatus(matchId, mapNumber, 'parsing');
+        console.log('[parseDemo] Parsing demo for match ' + matchId + ' map ' + mapNumber);
         let path = `./matches/${matchId}`;
         const readdir = util.promisify(fs.readdir);
         var result = await (await readdir(`${path}/dem`)).filter(file => file.includes('.dem'));
         var map = '';
     
-        if (result.length == 1) { // If there is only one map
+        if (mapNumber == 1) { // If there is only one map
             map = result[0]; 
         } else {
             let scope = `-m${mapNumber}-`;
@@ -158,9 +148,10 @@ async function parseDemos(matchId, mapNumber) {
                 }
             })
         }
-        console.log('[parseDemos] Map to parse is : ' + map)
+        console.log('[parseDemo] Map to parse is : ' + map)
         const matchInfos = await demoReader.readDemo(`${path}/dem/${map}`);
         await makeMatchJSONfile(matchId, mapNumber, matchInfos);
+        await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
         resolve(1);
     })
 }
@@ -170,7 +161,7 @@ async function makeMatchJSONfile(matchId, mapNumber, matchInfos) {
         let path = `./matches/${matchId}`;
         const output = JSON.stringify(matchInfos);
         writeFile(`${path}/${matchId}-map${mapNumber}.json`, output, 'utf8').then(() => {
-            console.log('[parseDemos] Match JSON created for match ' + matchId + ' map n°' + mapNumber);
+            console.log('[parseDemo] Match JSON created for match ' + matchId + ' map n°' + mapNumber);
             resolve(1);
         });
     })
@@ -191,7 +182,7 @@ async function makeTwitchJSONfile(matchId, links, mapsCount) {
         let path = `./matches/${matchId}`;
         const output = JSON.stringify(mapsLinks);
         writeFile(`${path}/twitch_infos.json`, output, 'utf8').then(() => {
-            console.log('[parseDemos] Twitch JSON created');
+            console.log('[parseDemo] Twitch JSON created');
             resolve(1);
         });
     })

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpService } from '../../services/http.service';
 import { RoundInfosWidgetComponent } from '../round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from '../twitch-player/twitch-player.component';
 import { TwitchService } from 'src/app/services/twitch.service';
