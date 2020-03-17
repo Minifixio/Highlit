@@ -1,7 +1,10 @@
-import { RoundInfo } from '../models/RoundInfo';
-
 export interface MatchInfos {
-    videoId: number;
-    startVideoTime: number;
-    roundInfos: RoundInfo[];
+    match_id: number;
+    team1: string;
+    team2: string;
+    tournament: string;
+    match_format: string;
+    score: string;
+    date: number;
+    downloaded: number;
 }

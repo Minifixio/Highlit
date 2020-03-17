@@ -26,6 +26,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from './components/twitch-player/twitch-player.component';
 import { MatchSelectionComponent } from './components/match-selection/match-selection.component';
+import { MatchInfosWidgetComponent } from './components/match-infos-widget/match-infos-widget.component';
+import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos-widget.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { MatchSelectionComponent } from './components/match-selection/match-sele
     MatchTimelineComponent,
     RoundInfosWidgetComponent,
     TwitchPlayerComponent,
-    MatchSelectionComponent
+    MatchSelectionComponent,
+    MatchInfosWidgetComponent,
+    MapInfosWidgetComponent
   ],
   imports: [
     FormsModule,

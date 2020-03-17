@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
-import { MatchInfos } from './models/MatchInfos';
+import { GameInfos } from './models/GameInfos';
 import { RoundInfo } from './models/RoundInfo';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { RoundInfo } from './models/RoundInfo';
 })
 export class TwitchService {
 
-  matchInfos: MatchInfos;
+  gameInfos: GameInfos;
   roundInfos: RoundInfo[];
 
   inputLink: string;
@@ -20,7 +20,7 @@ export class TwitchService {
     private httpService: HttpService
   ) { }
 
-  async matchLinkAdded(twitchLink): Promise<MatchInfos> {
+  async matchLinkAdded(twitchLink): Promise<GameInfos> {
     return new Promise(async (resolve, reject) => {
       const timeCode = twitchLink.slice(twitchLink.length - 8);
       const hour = timeCode.split('h')[0];
@@ -31,7 +31,7 @@ export class TwitchService {
       this.startVideoTime = ((+hour) * 60 * 60 + (+minutes) * 60 + (+seconds)) - 10;
       this.videoId = parseInt(twitchLink.slice(twitchLink.search('videos') + 7, twitchLink.search('t=') - 1), 10);
 
-      this.matchInfos = {
+      this.gameInfos = {
         videoId: this.videoId,
         startVideoTime: this.startVideoTime,
         roundInfos: this.roundInfos
@@ -39,29 +39,21 @@ export class TwitchService {
 
       this.httpService.roundsCount = this.roundInfos.length;
 
-      resolve(this.matchInfos);
+      resolve(this.gameInfos);
     });
    }
 
-   hltvLinkAdded(hltvLink) {
-     return new Promise(async (resolve, reject) => {
-      let matchId = '';
-      const pattern = '/matches/';
-      const pos = hltvLink.indexOf(pattern) + pattern.length;
-      for (let i = pos; i < hltvLink.length; i++) {
-        if (!isNaN(hltvLink[i])) {
-          matchId += hltvLink[i];
-        } else {
-          break;
-        }
+   parseHltvLink(hltvLink) {
+    let matchId = '';
+    const pattern = '/matches/';
+    const pos = hltvLink.indexOf(pattern) + pattern.length;
+    for (let i = pos; i < hltvLink.length; i++) {
+      if (!isNaN(hltvLink[i])) {
+        matchId += hltvLink[i];
+      } else {
+        break;
       }
-      const postParams = {
-        match_id: matchId
-      };
-      this.matchInfos = await this.httpService.post('add_match', postParams).toPromise();
-      this.roundInfos = this.matchInfos.roundInfos;
-      this.httpService.roundsCount = this.roundInfos.length;
-      resolve(this.matchInfos);
-     });
+    }
+    return matchId;
    }
 }

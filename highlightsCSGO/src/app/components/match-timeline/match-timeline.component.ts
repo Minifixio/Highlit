@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoundInfosWidgetComponent } from '../round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from '../twitch-player/twitch-player.component';
 import { TwitchService } from 'src/app/services/twitch.service';
-import { MatchInfos } from 'src/app/services/models/MatchInfos';
+import { GameInfos } from 'src/app/services/models/GameInfos';
 import { RoundInfo } from 'src/app/services/models/RoundInfo';
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 
@@ -20,7 +20,7 @@ export class MatchTimelineComponent implements OnInit {
   twitchPlayer: TwitchPlayerComponent;
 
   startVideoTime: number;
-  matchInfos: MatchInfos;
+  gameInfos: GameInfos;
   roundInfos: RoundInfo[];
   videoId: number;
   displayClipList = false;
@@ -34,10 +34,11 @@ export class MatchTimelineComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.matchInfos = this.twitchService.matchInfos;
-    this.roundInfos = this.twitchService.roundInfos;
-    this.videoId = this.matchInfos.videoId;
-    this.startVideoTime = this.matchInfos.startVideoTime;
+    this.gameInfos = this.twitchService.gameInfos;
+    console.log(this.gameInfos);
+    this.roundInfos = this.gameInfos.roundInfos;
+    this.videoId = this.gameInfos.videoId;
+    this.startVideoTime = this.gameInfos.startVideoTime;
     this.loadClips();
     this.twitchPlayer.displayTwitchVideo(this.videoId, this.startVideoTime);
   }

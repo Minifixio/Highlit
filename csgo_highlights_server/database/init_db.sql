@@ -1,20 +1,21 @@
 /*sqlite3 -init init_db.sql matches.db ""*/
 
-create table matches(
-    id INTEGER PRIMARY KEY,
-    team1 VARCHAR(50),
-    team2 VARCHAR(50),
-    tournament VARCHAR(50),
-    maps INTEGER,
-    date INTERGER
+create table match(
+    match_id INTEGER PRIMARY KEY,
+    team1 TEXT,
+    team2 TEXT,
+    tournament TEXT,
+    match_format TEXT,
+    score TEXT,
+    date INTERGER,
+    demo_id INTEGER,
+    downloaded INTEGER
 );
 
-create table maps_match(
-    id INTEGER NOT NULL,
+create table maps(
+    match_id INTEGER NOT NULL,
     map_number INTEGER,
-    map_name VARCHAR(50),
-    score VARCHAR(50),
-    available VARCHAR(50),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id) REFERENCES MATCHES(id)
+    map_name TEXT,
+    score TEXT,
+    available TEXT
 );

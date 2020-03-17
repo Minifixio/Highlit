@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { TwitchService } from './twitch.service';
 import { RoundInfo } from './models/RoundInfo';
+import { GameInfos } from './models/GameInfos';
+import { MapInfo } from './models/MapInfo';
 
 interface Comments {
   comments: Array<Comment>;
@@ -18,7 +20,7 @@ interface Comment {
 })
 export class HttpService {
 
-  urlApi = 'http://localhost:3000';
+  urlApi = 'http://localhost:3000';  // TODO : make a model for server infos
   uriApi = 'v1';
   mainUrl = `${this.urlApi}/${this.uriApi}/`;
   twitchClientId = 'u6xyqmq1ctnewqvsce30egzkb9ajum';
@@ -43,6 +45,26 @@ export class HttpService {
       })
     };
     return this.http.post<any>(this.mainUrl + tag, JSON.stringify(postParams), httpOptions);
+  }
+
+  getGameInfos(matchId, mapNumber): Observable<GameInfos> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<GameInfos>(this.mainUrl + 'map', JSON.stringify({match_id: matchId, map_number: mapNumber}), httpOptions);
+  }
+
+  getMapInfos(matchId): Observable<MapInfo[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<MapInfo[]>(this.mainUrl + 'maps', JSON.stringify({match_id: matchId}), httpOptions);
   }
 
   async getTwitchComments(videoId, startTime, endTime): Promise<number> {

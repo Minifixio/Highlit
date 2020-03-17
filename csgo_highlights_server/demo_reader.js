@@ -4,6 +4,7 @@
 
 const demofile = require("demofile")
 const fs = require("fs")
+var httpManager = require("./index.js");
 
 exports.readDemo = function readDemo(demofileInput) {
 
@@ -123,7 +124,7 @@ exports.readDemo = function readDemo(demofileInput) {
                     if (Math.abs(lastRoundId - roundId) > 15) {
                         roundId = lastRoundId + 1;
                     }
-    
+                    httpManager.socketEmit('select-map', {type: 'parsing', params: roundId});
                     console.log('[DemoReader] Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
     
                     let multipleKills = computeMultiKills(roundKills);

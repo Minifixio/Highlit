@@ -1,0 +1,30 @@
+
+<mat-expansion-panel (opened)="getMaps()">
+    <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon *ngIf="matchInfos.downloaded == 1" id="downloaded-icon" inline="true" aria-label="Match downloaded">cloud_done</mat-icon>
+                <mat-icon *ngIf="matchInfos.downloaded == 0" id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">cloud_download</mat-icon>
+                <div id="score-div">
+                    <p class="team-text">&nbsp; {{matchInfos.team1}} &nbsp;</p>
+                    <p class="score-text" [style.color]="winnerSide == 'right'? 'red': 'limegreen'">{{score[0]}} &nbsp;</p>
+                    <p class="score-text">- &nbsp;</p>
+                    <p class="score-text" [style.color]="winnerSide == 'left'? 'red': 'limegreen'">{{score[1]}} &nbsp;</p>
+                    <p class="team-text">{{matchInfos.team2}}	&nbsp;</p>
+                </div>
+            </mat-panel-title>
+            <mat-panel-description>
+                {{matchInfos.match_format}} | {{matchInfos.date | date:'MMMM d yyyy'}} | {{matchInfos.date | date:'H:mm'}}
+            </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div id="maps-div">
+        <app-map-infos-widget class="map-infos-widget" *ngFor="let map of mapsInfos" #mapInfosWidget [map]="map" (mapSelected)="selectMap($event)"></app-map-infos-widget>
+        <div *ngIf="mapError">
+            <mat-icon inline="true">sentiment_very_dissatisfied</mat-icon>
+            <p>Match is not available for now...</p>
+        </div>
+    </div>
+
+    <mat-spinner id="loading-spinner" *ngIf="loading"></mat-spinner>
+    
+</mat-expansion-panel>

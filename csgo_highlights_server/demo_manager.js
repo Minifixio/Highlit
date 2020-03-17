@@ -5,36 +5,56 @@
  */
 const fs = require("fs");
 const request = require('request');
-const { HLTV } = require('hltv')
 const util = require("util");
 const { unrar } = require('unrar-promise');
 var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
+var hltvManager = require("./hltv_manager.js");
+var httpManager = require("./index.js");
 const writeFile = util.promisify(fs.writeFile);
 const unlink = util.promisify(fs.unlink);
-
+const mkdir = util.promisify(fs.mkdir);
 
 exports.addMatchInfos = async function addMatchInfos(matchId) {
     console.log("[addMatchInfos] Adding match")
 
     return new Promise(async(resolve) => {
-        const hltvInfos = await hltvMatchInfos(matchId);
-        console.log(hltvInfos)
+        const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
         await dbManager.addMatchInfos(hltvInfos);
 
         const twitchStreams = hltvInfos.twitchStreams;
-        const demoId = hltvInfos.demoId;
+        //const demoId = hltvInfos.demoId;
         const mapsCount = hltvInfos.maps.length;
 
-        await dbManager.updateMapStatus(matchId, 0, 'downloading');
-        await dowloadDemos(demoId, matchId);
+        //await dbManager.updateMapStatus(matchId, 0, 'downloading');
+        //await dowloadDemos(demoId, matchId);
         await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
+
+        //await dbManager.updateMatchInfos(matchId, 1); // 1 equals to available
         await dbManager.updateMapStatus(matchId, 0, 'no');
         resolve(1);
     });
 }
 
-exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
+exports.updateMatchInfos = async function updateMatchInfos(matchId) {
+    return new Promise(async(resolve) => {
+        const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
+        if (hltvInfos == 'demos_not_available') {
+            resolve('demos_not_available');
+        } 
+        if(hltvInfos == 'match_not_available') {
+            resolve('match_not_available');
+        } 
+        if(hltvInfos.match_id) { // Is the match valid ?
+            await dbManager.updateMatchInfos(hltvInfos);
+            const twitchStreams = hltvInfos.twitchStreams;
+            await makeTwitchJSONfile(matchId, twitchStreams, hltvInfos.maps.length);
+            resolve(true);
+        }
+    })
+}
+
+exports.findMatchInfos = async function findMatchInfos(matchId, mapNumber) {
     return new Promise (async(resolve) => {
         let path = `./matches/${matchId}`;
         const matchJSONfile = require(`${path}/${matchId}-map${mapNumber}.json`);
@@ -46,60 +66,35 @@ exports.findDemoInfos = async function findMatchInfos(matchId, mapNumber) {
             twitchLink = twitchJSONfile["map" + mapNumber][0].link;
         }
 
-        const twitchLinkParsed = parseTwitchLink(twitchLink);
+        const twitchLinkParsed = hltvManager.parseTwitchLink(twitchLink);
 
         const response = {
             videoId: twitchLinkParsed.videoId,
             startVideoTime: twitchLinkParsed.startVideoTime,
             roundInfos: matchJSONfile
         }
+
         resolve(response);
     })
 }
 
-async function hltvMatchInfos(matchId) {
-    console.log('[hltvMatchInfos] Looking for informations for match ' + matchId);
-    return new Promise(async (resolve) => {
-        var matchInfos = await HLTV.getMatch({id: matchId});
-        const downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
-        const demoId = downloadLink.match(/(\d+)/)[0];
-        const twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
-
-        const response = {
-            match_id: matchInfos.id,
-            twitchStreams: twitchStreams,
-            demoId: demoId,
-            team1_name: matchInfos.team1.name,
-            team2_name: matchInfos.team2.name,
-            event: matchInfos.event.name,
-            date: matchInfos.date,
-            maps: matchInfos.maps
-        }
-        resolve(response);
-    })
-}
-
-exports.getMapInfos = async function getMapInfos(mapId) {
-    console.log('[getMapInfos] Looking for informations for map ' + mapId);
-    return new Promise(async (resolve) => {
-        var matchInfos = await HLTV.getMatch({id: mapId});
-        console.log(matchInfos);
-        resolve(1)
-    })
-}
-
-async function dowloadDemos(demoId, matchId) {
-    console.log('[dowloadDemos] Download demos for match ' + matchId + ' demo id is : ' + demoId);
+exports.dowloadDemos = async function dowloadDemos(matchId) {
     return new Promise(async function(resolve) {
+
+        let demoId = await dbManager.getMatchDemoId(matchId);
+        console.log('[dowloadDemos] Download demos for match ' + matchId + ' demo id is : ' + demoId);
+        await dbManager.updateMapStatus(matchId, 0, 'downloading');
+
         let path = `./matches/${matchId}`;
         var file_url = 'http://www.hltv.org/download/demo/' + demoId;
-        const mkdir = util.promisify(fs.mkdir);
-        await mkdir(path);
+        if (!fs.existsSync(path)) {
+            await mkdir(path);
+        }
         var out = fs.createWriteStream(`${path}/${matchId}.rar`);
     
         var contentLength;
         var length = [];
-        let lastCompletedParcentage = 0;
+        let lastCompletedPercentage = 0;
     
         var req = request({
             method: 'GET',
@@ -112,10 +107,11 @@ async function dowloadDemos(demoId, matchId) {
         req.on('data', function (chunk) {
             length.push(chunk.length);
             let sum = length.reduce((a, b) => a + b, 0);
-            let completedParcentage = Math.round((sum / contentLength) * 100);
-            if (completedParcentage !== lastCompletedParcentage) {
-                console.log(`[dowloadDemos] ${completedParcentage} % of download complete`);
-                lastCompletedParcentage = completedParcentage;
+            let completedPercentage = Math.round((sum / contentLength) * 100);
+            if (completedPercentage !== lastCompletedPercentage) {
+                console.log(`[dowloadDemos] ${completedPercentage} % of download complete`);
+                httpManager.socketEmit('select-map', {type: 'downloading', params: completedPercentage});
+                lastCompletedPercentage = completedPercentage;
             }
         });
         req.on('end', async function() {
@@ -123,10 +119,11 @@ async function dowloadDemos(demoId, matchId) {
             await unrar(`${path}/${matchId}.rar`, `${path}/dem`,);
             console.log('[dowloadDemos] Finished unrar for demo ' + matchId);
             await unlink(`${path}/${matchId}.rar`);
+
+            await dbManager.updateMapStatus(matchId, 0, 'no');
             resolve(1);
         });
     })
-
 }
 
 exports.parseDemo = async function parseDemo(matchId, mapNumber) {
@@ -149,7 +146,7 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
             })
         }
         console.log('[parseDemo] Map to parse is : ' + map)
-        const matchInfos = await demoReader.readDemo(`${path}/dem/${map}`);
+        const matchInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
         await makeMatchJSONfile(matchId, mapNumber, matchInfos);
         await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
         resolve(1);
@@ -180,46 +177,13 @@ async function makeTwitchJSONfile(matchId, links, mapsCount) {
         }
 
         let path = `./matches/${matchId}`;
+        if (!fs.existsSync(path)) {
+            await mkdir(path);
+        }
         const output = JSON.stringify(mapsLinks);
         writeFile(`${path}/twitch_infos.json`, output, 'utf8').then(() => {
             console.log('[parseDemo] Twitch JSON created');
             resolve(1);
         });
     })
-}
-
-function parseTwitchLink(twitchLink) {
-    console.log(twitchLink)
-    const scope = twitchLink.indexOf('&t=');
-    const timeCode = twitchLink.slice(scope + 3);
-
-    if(timeCode.includes('h')) {
-        var hour = timeCode.split('h')[0];
-        var minutes = timeCode.split('m')[0].split('h')[1];
-    } else {
-        hour = 0
-        minutes = timeCode.split('m')[0];
-    }
-    var seconds = timeCode.split('m')[1].slice(0, -1);
-
-    const pattern = 'video=v';
-    const pos = twitchLink.indexOf(pattern) + pattern.length;
-    var videoId = '';
-
-    for (let i = pos; i < twitchLink.length; i++) {
-        if (!isNaN(twitchLink[i])) {
-            videoId += twitchLink[i];
-        } else {
-            break;
-        }
-    }
-    // Start of the match in seconds. Minus 10 seconds because Twitch stream usually starts at 1:50
-    const startVideoTime = ((+hour) * 60 * 60 + (+minutes) * 60 + (+seconds)) - 10;
-
-    var twitchInfos = {
-        videoId: videoId,
-        startVideoTime: startVideoTime,
-    };
-
-    return twitchInfos;
 }
