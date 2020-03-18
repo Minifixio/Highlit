@@ -33,3 +33,18 @@
 ::ng-deep .mat-expansion-panel-body {
     padding: 5px 0 0 0 !important;
 }
+
+.map-selection-div {
+    display: flex;
+    margin-top: 20px;
+}
+
+#loading-div {
+    position: absolute;
+    right: 50%;
+    top: 40px;
+}
+
+#loading-spinner {
+    margin-left: 20px;
+}

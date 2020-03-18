@@ -1,4 +1,4 @@
-<div id="player-div">
+<div id="player-div" (window:resize)="onResize()">
     <div [style.display]="playerLoading ? 'none': 'block'" id="player"></div>
 </div>
 

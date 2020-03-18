@@ -1,13 +1,15 @@
 /* eslint-disable no-async-promise-executor */
 
-const { HLTV } = require('hltv')
+// Imports
+const { HLTV } = require('hltv');
+
+// Files
 var dbManager = require("./database_manager.js");
 
 exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
     console.log('[hltvMatchInfos] Looking for informations for match ' + matchId);
     return new Promise(async (resolve) => {
         var matchInfos = await HLTV.getMatch({id: matchId});
-        console.log(matchInfos);
         let downloadLink = null;
         let demoId = null;
         let twitchStreams = null;
@@ -15,7 +17,7 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
         let maps = [];
 
         if (matchInfos.statsId) { // Check if match has stats
-            if(!matchInfos.demos.filter(obj => obj.name.includes('GOTV'))) { // Check if demos are available
+            if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0) { // Check if demos are available
                 downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
                 demoId = downloadLink.match(/(\d+)/)[0];
                 twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
@@ -23,9 +25,9 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
         
                 if (maps.length >= 2 && maps.length < 4) {
                     if (matchInfos.winnerTeam.name == matchInfos.team1.name) {
-                        score = "2" + " - " + toString(maps.length - 2);
+                        score = "2" + " - " + (maps.length - 2).toString();
                     } else {
-                        score = toString(maps.length - 2) + " - " + "2";
+                        score = (maps.length- 2).toString()  + " - " + "2";
                     }
                 } else {
                     score = maps[0].result.substring(0, 4);
@@ -101,7 +103,6 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
 
 exports.getLastMatches = async function getLastMatches() {
     let lastMatches = await HLTV.getResults({page: 1});
-    //let lastMatches = await HLTV.getMatchesStats({startDate: '2020-03-14', endDate: '2020-03-15'});
     console.log(lastMatches);
     dbManager.addLastMatches(lastMatches);
 }

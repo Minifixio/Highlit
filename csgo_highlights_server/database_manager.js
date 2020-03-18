@@ -20,7 +20,7 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
             matchInfos.score,
             matchInfos.date,
             matchInfos.demoId,
-            2 // 2 equals to map downloading
+            0 // 2 equals to map downloading
         );
 
         const matchQuery = "INSERT INTO match(match_id, team1, team2, tournament, match_format, score, date, demo_id, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ";

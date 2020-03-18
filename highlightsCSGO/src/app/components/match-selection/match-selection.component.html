@@ -4,9 +4,18 @@
         <input matInput cdkTextareaAutosize placeholder="Twitch link" [(ngModel)]="inputLink">
     </mat-form-field>
     <button class='action-button' (click)="hltvLinkAdded()" mat-raised-button color="warn">Validate !</button>
+    <div *ngIf="mapsToSelect" class="map-selection-div">
+        <app-map-infos-widget class="map-infos-widget" *ngFor="let map of mapsToSelect" #selectMapWidget (mapSelected)="selectMap($event)" [map]="map"></app-map-infos-widget>
+    </div>
 </mat-card>
 
 <div id="main-page">
+    <div  *ngIf="loading" id="loading-div">
+        <mat-spinner id="loading-spinner"></mat-spinner>
+        
+        <mat-label *ngIf="downloadPercentage !== 0">Download percentage : {{downloadPercentage}} %</mat-label>
+        <mat-label *ngIf="parsingRound !== 0">Parsing round n° {{parsingRound}}</mat-label>
+        </div>
     <div *ngIf="!loading" id="matchinfos-container">
         <div id="matchinfos-div" *ngFor="let match of lastMatches | async">
             <app-match-infos-widget #matchInfosWidget [matchInfos]=match (mapSelected)="selectMap($event)"></app-match-infos-widget>
@@ -14,7 +23,4 @@
     </div>
 </div>
 
-<mat-spinner *ngIf="loading"></mat-spinner>
 
-<mat-label *ngIf="downloadPercentage !== 0">Download percentage : {{downloadPercentage}} %</mat-label>
-<mat-label *ngIf="parsingRound !== 0">Parsing round n° {{parsingRound}}</mat-label>

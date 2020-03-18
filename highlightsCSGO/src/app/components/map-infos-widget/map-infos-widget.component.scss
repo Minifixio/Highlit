@@ -1,4 +1,40 @@
 #map-img {
     width: 90%;
     cursor: pointer;
+    margin-bottom: 0;
+    border: 2px solid rgba(53, 53, 53, 0.69);
+    border-radius: 10px;
+}
+
+.mat-icon.mat-icon-inline {
+    font-size: medium;
+}
+
+#not-downloaded-icon {
+    color: crimson;
+    margin: 0 8px 16px 0;
+}
+
+#downloaded-icon {
+    color: limegreen;
+    margin: 0 8px 16px 0;
+}
+
+#map-infos-div {
+    height: 10%;
+}
+
+#map-score-text {
+    margin: 0 0 10px 0;
+}
+
+#map-number-div {
+    display: flex;
+    height: 25px;
+    justify-content: center;
+}
+
+#map-number-text {
+    margin-right: 10px;
+    margin-left: 10px;
 }

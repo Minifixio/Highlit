@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { TwitchService } from 'src/app/services/twitch.service';
 import { Router } from '@angular/router';
 import { MatchInfosWidgetComponent } from '../match-infos-widget/match-infos-widget.component';
@@ -6,6 +6,9 @@ import { HttpService } from 'src/app/services/http.service';
 import { Observable } from 'rxjs';
 import { MatchInfos } from 'src/app/services/models/MatchInfos';
 import { SocketsService } from 'src/app/services/sockets.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MapInfosWidgetComponent } from '../map-infos-widget/map-infos-widget.component';
+import { MapInfo } from 'src/app/services/models/MapInfo';
 
 @Component({
   selector: 'app-match-selection',
@@ -17,6 +20,9 @@ export class MatchSelectionComponent implements OnInit {
   @ViewChild('matchInfosWidget', {static: true})
   twitchPlayer: MatchInfosWidgetComponent;
 
+  @ViewChild('selectMapWidget', {static: true})
+  selectMapWidget: MapInfosWidgetComponent;
+
   inputLink: string;
   loading = false;
   lastMatches: Observable<MatchInfos[]>;
@@ -24,12 +30,14 @@ export class MatchSelectionComponent implements OnInit {
   mapSocket: any;
   downloadPercentage = 0;
   parsingRound = 0;
+  mapsToSelect: Array<MapInfo>;
 
   constructor(
     private twitchService: TwitchService,
     private httpService: HttpService,
     private sockets: SocketsService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -63,31 +71,50 @@ export class MatchSelectionComponent implements OnInit {
 
   loadingStatus(loadingInfos, socket) {
     console.log(loadingInfos);
-    if (loadingInfos.type === 'starting_download') {
-      this.loading = true;
-      this.downloadPercentage = loadingInfos.params;
-    }
-    if (loadingInfos.type === 'downloading') {
-      this.downloadPercentage = loadingInfos.params;
-    }
-    if (loadingInfos.type === 'starting_parsing') {
-      this.loading = true;
-      this.downloadPercentage = 0;
-    }
-    if (loadingInfos.type === 'parsing') {
-      this.parsingRound = loadingInfos.params;
-    }
-    if (loadingInfos.type === 'game_infos') {
-      console.log(loadingInfos.params);
-      this.twitchService.gameInfos = loadingInfos.params;
-      this.router.navigate(['/match']);
+    switch (loadingInfos.type) {
+      case 'starting_download':
+        this.loading = true;
+        this.downloadPercentage = loadingInfos.params;
+        break;
+      case 'downloading':
+        this.loading = true;
+        this.downloadPercentage = loadingInfos.params;
+        break;
+      case 'starting_parsing':
+        this.loading = true;
+        this.downloadPercentage = 0;
+        break;
+      case 'parsing':
+        this.loading = true;
+        this.parsingRound = loadingInfos.params;
+        break;
+      case 'map_being_downloaded':
+        this.showErrorToast('Map is already being downloaded. Please wait a bit...', null);
+        break;
+      case 'map_being_parsed':
+        this.showErrorToast('Map is already being parsed. Please wait a bit...', null);
+        break;
+      case 'select-map':
+        this.mapsToSelect = loadingInfos.params;
+        break;
+      case 'game_infos':
+        console.log(loadingInfos.params);
+        this.twitchService.gameInfos = loadingInfos.params;
+        this.router.navigate(['/match']);
 
-      if (socket === 'add-match') {
-        this.addingMatchSocket.unsubscribe();
-      }
-      if (socket === 'select-match') {
-        this.mapSocket.unsubscribe();
-      }
+        if (socket === 'add-match') {
+          this.addingMatchSocket.unsubscribe();
+        }
+        if (socket === 'select-match') {
+          this.mapSocket.unsubscribe();
+        }
+        break;
     }
+  }
+
+  showErrorToast(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

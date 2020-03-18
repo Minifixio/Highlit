@@ -50,4 +50,9 @@ export class TwitchPlayerComponent implements OnInit {
     console.log(this.startVideoTime, this.twitchPlayer.getCurrentTime());
   }
 
+  onResize() {
+    const twitchIframe = document.querySelectorAll('iframe')[0];
+    twitchIframe.width = (window.innerWidth - 300).toString();
+  }
+
 }

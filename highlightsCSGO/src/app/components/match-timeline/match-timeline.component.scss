@@ -8,8 +8,7 @@
 }
 
 #scrolling-div {
-    width: 20%;
-    flex-grow: 1;
+    width: fit-content;
 }
 
 #main-page {
@@ -19,6 +18,7 @@
 
 .main-viewport {
     height: 100%;
+    width: 300px;
 }
 
 .cardList > * {

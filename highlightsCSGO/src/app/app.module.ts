@@ -22,6 +22,10 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatListModule} from '@angular/material/list';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from './components/twitch-player/twitch-player.component';
@@ -58,6 +62,10 @@ import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatDialogModule,
 
     BrowserModule,
     AppRoutingModule,

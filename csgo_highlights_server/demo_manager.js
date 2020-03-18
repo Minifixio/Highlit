@@ -1,16 +1,19 @@
 /* eslint-disable no-async-promise-executor */
 
-/**
- * Imports
- */
+// Imports
 const fs = require("fs");
 const request = require('request');
 const util = require("util");
 const { unrar } = require('unrar-promise');
+
+// Files
 var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
 var httpManager = require("./index.js");
+var twitchManager = require("./twitch_manager.js");
+
+// Promisify
 const writeFile = util.promisify(fs.writeFile);
 const unlink = util.promisify(fs.unlink);
 const mkdir = util.promisify(fs.mkdir);
@@ -39,6 +42,7 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
 exports.updateMatchInfos = async function updateMatchInfos(matchId) {
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
+        console.log(hltvInfos);
         if (hltvInfos == 'demos_not_available') {
             resolve('demos_not_available');
         } 
@@ -146,17 +150,18 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
             })
         }
         console.log('[parseDemo] Map to parse is : ' + map)
-        const matchInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
-        await makeMatchJSONfile(matchId, mapNumber, matchInfos);
+        var roundInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
+        roundInfos = twitchManager.calculateTwitchRating(roundInfos, matchId, mapNumber);
+        await makeMatchJSONfile(matchId, mapNumber, roundInfos);
         await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
         resolve(1);
     })
 }
 
-async function makeMatchJSONfile(matchId, mapNumber, matchInfos) {
+async function makeMatchJSONfile(matchId, mapNumber, roundInfos) {
     return new Promise((resolve) => {
         let path = `./matches/${matchId}`;
-        const output = JSON.stringify(matchInfos);
+        const output = JSON.stringify(roundInfos);
         writeFile(`${path}/${matchId}-map${mapNumber}.json`, output, 'utf8').then(() => {
             console.log('[parseDemo] Match JSON created for match ' + matchId + ' map n°' + mapNumber);
             resolve(1);
