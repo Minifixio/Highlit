@@ -36,9 +36,6 @@ export class TwitchService {
         startVideoTime: this.startVideoTime,
         roundInfos: this.roundInfos
       };
-
-      this.httpService.roundsCount = this.roundInfos.length;
-
       resolve(this.gameInfos);
     });
    }

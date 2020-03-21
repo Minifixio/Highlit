@@ -1,26 +1,59 @@
-<mat-card *ngIf="!loading" class="input-card">
-    <mat-form-field class="input-field">
-        <mat-label>HLTV match link</mat-label>
-        <input matInput cdkTextareaAutosize placeholder="Twitch link" [(ngModel)]="inputLink">
-    </mat-form-field>
-    <button class='action-button' (click)="hltvLinkAdded()" mat-raised-button color="warn">Validate !</button>
-    <div *ngIf="mapsToSelect" class="map-selection-div">
-        <app-map-infos-widget class="map-infos-widget" *ngFor="let map of mapsToSelect" #selectMapWidget (mapSelected)="selectMap($event)" [map]="map"></app-map-infos-widget>
-    </div>
-</mat-card>
+<mat-toolbar>
+    <span>Match selection</span>
+    <button routerLink="/about" id="about-button" mat-button>About</button>
+</mat-toolbar>
 
-<div id="main-page">
-    <div  *ngIf="loading" id="loading-div">
-        <mat-spinner id="loading-spinner"></mat-spinner>
-        
-        <mat-label *ngIf="downloadPercentage !== 0">Download percentage : {{downloadPercentage}} %</mat-label>
-        <mat-label *ngIf="parsingRound !== 0">Parsing round n° {{parsingRound}}</mat-label>
-        </div>
-    <div *ngIf="!loading" id="matchinfos-container">
-        <div id="matchinfos-div" *ngFor="let match of lastMatches | async">
-            <app-match-infos-widget #matchInfosWidget [matchInfos]=match (mapSelected)="selectMap($event)"></app-match-infos-widget>
+<div id="main-page" *ngIf="!loading">
+    <div id="match-container-div">
+        <mat-expansion-panel id="add-panel">
+            <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon inline="true" id="add-match-icon">add_circle</mat-icon>
+                        Add a new match
+                    </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field id="input-field">
+                <mat-label>HLTV match link</mat-label>
+                <input matInput cdkTextareaAutosize placeholder="Twitch link" [(ngModel)]="inputLink">
+            </mat-form-field>
+            <button id='valid-button' (click)="hltvLinkAdded()" mat-raised-button color="warn">Ok !</button>
+            <div *ngIf="mapsToSelect" id="map-selection-div">
+                <app-map-infos-widget id="map-infos-widget" *ngFor="let map of mapsToSelect" #selectMapWidget (mapSelected)="selectMap($event)" [map]="map"></app-map-infos-widget>
+            </div>
+            
+        </mat-expansion-panel>
+        <mat-toolbar id="list-toolbar">
+            <button disableRipple="true" mat-button (click)="changePage('forward')">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <span id="date-span">{{currentDate | date:'MMMM d yyyy'}}</span>
+            <mat-form-field id="date-picker">
+                <input matInput [matDatepicker]="picker" (dateChange)="pickDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <button mat-button (click)="changePage('backward')">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div *ngIf="!loading" id="matchinfos-container">
+            <div id="no-matches-error-div" *ngIf="currentMatches.length == 0 && !listLoading">
+                <mat-icon id="no-matches-error-icon" inline="false">sentiment_very_dissatisfied</mat-icon>
+                <p id="no-matches-error-text">No matches for this day !</p>
+            </div>
+            <mat-spinner *ngIf="listLoading" id="list-loading-spinner"></mat-spinner>
+            <div id="matchinfos-div" *ngFor="let match of currentMatches">
+                <app-match-infos-widget #matchInfosWidget [matchInfos]=match (mapSelected)="selectMap($event)"></app-match-infos-widget>
+            </div>
         </div>
     </div>
+</div>
+
+<div *ngIf="loading" id="loading-div">
+    <mat-spinner id="page-loading-spinner"></mat-spinner>
+    <mat-label *ngIf="downloadPercentage !== 0">Download percentage : {{downloadPercentage}} %</mat-label>
+    <mat-label *ngIf="parsingRound !== 0">Parsing round n° {{parsingRound}}</mat-label>
 </div>
 
 

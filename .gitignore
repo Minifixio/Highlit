@@ -54,3 +54,8 @@ highlightsCSGO/.DS_Store
 highlightsCSGO/Thumbs.db
 .DS_Store
 Thumbs.db
+pitch.pages
+
+# Others
+csgo_highlights_server/tests/
+highlightsCSGO/src/app/services/models/ServerInfos.ts

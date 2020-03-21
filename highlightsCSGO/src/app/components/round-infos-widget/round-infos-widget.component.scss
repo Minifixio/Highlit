@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 8px 10px 8px 10px;
     cursor: pointer;
 }
 
@@ -31,6 +32,22 @@
     padding: 10px;
     font-size: larger;
     font-weight: 700;
+}
+
+
+#multiple-kills-text {
+    font-size: 13px;
+    margin-left: 8px;
+    margin: -6px 0 -6px 8px;
+    cursor: pointer;
+}
+
+#multiple-kills-text:hover {
+    font-style: oblique;
+}
+
+#lot-of-kill-chip {
+    background-color: #0aa700;
 }
 
 .mat-card>:first-child {
@@ -82,19 +99,4 @@
 
 .mat-card {
     padding: 7px;
-}
-
-#multiple-kills-text {
-    font-size: 13px;
-    margin-left: 8px;
-    margin: -6px 0 -6px 8px;
-    cursor: pointer;
-}
-
-#multiple-kills-text:hover {
-    font-style: oblique;
-}
-
-#lot-of-kill-chip {
-    background-color: #0aa700;
 }

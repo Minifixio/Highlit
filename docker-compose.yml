@@ -1,0 +1,13 @@
+version: "2"
+services:
+    app:
+        image: "node:12"
+        user: "node"
+        working_dir: "/home/node/app"
+        environment: 
+            - NODE_ENV=production
+        volumes: 
+            - ./csgo_highlights_server:/home/node/app
+            - ./highlightsCSGO/dist:/home/node/app/dist
+        ports:
+          - "80:80"

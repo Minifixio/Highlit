@@ -10,6 +10,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MapInfosWidgetComponent } from '../map-infos-widget/map-infos-widget.component';
 import { MapInfo } from 'src/app/services/models/MapInfo';
 
+interface MatchPerDate {
+  date: string;
+  matches: MatchInfos[];
+}
+
 @Component({
   selector: 'app-match-selection',
   templateUrl: './match-selection.component.html',
@@ -31,6 +36,11 @@ export class MatchSelectionComponent implements OnInit {
   downloadPercentage = 0;
   parsingRound = 0;
   mapsToSelect: Array<MapInfo>;
+  currentPage = 0;
+  currentDate: number;
+  currentMatches: Array<MatchInfos>;
+  matches: Array<MatchPerDate>;
+  listLoading = false;
 
   constructor(
     private twitchService: TwitchService,
@@ -41,7 +51,16 @@ export class MatchSelectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.lastMatches = this.httpService.get('last_matches');
+    this.currentDate = new Date().valueOf();
+    this.matches = [];
+    this.currentMatches = [];
+    this.listLoading = true;
+    this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
+      console.log(res);
+      this.matches.push({date: new Date(this.currentDate).toDateString(), matches: res});
+      this.currentMatches = res;
+      this.listLoading = false;
+    });
   }
 
   async hltvLinkAdded() {
@@ -109,6 +128,76 @@ export class MatchSelectionComponent implements OnInit {
           this.mapSocket.unsubscribe();
         }
         break;
+    }
+  }
+
+  async changePage(direction) {
+    const date = new Date(this.currentDate);
+    this.listLoading = true;
+
+    if (direction === 'forward') {
+      if (this.currentPage === 0) {
+        this.listLoading = false;
+        this.currentDate = date.valueOf();
+        return false;
+      }
+      this.currentPage = this.currentPage - 1;
+      date.setDate(date.getDate() + 1);
+    }
+    if (direction === 'backward') {
+      this.currentPage += 1;
+      date.setDate(date.getDate() - 1);
+    }
+
+    const searchForMatch = new Promise((resolve) => {
+      this.matches.forEach(match => {
+        if (match.date === date.toDateString()) {
+          this.currentMatches = match.matches;
+          this.currentDate = date.valueOf();
+          this.listLoading = false;
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+
+    if (!(await searchForMatch)) {
+      this.currentDate = date.valueOf();
+      this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
+        this.matches.push({date: date.toDateString(), matches: res});
+        this.currentMatches = res;
+        this.listLoading = false;
+      });
+    }
+  }
+
+  async pickDate(event) {
+    this.listLoading = true;
+    const today = Date.now();
+    const differenceDays = Math.trunc((today - new Date(event.value).valueOf()) / (1000 * 3600 * 24));
+    this.currentPage = differenceDays;
+    this.currentDate = new Date(event.value).valueOf();
+    const searchedDate = new Date(event.value).toDateString();
+
+    const searchForMatch = new Promise((resolve) => {
+      this.matches.forEach(match => {
+        if (match.date === searchedDate) {
+          this.currentMatches = match.matches;
+          this.listLoading = false;
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+
+    if (!(await searchForMatch)) {
+      this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
+        this.matches.push({date: searchedDate, matches: res});
+        this.currentMatches = res;
+        this.listLoading = false;
+      });
     }
   }
 

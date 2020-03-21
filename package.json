@@ -2,7 +2,7 @@
   "name": "csgo_demo_anaylser",
   "version": "0.0.1",
   "description": "CSGO demo file reader",
-  "main": "app.js",
+  "main": "http_manager.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

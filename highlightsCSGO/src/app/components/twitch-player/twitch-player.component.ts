@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { interval } from 'rxjs';
 declare const Twitch: any;
 
 @Component({
@@ -19,6 +17,7 @@ export class TwitchPlayerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.onResize();
   }
 
   displayTwitchVideo(videoId, startTime) {

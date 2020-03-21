@@ -1,15 +1,15 @@
 /* eslint-disable no-async-promise-executor */
 var sq = require('sqlite3');
 var matchesDB = new sq.Database(__dirname + '/database/matches.db');
-//const util = require("util");
-//const rundb = util.promisify(matches_db.run);
+var debugManager = require("./debug_manager.js");
+const logger = new debugManager.logger("db");
 
 exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     return new Promise(async (resolve) => {
         let matchDatas = [];
         let maps = matchInfos.maps;
-        console.log("[addMatchInfos] Adding new match to database :");
-        console.log(matchInfos);
+        logger.debug("Adding new match to database :");
+        logger.debug(matchInfos);
 
         matchDatas.push(
             matchInfos.match_id, 
@@ -32,9 +32,9 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     
             const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
-            console.log("[DB manager] Added map " + (index + 1) + " infos. Map is : " + map.name);
+            logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         });
-        console.log("[DB manager] Added match " + matchInfos.match_id + " infos");
+        logger.debug("Added match " + matchInfos.match_id + " infos");
         resolve(1);
     })
 }
@@ -44,11 +44,11 @@ exports.updateMapStatus = function updateMapStatus(matchId, mapNumber, status) {
         if (mapNumber == 0) {
             const mapDownloadingQuery = "UPDATE maps SET available = ? WHERE match_id = ?";
             matchesDB.run(mapDownloadingQuery, [status, matchId]);
-            console.log("[DB manager] Updated maps status to " + status + " for match " + matchId);
+            logger.debug("Updated maps status to " + status + " for match " + matchId);
         } else {
             const mapUpdateQuery = "UPDATE maps SET available = ? WHERE match_id = ? AND map_number = ?";
             matchesDB.run(mapUpdateQuery, [status, matchId, mapNumber]);
-            console.log("[DB manager] Updated map " + mapNumber + " status to " + status + " for match " + matchId);
+            logger.debug("Updated map " + mapNumber + " status to " + status + " for match " + matchId);
         }
         resolve(1)
     })
@@ -59,7 +59,7 @@ exports.isMatchDowloaded = function isMatchDowloaded(matchId) {
         const matchQuery = "SELECT downloaded FROM match WHERE match_id = ?";
         matchesDB.get(matchQuery, [matchId], (err, row) => {
             if (err) {
-                console.log(err);
+                logger.debug(err);
             }
             if (row.downloaded == 0) {
                 resolve(0);
@@ -81,7 +81,7 @@ exports.isMapAvailable = function isMapAvailable(matchId, mapNumber) {
         const matchQuery = "SELECT available FROM maps WHERE match_id = ? AND map_number = ?";
         matchesDB.get(matchQuery, [matchId, mapNumber], (err, row) => {
             if (err) {
-                console.log(err);
+                logger.debug(err);
             }
             if(row) {
                 if(row.available == "yes") { 
@@ -123,7 +123,7 @@ exports.getMatchInfos = async function getMatchInfos(matchId) {
     return new Promise((resolve) => {
         const matchAllInfosQuery = "SELECT * FROM match WHERE id = ?";
         matchesDB.get(matchAllInfosQuery, [matchId], (err, row) => {
-            console.log("[getMatchInfos] ", row);
+            logger.debug("Match " + matchId + " infos ", row);
             resolve(row);
         })
     })
@@ -136,11 +136,18 @@ exports.clearMatchInfos = async function clearMatchInfos(matchId) {
     await requestToDb(deleteMapsQuery, [matchId]);
 }
 
+exports.clearDatabase = async function clearDatabase() {
+    const deleteMatchQuery = "DELETE FROM match";
+    const deleteMapsQuery = "DELETE FROM maps";
+    await requestToDb(deleteMatchQuery);
+    await requestToDb(deleteMapsQuery);
+}
+
 async function requestToDb(query, params) {
     return new Promise((resolve, reject) => {
         matchesDB.run(query, params, function(err) {
             if(err) {
-                console.log(err);
+                logger.debug(err);
                 reject(err);
             }
             resolve(1);
@@ -155,6 +162,20 @@ exports.getLastMatches = async function getLastMatches() {
             if(err) {
                 reject(err);
             } else {
+                resolve(row);
+            }
+        })
+    })
+}
+
+exports.getLastMatchByDate = async function getLastMatchByDate(startDate, endDate) {
+    return new Promise((resolve, reject) => {
+        const lastMatchesQuery = "SELECT * FROM match WHERE date < ? AND date > ? ORDER BY date";
+        matchesDB.all(lastMatchesQuery, [startDate, endDate], (err, row) => {
+            if(err) {
+                reject(err);
+            } else {
+                logger.debug(row);
                 resolve(row);
             }
         })
@@ -176,14 +197,15 @@ exports.addLastMatches = async function addLastMatches(lastMatches) {
             0
         ]);
     });
-    console.log("[addLastMatches] Added last matches to DB");
+
+    logger.debug("Added last matches to DB");
 }
 
-exports.updateMatchInfos = function updateMatchInfos(matchId, status) {
+exports.updateMatchStatus = function updateMatchStatus(matchId, status) {
     return new Promise(async (resolve) => {
         const statusQuery = "UPDATE match SET downloaded = ? WHERE match_id = ?";
         matchesDB.run(statusQuery, [status, matchId]);
-        console.log("[DB manager] Updated match status to " + status + " for match " + matchId);
+        logger.debug("Updated match status to " + status + " for match " + matchId);
         resolve(1)
     })
 }
@@ -194,15 +216,15 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
         // Adding demo_id for future downloads
         const updateQuery = "UPDATE match SET demo_id = ? WHERE match_id = ?";
         matchesDB.run(updateQuery, [matchInfos.demoId, matchId]);
-        console.log("[updateMatchInfos] Updated match " + matchId + " infos");
-        console.log(matchInfos.maps);
+        logger.debug("Updated match " + matchId + " infos");
+        logger.debug(matchInfos.maps);
         matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
             let mapData = [];
             mapData.push(matchInfos.match_id, (index + 1), map.name, map.result, "no");
     
             const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
-            console.log("[DB manager] Added map " + (index + 1) + " infos. Map is : " + map.name);
+            logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         });
         resolve(1);
     })
@@ -214,10 +236,10 @@ exports.matchExists = function matchExists(matchId) {
         const statusQuery = "SELECT * FROM match WHERE match_id = ?";
         matchesDB.all(statusQuery, [matchId], (err, row) => {
             if (row.length == 0) {
-                console.log("[DB manager] Match " + matchId + " does not exist");
+                logger.debug("Match " + matchId + " does not exist");
                 resolve(false);
             } else {
-                console.log("[DB manager] Match " + matchId + " exists");
+                logger.debug("Match " + matchId + " exists");
                 resolve(true);
             }
         });
@@ -230,10 +252,10 @@ exports.matchHasDemos = function matchHasDemos(matchId) {
         const statusQuery = "SELECT demo_id FROM match WHERE match_id = ?";
         matchesDB.get(statusQuery, [matchId], (err, row) => {
             if (row.demo_id == null) {
-                console.log("[DB manager] Match " + matchId + " does not have a demo_id");
+                logger.debug("Match " + matchId + " does not have a demo_id");
                 resolve(false);
             } else {
-                console.log("[DB manager] Match " + matchId + " has a demo_id");
+                logger.debug("Match " + matchId + " has a demo_id");
                 resolve(true);
             }
         });

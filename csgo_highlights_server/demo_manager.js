@@ -10,8 +10,11 @@ const { unrar } = require('unrar-promise');
 var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
-var httpManager = require("./index.js");
+var httpManager = require("./http_manager.js");
 var twitchManager = require("./twitch_manager.js");
+var socketManager = require("./socket_manager.js");
+var debugManager = require("./debug_manager.js");
+const logger = new debugManager.logger("DemoManager");
 
 // Promisify
 const writeFile = util.promisify(fs.writeFile);
@@ -19,7 +22,7 @@ const unlink = util.promisify(fs.unlink);
 const mkdir = util.promisify(fs.mkdir);
 
 exports.addMatchInfos = async function addMatchInfos(matchId) {
-    console.log("[addMatchInfos] Adding match")
+    logger.debug("Adding match")
 
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
@@ -42,7 +45,7 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
 exports.updateMatchInfos = async function updateMatchInfos(matchId) {
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
-        console.log(hltvInfos);
+        logger.debug(hltvInfos);
         if (hltvInfos == 'demos_not_available') {
             resolve('demos_not_available');
         } 
@@ -86,8 +89,9 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
     return new Promise(async function(resolve) {
 
         let demoId = await dbManager.getMatchDemoId(matchId);
-        console.log('[dowloadDemos] Download demos for match ' + matchId + ' demo id is : ' + demoId);
+        logger.debug('Download demos for match ' + matchId + ' demo id is : ' + demoId);
         await dbManager.updateMapStatus(matchId, 0, 'downloading');
+        await dbManager.updateMatchStatus(matchId, 2);
 
         let path = `./matches/${matchId}`;
         var file_url = 'http://www.hltv.org/download/demo/' + demoId;
@@ -113,18 +117,19 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
             let sum = length.reduce((a, b) => a + b, 0);
             let completedPercentage = Math.round((sum / contentLength) * 100);
             if (completedPercentage !== lastCompletedPercentage) {
-                console.log(`[dowloadDemos] ${completedPercentage} % of download complete`);
-                httpManager.socketEmit('select-map', {type: 'downloading', params: completedPercentage});
+                logger.debug(`${completedPercentage} % of download complete`);
+                socketManager.socketEmit('select-map', {type: 'downloading', params: completedPercentage});
                 lastCompletedPercentage = completedPercentage;
             }
         });
         req.on('end', async function() {
-            console.log('[dowloadDemos] Finished download for demo ' + matchId);
+            logger.debug('Finished download for demo ' + matchId);
             await unrar(`${path}/${matchId}.rar`, `${path}/dem`,);
-            console.log('[dowloadDemos] Finished unrar for demo ' + matchId);
+            logger.debug('Finished unrar for demo ' + matchId);
             await unlink(`${path}/${matchId}.rar`);
 
             await dbManager.updateMapStatus(matchId, 0, 'no');
+            await dbManager.updateMatchStatus(matchId, 1);
             resolve(1);
         });
     })
@@ -133,7 +138,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
 exports.parseDemo = async function parseDemo(matchId, mapNumber) {
     return new Promise (async(resolve) => {
         await dbManager.updateMapStatus(matchId, mapNumber, 'parsing');
-        console.log('[parseDemo] Parsing demo for match ' + matchId + ' map ' + mapNumber);
+        logger.debug('Parsing demo for match ' + matchId + ' map ' + mapNumber);
         let path = `./matches/${matchId}`;
         const readdir = util.promisify(fs.readdir);
         var result = await (await readdir(`${path}/dem`)).filter(file => file.includes('.dem'));
@@ -149,9 +154,9 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
                 }
             })
         }
-        console.log('[parseDemo] Map to parse is : ' + map)
+        logger.debug('Map to parse is : ' + map)
         var roundInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
-        roundInfos = twitchManager.calculateTwitchRating(roundInfos, matchId, mapNumber);
+        roundInfos = await twitchManager.calculateTwitchRating(roundInfos, matchId, mapNumber);
         await makeMatchJSONfile(matchId, mapNumber, roundInfos);
         await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
         resolve(1);
@@ -163,7 +168,7 @@ async function makeMatchJSONfile(matchId, mapNumber, roundInfos) {
         let path = `./matches/${matchId}`;
         const output = JSON.stringify(roundInfos);
         writeFile(`${path}/${matchId}-map${mapNumber}.json`, output, 'utf8').then(() => {
-            console.log('[parseDemo] Match JSON created for match ' + matchId + ' map n°' + mapNumber);
+            logger.debug('Match JSON created for match ' + matchId + ' map n°' + mapNumber);
             resolve(1);
         });
     })
@@ -187,7 +192,7 @@ async function makeTwitchJSONfile(matchId, links, mapsCount) {
         }
         const output = JSON.stringify(mapsLinks);
         writeFile(`${path}/twitch_infos.json`, output, 'utf8').then(() => {
-            console.log('[parseDemo] Twitch JSON created');
+            logger.debug('Twitch JSON created');
             resolve(1);
         });
     })

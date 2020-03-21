@@ -1,14 +1,6 @@
-.clip-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 #scrolling-div {
     width: fit-content;
+    height: auto;
 }
 
 #main-page {
@@ -19,6 +11,7 @@
 .main-viewport {
     height: 100%;
     width: 300px;
+    background-color: #292929;
 }
 
 .cardList > * {

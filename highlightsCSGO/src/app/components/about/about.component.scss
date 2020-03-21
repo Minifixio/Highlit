@@ -1,0 +1,135 @@
+.mat-typography {
+    background-color: #3a3a3a;
+}
+
+#main-page {
+    display: grid;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+#multiple-kills-text {
+    font-size: 13px;
+    margin-left: 8px;
+    margin: -6px 0 -6px 8px;
+    cursor: pointer;
+}
+
+#lot-of-kill-chip {
+    background-color: #0aa700;
+}
+
+#about-button {
+    position: absolute;
+    right: 0;
+}
+
+#not-downloaded-icon {
+    color: crimson;
+    margin: 0 20px 0px 0;
+    font-size: 40px;
+}
+
+#downloaded-icon {
+    color: limegreen;
+    margin: 0px 20px 0px 0;
+    font-size: 40px;
+}
+
+.infos-div {
+    font-size: 16px;
+    padding: 10px;
+}
+
+.mat-card {
+    padding: 0;
+    margin: 0 20px 10px 0;
+    border-radius: 20px;
+    width: 800px;
+}
+
+ol {
+    font-size: x-large;
+}
+
+.mat-title {
+    font-size: 20px;
+}
+
+.title-toolbar {
+    border-radius: 10px;
+    text-transform: uppercase;
+    height: 70%;
+}
+
+.multi-kills-chip {
+    min-height: 30px;
+    background-color: #5d79ae;
+}
+
+.kills-text {
+    margin:0;
+    font-size: 13px;
+}
+
+.hype-icon {
+    margin-right: 2px;
+}
+
+.twitch-hype-chip {
+    min-height: 20px;
+    width: 70px;
+    background-color: #424242;
+}
+
+.twitch-hype-chip-list {
+    margin-top: 13px;
+}
+
+#ace-kills-chip {
+    min-height: 30px;
+    background-color: #ff1414;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#quad-kills-chip {
+    min-height: 30px;
+    background-color: #ca09ec;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#triple-kills-chip {
+    min-height: 30px;
+    background-color: #ff8d0091;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.figures-div {
+    display: flex;
+    margin: 3px 5px 3px 5px;
+    padding: 20px;
+    background: #313131;
+    border-radius: 20px;
+}
+
+.chip-desc-text {
+    margin: 10px 0px 0 15px;
+    text-align: left;
+}
+
+.download-text {
+    margin-bottom: 0;
+}
+
+.hint-center-text {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.multiple-icons-div {
+    display: flex;
+}
+

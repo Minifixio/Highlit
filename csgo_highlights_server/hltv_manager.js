@@ -5,11 +5,14 @@ const { HLTV } = require('hltv');
 
 // Files
 var dbManager = require("./database_manager.js");
+var debugManager = require("./debug_manager.js");
+const logger = new debugManager.logger("HltvManager");
 
 exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
-    console.log('[hltvMatchInfos] Looking for informations for match ' + matchId);
+    logger.debug('Looking for informations for match ' + matchId);
     return new Promise(async (resolve) => {
         var matchInfos = await HLTV.getMatch({id: matchId});
+        logger.debug(matchInfos);
         let downloadLink = null;
         let demoId = null;
         let twitchStreams = null;
@@ -57,16 +60,16 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
 }
 
 exports.getMapInfos = async function getMapInfos(mapId) {
-    console.log('[getMapInfos] Looking for informations for map ' + mapId);
+    logger.debug('Looking for informations for map ' + mapId);
     return new Promise(async (resolve) => {
         var matchInfos = await HLTV.getMatch({id: mapId});
-        console.log(matchInfos);
+        logger.debug(matchInfos);
         resolve(1)
     })
 }
 
 exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
-    console.log(twitchLink)
+    logger.debug(twitchLink)
     const scope = twitchLink.indexOf('&t=');
     const timeCode = twitchLink.slice(scope + 3);
 
@@ -102,7 +105,7 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
 }
 
 exports.getLastMatches = async function getLastMatches() {
-    let lastMatches = await HLTV.getResults({page: 1});
-    console.log(lastMatches);
+    let lastMatches = await HLTV.getResults({page: 2});
+    logger.debug(lastMatches);
     dbManager.addLastMatches(lastMatches);
 }

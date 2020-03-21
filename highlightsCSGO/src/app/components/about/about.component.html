@@ -1,0 +1,150 @@
+<mat-toolbar>
+    <span routerLink="/match-selection">Match selection</span>
+    <button routerLink="/about" id="about-button" mat-button>About</button>
+</mat-toolbar>
+
+<div id="main-page">
+    <mat-card>
+        <mat-toolbar class="title-toolbar">
+            <span>NAME</span>
+        </mat-toolbar>
+
+        <div class="infos-div">
+            <p class="hint-center-text">
+                [Name] allows you to easily rewatch your favorite Counter-Strike professional matches ! Sometimes watching match highlights is quite long. [Name] offers a visual and interactive timeline of the match and let you navigate through the best moments of the match and watch them quickly.
+            </p>
+        </div>
+
+        <mat-toolbar class="title-toolbar">
+            <span>How it works ?</span>
+        </mat-toolbar>
+        <div class="infos-div">
+
+            <ol>
+                <li>
+                    <p class="mat-title">
+                        Select a match among the recent ones or you can add one via his HLTV link
+                    </p>
+                </li>
+                <li>
+                    <p class="mat-title">
+                        Select a map
+                    </p>
+                </li>
+                <li>
+                    <p class="mat-title">
+                        Wait for the match to being downloaded and for the map to being parsed
+                    </p>
+                </li>
+            </ol>
+    
+
+            <p class="hint-center-text">
+                All the match comes from HLTV. Make sure your match has demos and twitch stream replays available on the match page before adding it.
+            </p>
+        </div>
+
+        <mat-toolbar class="title-toolbar">
+            <span>The figures</span>
+        </mat-toolbar>
+        <div class="infos-div">
+
+            <div class="multiple-icons-div">
+                <div class="figures-div">
+                    <mat-icon id="downloaded-icon" inline="true" aria-label="Match downloaded">
+                        cloud_done
+                    </mat-icon>
+                    <mat-icon id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">
+                        cloud_download
+                    </mat-icon>
+                    <p class="download-text">
+                        If the map is downloaded or no
+                    </p>
+                </div>
+
+                <div class="figures-div">
+                    <mat-icon id="downloaded-icon" inline="true" aria-label="Match downloaded">
+                        offline_pin
+                    </mat-icon>
+                    <mat-icon id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">
+                        cloud_download
+                    </mat-icon>
+                    <p class="download-text">
+                        If the map is downloaded or no
+                    </p>
+                </div>
+            </div>
+            <p class="hint-center-text">
+                Those icons don’t mean the match or the map is not available !
+            </p>
+        </div>
+
+        <mat-toolbar class="title-toolbar">
+            <span>On the match watching page</span>
+        </mat-toolbar>
+
+            <div class="infos-div">
+                <div class="multiple-icons-div">
+                <div class="figures-div">
+                    <mat-chip-list class="chip-list-kills">
+                        <mat-chip class="multi-kills-chip" selected>
+                            <p class="kills-text">6 kills</p>
+                        </mat-chip>
+                        <mat-chip class="multi-kills-chip" id="lot-of-kill-chip" color="#0aa700" selected>
+                            <p class="kills-text">
+                                <mat-icon inline="true" class='hype-icon'>grade</mat-icon>
+                                9 kills
+                            </p>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <p class="chip-desc-text">
+                        Kills : how many kills during the round
+                    </p>
+                </div>
+                <div class="figures-div">
+                    <mat-chip-list class="chip-list-kills">
+                        <mat-chip id="triple-kills-chip" color="#944646" selected>
+                            x3
+                            <div class="multiple-kills-div"> 
+                                <p id="multiple-kills-text">s1mple</p>
+                            </div>
+                        </mat-chip>
+                        <mat-chip id="quad-kills-chip" selected>
+                            x4
+                            <div class="multiple-kills-div"> 
+                                <p id="multiple-kills-text">Apex</p>
+                            </div>
+                        </mat-chip>
+                        <mat-chip id="ace-kills-chip" color="warn" selected>
+                            ACE
+                            <div class="multiple-kills-div"> 
+                                <p id="multiple-kills-text">ZywOo</p>
+                            </div>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <p class="chip-desc-text"> 
+                        Aces, quad-kills and triple-kills during the round
+                    </p>
+                </div>
+            </div>
+
+            <div class="figures-div">
+                <mat-chip-list class="twitch-hype-chip-list">
+                    <mat-chip class="twitch-hype-chip" selected>
+                        <p class="kills-text">
+                            <mat-icon inline="true" class='hype-icon'>comment</mat-icon>
+                            66 %
+                        </p>
+                    </mat-chip>
+                </mat-chip-list>
+                <p class="chip-desc-text">
+                    Twitch rating : [Name] computes the amount of twitch comments sent during the duration of the round. A high rating surely means something great happened during the round.
+                </p>
+            </div>
+
+            <p class="hint-center-text">
+                And many more datas to come…
+            </p>
+        </div>
+    </mat-card>
+</div>

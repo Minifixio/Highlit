@@ -1,68 +1,3 @@
-<!--<mat-accordion class="expansion-div">
-    <mat-expansion-panel [(expanded)]="openPanel" class="timeline-expansion">
-        <mat-expansion-panel-header>
-        <mat-panel-title id="round-number-title">
-            Round {{roundId}}
-        </mat-panel-title>
-        <mat-panel-description>
-            <mat-chip-list class='chip-list-kills' *ngIf="roundDisplayedInfos?.killsCount > 8">
-                <mat-chip id="multi-kills-chip" id="lot-of-kill-chip" color="#0aa700" selected>
-                    <p class="kills-text">
-                        <mat-icon inline="true" class='hype-icon'>grade</mat-icon>
-                        {{roundDisplayedInfos?.killsCount}} kills
-                    </p>
-                </mat-chip>
-            </mat-chip-list>
-
-            <mat-chip-list class='chip-list-kills' *ngIf="roundDisplayedInfos?.tripleKills.length > 0">
-                <mat-chip id="triple-kills-chip" color="#944646" selected>
-                    x3
-                    <div class="multiple-kills-div"> 
-                        <p (click)="twitchSeekTo(triple.kills[0].time, 0)" id="multiple-kills-text" *ngFor="let triple of roundDisplayedInfos?.tripleKills">{{triple.attackerName}}</p>
-                    </div>
-                </mat-chip>
-            </mat-chip-list>
-    
-            <mat-chip-list class='chip-list-kills' *ngIf="roundDisplayedInfos?.quadKills.length > 0">
-                <mat-chip id="quad-kills-chip" selected>
-                    x4
-                    <div class="multiple-kills-div"> 
-                        <p (click)="twitchSeekTo(quad.kills[0].time, 0)" id="multiple-kills-text" *ngFor="let quad of roundDisplayedInfos?.quadKills">{{quad.attackerName}}</p>
-                    </div>
-                </mat-chip>
-            </mat-chip-list>
-    
-            <mat-chip-list class='chip-list-kills' *ngIf="roundDisplayedInfos?.aces.length > 0">
-                <mat-chip id="ace-kills-chip" color="warn" selected>
-                    ACE
-                    <div class="multiple-kills-div"> 
-                        <p (click)="twitchSeekTo(ace.kills[0].time, 0)" id="multiple-kills-text" *ngFor="let ace of roundDisplayedInfos?.aces">{{ace.attackerName}}</p>
-                    </div>
-                </mat-chip>
-            </mat-chip-list>
-    
-            <mat-chip-list *ngIf="roundDisplayedInfos?.killsCount <= 8 && roundDisplayedInfos?.killsCount > 0">
-                <mat-chip id="multi-kills-chip" [style.background-color]="roundDisplayedInfos?.isTerrorist? '#ccba7c': '#5d79ae'" selected>
-                    <p [style.color]="roundDisplayedInfos?.isTerrorist? '#424242': 'white'" class="kills-text">{{roundDisplayedInfos?.killsCount}} kills</p>
-                </mat-chip>
-            </mat-chip-list>
-    
-            <mat-chip-list>
-                <mat-chip id="twitch-hype-chip" color="accent" selected>
-                    <mat-spinner diameter=15 *ngIf="roundDisplayedInfos?.twitchRating == 0"></mat-spinner>
-                    <p *ngIf="roundDisplayedInfos?.twitchRating > 0" class="kills-text">
-                        <mat-icon inline="true" class='hype-icon'>comment</mat-icon>
-                        {{roundDisplayedInfos?.twitchRating}} %
-                    </p>
-                </mat-chip>
-            </mat-chip-list>
-    
-        </mat-panel-description>
-        </mat-expansion-panel-header>
-
-    </mat-expansion-panel>
-</mat-accordion>-->
-
 <div id="main-page">
     <div id="scrolling-div">
         <cdk-virtual-scroll-viewport itemSize="50" class="main-viewport">
@@ -75,6 +10,7 @@
                 roundId="{{roundInfo.round_number}}"
                 totalRounds={{roundInfos?.length}}
                 videoId={{videoId}}
+                twitchRating={{roundInfo.twitch_rating}}
                 [kills]="roundInfo.kills"
                 [multipleKills]=roundInfo.multipleKills
                 (multiKillEvent)="twitchSeekTo($event, 0)"

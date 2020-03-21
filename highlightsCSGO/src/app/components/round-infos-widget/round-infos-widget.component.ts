@@ -18,6 +18,7 @@ export class RoundInfosWidgetComponent implements OnInit {
   @Input() endClipTime: number;
   @Input() totalRounds: number;
   @Input() videoId: number;
+  @Input() twitchRating: number;
   @Input() multipleKills: MultiKill[];
   @Input() kills: Kill[];
 
@@ -30,7 +31,6 @@ export class RoundInfosWidgetComponent implements OnInit {
   quadKills = [];
   aces = [];
   commentsAmount: number;
-  twitchRating = 0;
   twitchRatingColor = '#585858';
 
   constructor(
@@ -45,19 +45,6 @@ export class RoundInfosWidgetComponent implements OnInit {
     } else {
       this.cardColor = '#5d79ae';
     }
-
-    /**this.httpService.getTwitchComments(this.videoId, this.startClipTime, this.endClipTime).then(total => {
-      this.commentsAmount = total;
-      this.httpService.allComments.subscribe(comments => {
-        this.twitchRating = Math.round((this.commentsAmount) * 100 / (comments[comments.length - 1]));
-        if (this.twitchRating >= 70) {
-          this.twitchRatingColor = '#ff0f0382';
-        }
-        if (this.twitchRating < 70 && this.twitchRating >= 50) {
-          this.twitchRatingColor = '#ffb10366';
-        }
-      });
-    });**/
 
     this.findMultipleKills();
   }

@@ -38,3 +38,6 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+
+.grow { transition: all .2s ease-in-out; }
+.grow:hover { transform: scale(0.9); }

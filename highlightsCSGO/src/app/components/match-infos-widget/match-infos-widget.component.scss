@@ -6,36 +6,9 @@
     justify-content: space-around;
 }
 
-.mat-expansion-panel-header-description {
-    flex-grow: 0;
-}
-
-.mat-expansion-panel-header {
-    padding: 0 12px;
-}
-
-.score-text {
-    margin: 0;
-    font-weight: bold;
-}
-
-.team-text {
-    margin: 0;
-    font-weight: lighter;
-}
-
-.map-infos-widget {
-    flex-grow: 0;
-    flex-basis: 300px;
-}
-
 #score-div {
     display: flex;
     flex-grow: 1;
-}
-
-.mat-icon.mat-icon-inline {
-    font-size: x-large;
 }
 
 #not-downloaded-icon {
@@ -50,3 +23,30 @@
     margin: 5px auto 10px auto;
 }
 
+.map-infos-widget {
+    flex-grow: 0;
+    flex-basis: 300px;
+}
+
+.score-text {
+    margin: 0;
+    font-weight: bold;
+}
+
+.team-text {
+    margin: 0;
+    font-weight: lighter;
+    text-align: center;
+}
+
+.mat-expansion-panel-header-description {
+    flex-grow: 0;
+}
+
+.mat-expansion-panel-header {
+    padding: 0 12px;
+}
+
+.mat-icon.mat-icon-inline {
+    font-size: x-large;
+}

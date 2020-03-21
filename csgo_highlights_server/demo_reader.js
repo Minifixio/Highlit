@@ -4,7 +4,9 @@
 
 const demofile = require("demofile")
 const fs = require("fs")
-var httpManager = require("./index.js");
+var socketManager = require("./socket_manager.js");
+var debugManager = require("./debug_manager.js");
+const logger = new debugManager.logger("DemoReader");
 
 exports.readDemo = function readDemo(demofileInput) {
 
@@ -18,7 +20,7 @@ exports.readDemo = function readDemo(demofileInput) {
         var matchInfos = [];
         var lastRoundId = 0
     
-        console.log('[DemoReader] Reading demo: ' + demofileInput);
+        logger.debug('Reading demo: ' + demofileInput);
     
         fs.readFile(demofileInput, (err, buffer) => {
             const demoFile = new demofile.DemoFile();
@@ -36,7 +38,7 @@ exports.readDemo = function readDemo(demofileInput) {
                         team.props.DT_Team.m_iTeamNum ==
                         e.entity.props.DT_VoteController.m_iOnlyTeamToVote
                         ) {
-                        console.log(
+                        logger.debug(
                             `Team called timeout: ${team.props.DT_Team.m_szClanTeamname}`
                         );
                         }
@@ -50,15 +52,15 @@ exports.readDemo = function readDemo(demofileInput) {
                 * ...but "round_announce_match_start" seems to trigger when sides are switching and when match ends.
                 */
                 if (roundId == 15) { 
-                    console.log('[DemoReader] Changing sides');
+                    logger.debug('Changing sides');
                 }
                 if (roundId > 15) {
-                    console.log('[DemoReader] Match has ENDED');
+                    logger.debug('Match has ENDED');
                     resolve(matchInfos);
                     demoFile.cancel();
                 } 
-                if (roundId < 15) {
-                    console.log('[DemoReader] Match is STARTING !');
+                if (roundId < 15 && roundId > 1) {
+                    logger.debug('Match is STARTING !');
                     lastRoundTime = 0;
                     roundKills = [];
                     matchInfos = [];
@@ -100,7 +102,7 @@ exports.readDemo = function readDemo(demofileInput) {
     
                 if (demoFile.gameRules.phase == 'postgame') { // If we enter postgame, then the match will end
                     makeRoundStats();
-                    console.log('[DemoReader] Postgame phase');
+                    logger.debug('Postgame phase');
                     resolve(matchInfos);
                     demoFile.cancel();
                 }
@@ -124,8 +126,8 @@ exports.readDemo = function readDemo(demofileInput) {
                     if (Math.abs(lastRoundId - roundId) > 15) {
                         roundId = lastRoundId + 1;
                     }
-                    httpManager.socketEmit('select-map', {type: 'parsing', params: roundId});
-                    console.log('[DemoReader] Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
+                    socketManager.socketEmit('select-map', {type: 'parsing', params: roundId});
+                    logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
     
                     let multipleKills = computeMultiKills(roundKills);
             

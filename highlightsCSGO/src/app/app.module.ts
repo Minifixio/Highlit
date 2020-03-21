@@ -26,12 +26,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from './components/twitch-player/twitch-player.component';
 import { MatchSelectionComponent } from './components/match-selection/match-selection.component';
 import { MatchInfosWidgetComponent } from './components/match-infos-widget/match-infos-widget.component';
 import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos-widget.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { AboutComponent } from './components/about/about.component';
 
 
 @NgModule({
@@ -42,7 +48,8 @@ import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos
     TwitchPlayerComponent,
     MatchSelectionComponent,
     MatchInfosWidgetComponent,
-    MapInfosWidgetComponent
+    MapInfosWidgetComponent,
+    AboutComponent
   ],
   imports: [
     FormsModule,
@@ -66,6 +73,11 @@ import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos
     MatBottomSheetModule,
     MatListModule,
     MatDialogModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMenuModule,
 
     BrowserModule,
     AppRoutingModule,
