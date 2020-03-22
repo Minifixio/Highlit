@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+//var http = require('http').createServer(app);
+var httpManager = require('./http_manager.js')
+var io = require('socket.io')(httpManager.http);
 
 // Files
 var demoManager = require("./demo_manager.js");
@@ -126,9 +127,9 @@ io.on('connection', function(socket){
 });
 
 module.exports.startSockets = function startSockets() {
-    http.listen(4000, function() {
-        logger.debug('Sockets listening on port 4000');
-    });
+    /*http.listen(3000, function() {
+        logger.debug('Sockets listening on port 3000');
+    });*/
 }
 
 module.exports.socketEmit = function socketEmit(tag, content) {

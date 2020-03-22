@@ -3,9 +3,11 @@
 // Imports
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
 const cors = require('cors');
 const bodyParser = require('body-parser');
 var CronJob = require('cron').CronJob;
+module.exports.http = http;
 
 // Files
 var demoManager = require("./demo_manager.js");
@@ -13,7 +15,6 @@ var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
 var twitchManager = require("./twitch_manager.js");
-var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
 const logger = new debugManager.logger("Http");
 
@@ -22,7 +23,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}) );
 
-app.use(express.static('dist'));
+app.use(express.static('client-angular'));
+
+app.all("/match*", function(req, res){
+    res.sendFile("index.html", { root: __dirname + "/client-angular"});
+});
 
 app.all("/*", function(req, res, next){
   res.header('Access-Control-Allow-Origin', '*');
@@ -73,6 +78,7 @@ app.get('/v1/refresh', async function() {
 });
 
 app.listen(3000, function () {
+    var socketManager = require("./socket_manager.js");
     logger.debug('App listening on port 3000');
 });
 
