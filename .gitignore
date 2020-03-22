@@ -59,3 +59,5 @@ pitch.pages
 # Others
 server-api-node/tests/
 client-angular/src/app/services/models/ServerInfos.ts
+client-angular/dist
+server-api-node/database/matches.db
