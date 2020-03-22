@@ -159,6 +159,7 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
         roundInfos = await twitchManager.calculateTwitchRating(roundInfos, matchId, mapNumber);
         await makeMatchJSONfile(matchId, mapNumber, roundInfos);
         await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
+        await unlink(`${path}/dem/${map}`); // Delete dem file
         resolve(1);
     })
 }

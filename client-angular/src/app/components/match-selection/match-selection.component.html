@@ -23,7 +23,7 @@
             
         </mat-expansion-panel>
         <mat-toolbar id="list-toolbar">
-            <button disableRipple="true" mat-button (click)="changePage('forward')">
+            <button disableRipple="true" mat-button (click)="changePage('backward')">
                 <mat-icon>keyboard_arrow_left</mat-icon>
             </button>
             <span id="date-span">{{currentDate | date:'MMMM d yyyy'}}</span>
@@ -32,8 +32,8 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <button mat-button (click)="changePage('backward')">
-                <mat-icon>keyboard_arrow_right</mat-icon>
+            <button mat-button (click)="changePage('forward')">
+                <mat-icon *ngIf="currentPage > 0">keyboard_arrow_right</mat-icon>
             </button>
         </mat-toolbar>
 

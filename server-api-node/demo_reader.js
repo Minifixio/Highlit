@@ -45,6 +45,10 @@ exports.readDemo = function readDemo(demofileInput) {
                     });
                 }
             });
+
+            demoFile.gameEvents.on("round_start", () => {
+                roundKills = []; // Reset kills when the round starts
+            })
     
             demoFile.gameEvents.on("round_announce_match_start", () => {
                 /*
@@ -57,6 +61,7 @@ exports.readDemo = function readDemo(demofileInput) {
                 if (roundId > 15) {
                     logger.debug('Match has ENDED');
                     resolve(matchInfos);
+                    console.log(matchInfos);
                     demoFile.cancel();
                 } 
                 if (roundId < 15 && roundId > 1) {
@@ -104,6 +109,7 @@ exports.readDemo = function readDemo(demofileInput) {
                     makeRoundStats();
                     logger.debug('Postgame phase');
                     resolve(matchInfos);
+                    console.log(matchInfos);
                     demoFile.cancel();
                 }
             });

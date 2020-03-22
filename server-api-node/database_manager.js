@@ -183,6 +183,7 @@ exports.getLastMatchByDate = async function getLastMatchByDate(startDate, endDat
 }
 
 exports.addLastMatches = async function addLastMatches(lastMatches) {
+    return new Promise(async (resolve) => {
     // 'OR IGNORE' means that if the match already exists, we don't add it
     const matchQuery = "INSERT OR IGNORE INTO match(match_id, team1, team2, tournament, match_format, score, date, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
     lastMatches.forEach(async(match) => {
@@ -199,6 +200,8 @@ exports.addLastMatches = async function addLastMatches(lastMatches) {
     });
 
     logger.debug("Added last matches to DB");
+    resolve(1)
+    })
 }
 
 exports.updateMatchStatus = function updateMatchStatus(matchId, status) {
@@ -247,7 +250,7 @@ exports.matchExists = function matchExists(matchId) {
 }
 
 // If the match has demos, it also means his TwitchInfosJSON has already been created as well
-exports.matchHasDemos = function matchHasDemos(matchId) {
+exports.matchHasDemos = async function matchHasDemos(matchId) {
     return new Promise(async (resolve) => {
         const statusQuery = "SELECT demo_id FROM match WHERE match_id = ?";
         matchesDB.get(statusQuery, [matchId], (err, row) => {
@@ -272,4 +275,14 @@ exports.getMatchDemoId = function getMatchDemoId(matchId) {
             resolve(row.demo_id)
         });
     })
+}
+
+exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
+    return new Promise(async (resolve) => {
+        const undownloadedQuery = "SELECT match_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
+        matchesDB.get(undownloadedQuery, (err, row) => {
+            resolve(row.match_id)
+        })
+    })
+
 }

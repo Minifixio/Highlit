@@ -3,7 +3,7 @@ var logger = class Logger {
         this.component = component;
     }
     debug(message) {
-        if(!(this.component == "HltvManager")) {
+        if(!(this.component == "")) {
             console.log("[" + this.component + "] ", message)
         }
     }

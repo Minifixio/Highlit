@@ -21,16 +21,6 @@ const logger = new debugManager.logger("Http");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}) );
-hltvManager.getLastMatches();
-
-// Cron tasks
-var job = new CronJob('0 1 * * *', function() {
-    hltvManager.getLastMatches();
-    const d = new Date();
-	logger.debug('Cron task : ', d);
-});
-
-job.start();
 
 app.use(express.static('dist'));
 
@@ -85,5 +75,28 @@ app.get('/v1/refresh', async function() {
 app.listen(3000, function () {
     logger.debug('App listening on port 3000');
 });
+
+
+// Cron tasks
+var job = new CronJob('*/30 * * * *', async function() {
+    hltvManager.getLastMatches();
+    let matchId = await dbManager.lastUndownloadedMatch();
+
+    if ((await dbManager.matchHasDemos(matchId)) == false) {
+        await demoManager.updateMatchInfos(matchId);
+    }
+
+    if ((await dbManager.isMatchDowloaded(matchId)) == false) {
+        await demoManager.dowloadDemos(matchId);
+    }
+
+    let mapsCount = dbManager.countMaps(matchId);
+
+    for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
+        await demoManager.parseDemo(matchId, mapId);
+    }
+});
+
+job.start();
 
 socketManager.startSockets();

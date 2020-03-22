@@ -1,61 +1,61 @@
 # main dir
 node_modules
-csgo_highlights_server/node_modules
-csgo_highlights_server/matches
-csgo_highlights_server/output
+server-api-node/node_modules
+server-api-node/matches
+server-api-node/output
 app.js
 output.ts
 radio.mp3
 test.html
 
 # compiled output
-highlightsCSGO/dist
-highlightsCSGO/tmp
-highlightsCSGO/out-tsc
+client-angular/dist
+client-angular/tmp
+client-angular/out-tsc
 # Only exists if Bazel was run
-highlightsCSGO/bazel-out
+client-angular/bazel-out
 
 # dependencies
-highlightsCSGO/node_modules
+client-angular/node_modules
 
 # profiling files
-highlightsCSGO/chrome-profiler-events*.json
-highlightsCSGO/speed-measure-plugin*.json
+client-angular/chrome-profiler-events*.json
+client-angular/speed-measure-plugin*.json
 
 # IDEs and editors
-highlightsCSGO/.idea
-highlightsCSGO/.project
-highlightsCSGO/.classpath
-highlightsCSGO/.c9/
-highlightsCSGO/*.launch
-highlightsCSGO/.settings/
-highlightsCSGO/*.sublime-workspace
+client-angular/.idea
+client-angular/.project
+client-angular/.classpath
+client-angular/.c9/
+client-angular/*.launch
+client-angular/.settings/
+client-angular/*.sublime-workspace
 
 # IDE - VSCode
-highlightsCSGO/.vscode/*
-highlightsCSGO/!.vscode/settings.json
-highlightsCSGO/!.vscode/tasks.json
-highlightsCSGO/!.vscode/launch.json
-highlightsCSGO/!.vscode/extensions.json
-highlightsCSGO/.history/*
+client-angular/.vscode/*
+client-angular/!.vscode/settings.json
+client-angular/!.vscode/tasks.json
+client-angular/!.vscode/launch.json
+client-angular/!.vscode/extensions.json
+client-angular/.history/*
 
 # misc
-highlightsCSGO/.sass-cache
-highlightsCSGO/connect.lock
-highlightsCSGO/coverage
-highlightsCSGO/libpeerconnection.log
-highlightsCSGO/npm-debug.log
-highlightsCSGO/yarn-error.log
-highlightsCSGO/testem.log
-highlightsCSGO/typings
+client-angular/.sass-cache
+client-angular/connect.lock
+client-angular/coverage
+client-angular/libpeerconnection.log
+client-angular/npm-debug.log
+client-angular/yarn-error.log
+client-angular/testem.log
+client-angular/typings
 
 # System Files
-highlightsCSGO/.DS_Store
-highlightsCSGO/Thumbs.db
+client-angular/.DS_Store
+client-angular/Thumbs.db
 .DS_Store
 Thumbs.db
 pitch.pages
 
 # Others
-csgo_highlights_server/tests/
-highlightsCSGO/src/app/services/models/ServerInfos.ts
+server-api-node/tests/
+client-angular/src/app/services/models/ServerInfos.ts
