@@ -1,0 +1,8 @@
+Docker logs :
+docker logs --follow [app_name]
+
+Create sqlite3 DB :
+sqlite3 -init init_db.sql matches.db ""
+
+Angular build with production :
+ng build --configuration=production
