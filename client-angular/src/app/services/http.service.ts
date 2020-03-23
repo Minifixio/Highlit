@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { GameInfos } from './models/GameInfos';
 import { MapInfo } from './models/MapInfo';
+import { environment } from 'src/environments/environment';
 
 interface Comments {
   comments: Array<Comment>;
@@ -18,8 +19,8 @@ interface Comment {
 })
 export class HttpService {
 
-  urlApi = 'http://localhost:3000';  // TODO : make a model for server infos
-  uriApi = 'v1';
+  urlApi = environment.urlApi;
+  uriApi = environment.uriApi;
   mainUrl = `${this.urlApi}/${this.uriApi}/`;
 
   constructor(

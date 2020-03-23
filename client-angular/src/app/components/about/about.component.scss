@@ -3,7 +3,7 @@
 }
 
 #main-page {
-    display: grid;
+    display: flex;
     margin-top: 10px;
     justify-content: center;
 }
@@ -46,6 +46,7 @@
     margin: 0 20px 10px 0;
     border-radius: 20px;
     width: 800px;
+    height: 100%;
 }
 
 ol {
@@ -57,9 +58,9 @@ ol {
 }
 
 .title-toolbar {
-    border-radius: 10px;
+    border-radius: 5px;
     text-transform: uppercase;
-    height: 70%;
+    height: 10%;
 }
 
 .multi-kills-chip {

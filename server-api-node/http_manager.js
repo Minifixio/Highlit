@@ -87,7 +87,7 @@ http.listen(3000, function () {
 
 // Cron tasks
 var job = new CronJob('*/30 * * * *', async function() {
-    hltvManager.getLastMatches();
+    await hltvManager.getLastMatches();
     let matchId = await dbManager.lastUndownloadedMatch();
 
     if ((await dbManager.matchHasDemos(matchId)) == false) {

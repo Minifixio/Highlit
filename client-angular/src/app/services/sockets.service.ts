@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 interface SocketInfo {
   type: string;
@@ -13,7 +14,8 @@ interface SocketInfo {
 
 export class SocketsService {
 
-  urlApi = 'http://localhost:4000'; // TODO : make a model for server infos
+  urlApi = environment.urlApi;
+  uriApi = environment.uriApi;
   socket: any;
 
   constructor() {
