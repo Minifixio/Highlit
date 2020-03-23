@@ -23,11 +23,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}) );
 
-app.use(express.static('client-angular'));
+app.use(express.static('dist'));
 
 app.all("/match*", function(req, res){
-    res.sendFile("index.html", { root: __dirname + "/client-angular"});
+    res.sendFile("index.html", { root: __dirname + "/dist"});
 });
+
 
 app.all("/*", function(req, res, next){
   res.header('Access-Control-Allow-Origin', '*');
@@ -77,8 +78,9 @@ app.get('/v1/refresh', async function() {
     hltvManager.getLastMatches();
 });
 
-app.listen(3000, function () {
+http.listen(3000, function () {
     var socketManager = require("./socket_manager.js");
+    socketManager.startSockets(http);
     logger.debug('App listening on port 3000');
 });
 
@@ -104,5 +106,3 @@ var job = new CronJob('*/30 * * * *', async function() {
 });
 
 job.start();
-
-socketManager.startSockets();

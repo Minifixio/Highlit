@@ -5,7 +5,7 @@ FROM node:12
 WORKDIR /usr/src/app/
 
 # API files
-COPY csgo_highlights_server
+COPY server-api-node
 
 # Copy Angular build 
-COPY highlightsCSGO/dist ./dist/
+COPY client-angular/dist ./dist/
