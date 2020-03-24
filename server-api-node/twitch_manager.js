@@ -12,36 +12,39 @@ async function getTwitchComments(videoId, clipStartTime, clipEndTime) {
 
     return new Promise(async (resolve) => {
 
-    let totalComment = 0;
-    let lastPacket = [];
-    let lastCommentTime = clipStartTime;
-    const urlApi =  'https://api.twitch.tv/v5';
-    const path = 'videos/' + videoId;
-    let tag = 'comments?content_offset_seconds=' + clipStartTime;
-    let mainUrl = `${urlApi}/${path}/${tag}`;
+        let totalComment = 0;
+        let lastPacket = [];
+        let lastCommentTime = clipStartTime;
+        const urlApi =  'https://api.twitch.tv/v5';
+        const path = 'videos/' + videoId;
+        let tag = 'comments?content_offset_seconds=' + clipStartTime;
+        let mainUrl = `${urlApi}/${path}/${tag}`;
 
-    var options = {
-        uri: mainUrl,
-        headers: {
-            'Client-ID': twitchClientId
-        },
-        json: true
-    };
-    
-    const firstResult = await rp(options);
-    totalComment = firstResult.comments.length;
-    lastPacket = firstResult;
+        var options = {
+            uri: mainUrl,
+            headers: {
+                'Client-ID': twitchClientId
+            },
+            json: true
+        };
 
+        var firstResult = await rp(options);
+        totalComment = firstResult.comments.length;
+        lastPacket = firstResult;
 
-    while (lastCommentTime < clipEndTime) {
-        tag = 'comments?cursor=' + lastPacket._next;
-        options.uri = `${urlApi}/${path}/${tag}`;
-        lastPacket = await rp(options);
-        totalComment += lastPacket.comments.length;
-        lastCommentTime = lastPacket.comments[0].content_offset_seconds;
-    }
+        while (lastCommentTime < clipEndTime) {
+            if (lastPacket._next !== undefined) {
+                tag = 'comments?cursor=' + lastPacket._next;
+                options.uri = `${urlApi}/${path}/${tag}`;
+                lastPacket = await rp(options);
+                totalComment += lastPacket.comments.length;
+                lastCommentTime = lastPacket.comments[0].content_offset_seconds;
+            } else {
+                break;
+            }
+        }
 
-    resolve(totalComment);
+        resolve(totalComment);
 
     });
   }
