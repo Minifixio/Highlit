@@ -98,7 +98,7 @@ var job = new CronJob('*/30 * * * *', async function() {
         await demoManager.dowloadDemos(matchId);
     }
 
-    let mapsCount = dbManager.countMaps(matchId);
+    let mapsCount = await dbManager.countMaps(matchId);
 
     for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
         await demoManager.parseDemo(matchId, mapId);
