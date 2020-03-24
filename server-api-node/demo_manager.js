@@ -156,7 +156,10 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
         }
         logger.debug('Map to parse is : ' + map)
         var roundInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
+
+        // TODO : Make a function to test if twitch comments are available or no
         roundInfos = await twitchManager.calculateTwitchRating(roundInfos, matchId, mapNumber);
+
         await makeMatchJSONfile(matchId, mapNumber, roundInfos);
         await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
         await unlink(`${path}/dem/${map}`); // Delete dem file

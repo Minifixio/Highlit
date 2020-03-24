@@ -10,7 +10,7 @@ var twitchClientId = 'u6xyqmq1ctnewqvsce30egzkb9ajum';
 
 async function getTwitchComments(videoId, clipStartTime, clipEndTime) {
 
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
 
         let totalComment = 0;
         let lastPacket = [];
@@ -28,7 +28,13 @@ async function getTwitchComments(videoId, clipStartTime, clipEndTime) {
             json: true
         };
 
-        var firstResult = await rp(options);
+        try {
+            var firstResult = await rp(options);
+        } catch (e) {
+            reject(e)
+            return;
+        }
+        
         totalComment = firstResult.comments.length;
         lastPacket = firstResult;
 
@@ -36,7 +42,16 @@ async function getTwitchComments(videoId, clipStartTime, clipEndTime) {
             if (lastPacket._next !== undefined) {
                 tag = 'comments?cursor=' + lastPacket._next;
                 options.uri = `${urlApi}/${path}/${tag}`;
-                lastPacket = await rp(options);
+
+                // Sometimes, twitch streams are sliced in different streams.
+                // Also, sometimes the streams is not working. If it is the case, the rp() will return an error
+                try {
+                    lastPacket = await rp(options); 
+                } catch (e) {
+                    reject(e)
+                    return;
+                }
+
                 totalComment += lastPacket.comments.length;
                 lastCommentTime = lastPacket.comments[0].content_offset_seconds;
             } else {
@@ -50,7 +65,7 @@ async function getTwitchComments(videoId, clipStartTime, clipEndTime) {
   }
 
 exports.calculateTwitchRating = async function calculateTwitchRating(roundInfos, matchId, mapNumber) {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
         let path = `./matches/${matchId}`;
         const twitchJSONfile = require(`${path}/twitch_infos.json`);
         let roundsRating = [];
@@ -64,12 +79,18 @@ exports.calculateTwitchRating = async function calculateTwitchRating(roundInfos,
         const twitchLinkParsed = hltvManager.parseTwitchLink(twitchLink);
         let startVideoTime = twitchLinkParsed.startVideoTime;
         let videoId = twitchLinkParsed.videoId;
-    
+        
         var getComments = new Promise((resolve) => { 
             roundInfos.forEach(async(round) => {
                 let startClipTime = round.start + startVideoTime;
                 let endClipTime = round.end + startVideoTime;
-                let twitchRating = await getTwitchComments(videoId, startClipTime, endClipTime);
+
+                try {
+                    var twitchRating = await getTwitchComments(videoId, startClipTime, endClipTime);
+                } catch(e) {
+                    twitchRating = '/';
+                }
+
                 roundsRating.push(twitchRating);
                 if (roundsRating.length == roundInfos.length) {
                     resolve();

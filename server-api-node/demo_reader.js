@@ -1,7 +1,6 @@
 /**
  * Imports
  */
-
 const demofile = require("demofile")
 const fs = require("fs")
 var socketManager = require("./socket_manager.js");
@@ -18,7 +17,7 @@ exports.readDemo = function readDemo(demofileInput) {
         var lastRoundTime = 0;
         var roundKills = [];
         var matchInfos = [];
-        var lastRoundId = 0
+        var lastRoundId = 0;
     
         logger.debug('Reading demo: ' + demofileInput);
     
@@ -61,7 +60,6 @@ exports.readDemo = function readDemo(demofileInput) {
                 if (roundId > 15) {
                     logger.debug('Match has ENDED');
                     resolve(matchInfos);
-                    console.log(matchInfos);
                     demoFile.cancel();
                 } 
                 if (roundId < 15 && roundId > 1) {
@@ -91,6 +89,7 @@ exports.readDemo = function readDemo(demofileInput) {
 
             demoFile.gameEvents.on("round_end", e => {
                 const teams = demoFile.teams;
+
                 // For later : add reason for ending
                 if (e.winner == 2) { // id n°2 means terrorists
                     winningTeam = {
@@ -104,18 +103,27 @@ exports.readDemo = function readDemo(demofileInput) {
                         'team_name': teams[3].props.DT_Team.m_szClanTeamname
                     };
                 }
-    
+
                 if (demoFile.gameRules.phase == 'postgame') { // If we enter postgame, then the match will end
                     makeRoundStats();
                     logger.debug('Postgame phase');
                     resolve(matchInfos);
-                    console.log(matchInfos);
                     demoFile.cancel();
                 }
             });
             
             demoFile.gameEvents.on("round_officially_ended", () => {
-                // Later : add winning team
+                const teams = demoFile.teams;
+                const terrorists = teams[2];
+                const cts = teams[3];
+
+                if ((cts.score == 16 && terrorists.score < 15) || (terrorists.score == 16 && cts.score < 15)) {
+                    makeRoundStats();
+                    logger.debug('Match reached 16 points');
+                    resolve(matchInfos);
+                    demoFile.cancel();
+                }
+
                 makeRoundStats();
             });
 
@@ -129,11 +137,11 @@ exports.readDemo = function readDemo(demofileInput) {
                 // ...it is just to make sure it does not happen...
                 if (roundId !== lastRoundId) {  
 
-                    if (Math.abs(lastRoundId - roundId) > 15) {
+                    if (Math.abs(lastRoundId - roundId) >= 15) {
                         roundId = lastRoundId + 1;
                     }
                     socketManager.socketEmit('select-map', {type: 'parsing', params: roundId});
-                    logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
+                    //logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
     
                     let multipleKills = computeMultiKills(roundKills);
             

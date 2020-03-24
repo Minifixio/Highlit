@@ -42,7 +42,8 @@ app.post('/v1/last_matches', async function(req, res) {
     let endDate = new Date(date);
     let startDate = new Date(date);
     endDate = new Date(endDate.setDate(date.getDate() - 1)).setHours(24, 0, 0, 0);
-    startDate = new Date(startDate.setDate(date.getDate() + 1)).setHours(24, 0, 0, 0);
+    startDate = new Date(startDate.setDate(date.getDate())).setHours(24, 0, 0, 0);
+    console.log(startDate, endDate)
     let response = await dbManager.getLastMatchByDate(startDate, endDate);
     res.json(response);
 });
@@ -106,3 +107,5 @@ var job = new CronJob('*/30 * * * *', async function() {
 });
 
 job.start();
+
+
