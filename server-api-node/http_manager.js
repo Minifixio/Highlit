@@ -18,7 +18,6 @@ var twitchManager = require("./twitch_manager.js");
 var debugManager = require("./debug_manager.js");
 const logger = new debugManager.logger("Http");
 
-demoManager.parseDemo(2340450, 3)
 // Express
 app.use(cors());
 app.use(bodyParser.json());
