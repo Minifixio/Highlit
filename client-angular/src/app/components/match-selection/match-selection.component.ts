@@ -65,10 +65,10 @@ export class MatchSelectionComponent implements OnInit {
 
   async hltvLinkAdded() {
     const matchId = this.twitchService.parseHltvLink(this.inputLink);
-    this.sockets.emit('add-match', matchId);
-    this.addingMatchSocket = this.sockets.subscribeToSocket('add-match');
-    this.addingMatchSocket.subscribe(info => {
-      this.loadingStatus(info, 'add-match');
+    await this.httpService.post('add-match', {match_id: matchId}).toPromise();
+    this.mapSocket = this.sockets.subscribeToSocket('select-map');
+    this.mapSocket.subscribe(info => {
+      this.loadingStatus(info);
     });
   }
 
@@ -83,12 +83,12 @@ export class MatchSelectionComponent implements OnInit {
       this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
       this.mapSocket = this.sockets.subscribeToSocket('select-map');
       this.mapSocket.subscribe(info => {
-        this.loadingStatus(info, 'select-map');
+        this.loadingStatus(info);
       });
     }
   }
 
-  loadingStatus(loadingInfos, socket) {
+  loadingStatus(loadingInfos) {
     console.log(loadingInfos);
     switch (loadingInfos.type) {
       case 'starting_download':
@@ -116,17 +116,14 @@ export class MatchSelectionComponent implements OnInit {
       case 'select-map':
         this.mapsToSelect = loadingInfos.params;
         break;
+      case 'match_not_downloaded':
+        this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
+        break;
       case 'game_infos':
         console.log(loadingInfos.params);
         this.twitchService.gameInfos = loadingInfos.params;
+        this.mapSocket.unsubscribe();
         this.router.navigate(['/match']);
-
-        if (socket === 'add-match') {
-          this.addingMatchSocket.unsubscribe();
-        }
-        if (socket === 'select-match') {
-          this.mapSocket.unsubscribe();
-        }
         break;
     }
   }

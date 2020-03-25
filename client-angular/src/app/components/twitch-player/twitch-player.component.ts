@@ -40,7 +40,6 @@ export class TwitchPlayerComponent implements OnInit {
 
 
   seekTo(timestamp) {
-    console.log('seekTo()', timestamp);
     this.twitchPlayer.pause();
     this.twitchPlayer.seek(timestamp);
   }

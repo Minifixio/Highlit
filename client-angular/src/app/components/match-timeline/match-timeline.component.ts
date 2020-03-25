@@ -48,8 +48,12 @@ export class MatchTimelineComponent implements OnInit {
     console.log(this.roundInfos);
     this.roundInfos.forEach((item, index) => {
       if (item.round_number !== 0) { // Syncing timings from Twitch Video and match timings
-        this.roundInfos[index].start = this.startVideoTime + item.start + 25; // Adding 25 seconds for buy-time
-        this.roundInfos[index].end = this.startVideoTime + item.end + 25; // Adding 25 seconds for buy-time
+        if (item.round_number === 1) { // Don't add buy time for 1st round
+          this.roundInfos[index].start = this.startVideoTime + item.start;
+        } else {
+          this.roundInfos[index].start = this.startVideoTime + item.start + 25; // Adding 25 seconds for buy-time
+          this.roundInfos[index].end = this.startVideoTime + item.end + 25; // Adding 25 seconds for buy-time
+        }
       }
       if (item.multipleKills) { // Same for multi kills
         item.multipleKills.forEach(multi => {

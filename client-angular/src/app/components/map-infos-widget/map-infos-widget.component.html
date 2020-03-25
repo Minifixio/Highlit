@@ -1,11 +1,12 @@
 
-<img (click)="selectMap()" class="grow" id="map-img" mat-card-image src="../../../assets/maps_img/{{map.map_name}}.jpg" alt={{map.map_name}}>
+<img [ngStyle]="{ 'filter': map.available == 'yes'? 'none': 'grayscale(100%)' }" (click)="selectMap()" class="grow" id="map-img" mat-card-image src="../../../assets/maps_img/{{map.map_name}}.jpg" alt={{map.map_name}}>
 
 <div id="map-infos-div">
     <div id="map-number-div">
         <p id="map-number-text">
             Map {{map.map_number}}
         </p>
+        <mat-spinner [diameter]="20" *ngIf="map.available == 'parsing'"></mat-spinner>
         <mat-icon *ngIf="map.available == 'yes'" id="downloaded-icon" inline="true" aria-label="Match downloaded">
             offline_pin
         </mat-icon>
