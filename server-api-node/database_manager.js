@@ -175,7 +175,6 @@ exports.getLastMatchByDate = async function getLastMatchByDate(startDate, endDat
             if(err) {
                 reject(err);
             } else {
-                logger.debug(row);
                 resolve(row);
             }
         })
@@ -284,5 +283,4 @@ exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
             resolve(row.match_id)
         })
     })
-
 }

@@ -107,7 +107,6 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
 exports.getLastMatches = async function getLastMatches() {
     return new Promise(async(resolve) => {
         let lastMatches = await HLTV.getResults({page: 1, contentFilters: [1]});
-        //logger.debug(lastMatches);
         await dbManager.addLastMatches(lastMatches);
         resolve(1)
     })

@@ -46,6 +46,11 @@ exports.readDemo = function readDemo(demofileInput) {
             });
 
             demoFile.gameEvents.on("round_start", () => {
+                // To set the time reference to 0 when the match starts
+                if (roundId == 0) {
+                    timeReference = demoFile.currentTime + 15;
+                }
+
                 roundKills = []; // Reset kills when the round starts
             })
     
@@ -140,12 +145,20 @@ exports.readDemo = function readDemo(demofileInput) {
                     if (Math.abs(lastRoundId - roundId) >= 15) {
                         roundId = lastRoundId + 1;
                     }
+
+                    // To make sure to remove the 15 sec of warmup + 15 sec because time reference resets on round 1 with +15 sec
+                    if (roundId == 1) { 
+                        var pastRoundTime = demoFile.currentTime - timeReference - 15;
+                    } else {
+                        pastRoundTime = demoFile.currentTime - timeReference;
+                    }
+
                     socketManager.socketEmit('select-map', {type: 'parsing', params: roundId});
                     //logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
     
                     let multipleKills = computeMultiKills(roundKills);
             
-                    var pastRoundTime = demoFile.currentTime - timeReference;
+
                     if(timeOut == true) {
                         lastRoundTime += 30;
                         pastRoundTime += 30;

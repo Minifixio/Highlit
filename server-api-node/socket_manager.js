@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-//var http = require('http').createServer(app);
-//var httpManager = require('./http_manager.js');
 var io;
 
 // Files
@@ -17,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}) );
 
 module.exports.startSockets = function startSockets(http) {
-    console.log("Start socket");
+    logger.debug("Start socket");
     io = require('socket.io')(http);
     io.on('connection', function(socket){
         socket.on('add-match', async function(matchId) {
