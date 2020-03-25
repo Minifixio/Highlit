@@ -29,14 +29,10 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
         await dbManager.addMatchInfos(hltvInfos);
 
         const twitchStreams = hltvInfos.twitchStreams;
-        //const demoId = hltvInfos.demoId;
         const mapsCount = hltvInfos.maps.length;
 
-        //await dbManager.updateMapStatus(matchId, 0, 'downloading');
-        //await dowloadDemos(demoId, matchId);
         await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
 
-        //await dbManager.updateMatchInfos(matchId, 1); // 1 equals to available
         await dbManager.updateMapStatus(matchId, 0, 'no');
         resolve(1);
     });

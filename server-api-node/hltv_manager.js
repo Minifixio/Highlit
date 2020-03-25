@@ -12,7 +12,6 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
     logger.debug('Looking for informations for match ' + matchId);
     return new Promise(async (resolve) => {
         var matchInfos = await HLTV.getMatch({id: matchId});
-        logger.debug(matchInfos);
         let downloadLink = null;
         let demoId = null;
         let twitchStreams = null;

@@ -7,6 +7,7 @@ const http = require('http').createServer(app);
 const cors = require('cors');
 const bodyParser = require('body-parser');
 var CronJob = require('cron').CronJob;
+var socketManager;
 module.exports.http = http;
 
 // Files
@@ -54,6 +55,13 @@ app.post('/v1/map', async function(req, res) {
     res.json(response);
 });
 
+app.post('/v1/add-match', async function(req, res) {
+    let matchId = req.body.match_id;
+    socketManager.addMatch(matchId);
+    console.log('add-match')
+    res.json(true);
+});
+
 app.post('/v1/maps', async function(req, res) {
     let matchId = req.body.match_id;
     let matchHasDemos = await dbManager.matchHasDemos(matchId);
@@ -79,7 +87,7 @@ app.get('/v1/refresh', async function() {
 });
 
 http.listen(3000, function () {
-    var socketManager = require("./socket_manager.js");
+    socketManager = require("./socket_manager.js");
     socketManager.startSockets(http);
     logger.debug('App listening on port 3000');
 });

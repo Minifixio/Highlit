@@ -9,7 +9,6 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
         let matchDatas = [];
         let maps = matchInfos.maps;
         logger.debug("Adding new match to database :");
-        logger.debug(matchInfos);
 
         matchDatas.push(
             matchInfos.match_id, 
