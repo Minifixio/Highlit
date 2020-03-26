@@ -295,7 +295,7 @@ exports.makeRmCommands = async function makeRmCommands() {
             let matchId = match.match_id;
 
             
-            let command  = `rm ./matches/${matchId}/ \n`;
+            let command  = `rm ./matches/${matchId}/ -Rf \n`;
 
             response.push(command);
 
