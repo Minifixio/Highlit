@@ -251,3 +251,34 @@ exports.makeFoldersMigration = async function makeFoldersMigration() {
         await findMatchPath(match.match_id)
     })
 }
+
+exports.makeMvCommands = async function makeMvCommands() {
+    let matches = await dbManager.getAllMatches();
+
+    let response = [];
+    response.push('#!/bin/bash');
+
+    let loop = new Promise((resolve) => {
+        matches.forEach(async(match) => {
+
+            let matchId = match.match_id;
+
+            let path = await findMatchPath(matchId)
+            
+            let command  = `mv ./matches/${matchId}/* ${path}/ \n`;
+
+            response.push(command);
+
+            if (response.length == matches.length) {
+                resolve(1)
+            }
+        });
+    })
+
+    await loop;
+
+    var file = fs.createWriteStream('./moveScript.sh');
+    response.forEach(v => { file.write(v + '\n'); });
+    file.end();
+
+}
