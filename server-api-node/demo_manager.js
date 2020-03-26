@@ -282,3 +282,33 @@ exports.makeMvCommands = async function makeMvCommands() {
     file.end();
 
 }
+
+exports.makeRmCommands = async function makeRmCommands() {
+    let matches = await dbManager.getAllMatches();
+
+    let response = [];
+    response.push('#!/bin/bash');
+
+    let loop = new Promise((resolve) => {
+        matches.forEach(async(match) => {
+
+            let matchId = match.match_id;
+
+            
+            let command  = `rm ./matches/${matchId}/ \n`;
+
+            response.push(command);
+
+            if (response.length == matches.length) {
+                resolve(1)
+            }
+        });
+    })
+
+    await loop;
+
+    var file = fs.createWriteStream('./deleteScript.sh');
+    response.forEach(v => { file.write(v + '\n'); });
+    file.end();
+
+}

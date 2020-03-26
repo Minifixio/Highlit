@@ -63,3 +63,6 @@ client-angular/dist
 server-api-node/database/matches.db
 server-api-node/database/
 
+server-api-node/moveScript.sh
+server-api-node/tests.txt
+server-api-node/deleteScript.sh

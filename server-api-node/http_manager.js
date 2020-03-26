@@ -115,4 +115,4 @@ var job = new CronJob('*/30 * * * *', async function() {
 
 job.start();
 
-demoManager.makeMvCommands()
+demoManager.makeRmCommands()
