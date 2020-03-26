@@ -1,8 +1,12 @@
 <div id="player-div" (window:resize)="onResize()">
+    <div *ngIf="playerBuffering" id="buffering-div">
+        <mat-spinner></mat-spinner>
+        <p id="buffering-text">Player is loading</p>
+    </div>
     <div [style.display]="playerLoading ? 'none': 'block'" id="player"></div>
 </div>
 
-<div *ngIf="playerLoading" id="spinner-div">
+<div *ngIf="playerLoading" id="loading-div">
     <mat-spinner></mat-spinner>
     <p id="loading-text">Player is loading</p>
 </div>

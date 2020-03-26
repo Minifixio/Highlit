@@ -142,7 +142,7 @@ exports.readDemo = function readDemo(demofileInput) {
                 // ...it is just to make sure it does not happen...
                 if (roundId !== lastRoundId) {  
 
-                    if (Math.abs(lastRoundId - roundId) >= 15) {
+                    if (Math.abs(lastRoundId - roundId) >= 14) {
                         roundId = lastRoundId + 1;
                     }
 
@@ -154,7 +154,7 @@ exports.readDemo = function readDemo(demofileInput) {
                     }
 
                     socketManager.socketEmit('select-map', {type: 'parsing', params: roundId});
-                    //logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
+                    logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
     
                     let multipleKills = computeMultiKills(roundKills);
             

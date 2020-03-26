@@ -20,6 +20,7 @@ const logger = new debugManager.logger("DemoManager");
 const writeFile = util.promisify(fs.writeFile);
 const unlink = util.promisify(fs.unlink);
 const mkdir = util.promisify(fs.mkdir);
+const rmdir = util.promisify(fs.rmdir);
 
 exports.addMatchInfos = async function addMatchInfos(matchId) {
     logger.debug("Adding match")
@@ -41,7 +42,7 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
 exports.updateMatchInfos = async function updateMatchInfos(matchId) {
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
-        logger.debug(hltvInfos);
+        
         if (hltvInfos == 'demos_not_available') {
             resolve('demos_not_available');
         } 
@@ -59,7 +60,7 @@ exports.updateMatchInfos = async function updateMatchInfos(matchId) {
 
 exports.findMatchInfos = async function findMatchInfos(matchId, mapNumber) {
     return new Promise (async(resolve) => {
-        let path = `./matches/${matchId}`;
+        let path = await findMatchPath(matchId);
         const matchJSONfile = require(`${path}/${matchId}-map${mapNumber}.json`);
         const twitchJSONfile = require(`${path}/twitch_infos.json`);
 
@@ -89,11 +90,9 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
         await dbManager.updateMapStatus(matchId, 0, 'downloading');
         await dbManager.updateMatchStatus(matchId, 2);
 
-        let path = `./matches/${matchId}`;
+        let path = await findMatchPath(matchId);
         var file_url = 'http://www.hltv.org/download/demo/' + demoId;
-        if (!fs.existsSync(path)) {
-            await mkdir(path);
-        }
+
         var out = fs.createWriteStream(`${path}/${matchId}.rar`);
     
         var contentLength;
@@ -135,12 +134,12 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
     return new Promise (async(resolve) => {
         await dbManager.updateMapStatus(matchId, mapNumber, 'parsing');
         logger.debug('Parsing demo for match ' + matchId + ' map ' + mapNumber);
-        let path = `./matches/${matchId}`;
+        let path = await findMatchPath(matchId);
         const readdir = util.promisify(fs.readdir);
         var result = await (await readdir(`${path}/dem`)).filter(file => file.includes('.dem'));
         var map = '';
     
-        if (mapNumber == 1) { // If there is only one map
+        if (mapNumber == 1 && result.length == 1) { // If there is only one map
             map = result[0]; 
         } else {
             let scope = `-m${mapNumber}-`;
@@ -154,18 +153,29 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
         var roundInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
 
         // TODO : Make a function to test if twitch comments are available or no
-        roundInfos = await twitchManager.calculateTwitchRating(roundInfos, matchId, mapNumber);
+        roundInfos = await twitchManager.calculateTwitchRating(roundInfos, path, mapNumber);
 
         await makeMatchJSONfile(matchId, mapNumber, roundInfos);
         await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
         await unlink(`${path}/dem/${map}`); // Delete dem file
+
+        if (result.length == 1) {
+            let leftFiles = await readdir(`${path}/dem/`);
+
+            leftFiles.forEach(async(f) => {
+                await unlink(`${path}/dem/${f}`);
+            });
+
+            await rmdir(`${path}/dem`);
+        }
+
         resolve(1);
     })
 }
 
 async function makeMatchJSONfile(matchId, mapNumber, roundInfos) {
-    return new Promise((resolve) => {
-        let path = `./matches/${matchId}`;
+    return new Promise(async(resolve) => {
+        let path = await findMatchPath(matchId);
         const output = JSON.stringify(roundInfos);
         writeFile(`${path}/${matchId}-map${mapNumber}.json`, output, 'utf8').then(() => {
             logger.debug('Match JSON created for match ' + matchId + ' map n°' + mapNumber);
@@ -186,7 +196,7 @@ async function makeTwitchJSONfile(matchId, links, mapsCount) {
            }
         }
 
-        let path = `./matches/${matchId}`;
+        let path = await findMatchPath(matchId);
         if (!fs.existsSync(path)) {
             await mkdir(path);
         }
@@ -195,5 +205,49 @@ async function makeTwitchJSONfile(matchId, links, mapsCount) {
             logger.debug('Twitch JSON created');
             resolve(1);
         });
+    })
+}
+
+async function findMatchPath(matchId) {
+    return new Promise(async(resolve) => {
+        let date = new Date(await dbManager.findMatchDate(matchId));
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+    
+        let path = `./matches/${year}`;
+    
+        if (!fs.existsSync(path)) {
+            await mkdir(path);
+        }
+    
+        path = `./matches/${year}/${month}`;
+    
+        if (!fs.existsSync(path)) {
+            await mkdir(path);
+        }
+    
+        path = `./matches/${year}/${month}/${day}`;
+    
+        if (!fs.existsSync(path)) {
+            await mkdir(path);
+        }
+
+        path = `./matches/${year}/${month}/${day}/${matchId}`;
+    
+        if (!fs.existsSync(path)) {
+            await mkdir(path);
+        }
+    
+        resolve(path);
+    })
+}
+
+exports.makeFoldersMigration = async function makeFoldersMigration() {
+    let matches = await dbManager.getAllMatches();
+
+    matches.forEach(async(match) => {
+        await findMatchPath(match.match_id)
     })
 }

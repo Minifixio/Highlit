@@ -64,9 +64,8 @@ async function getTwitchComments(videoId, clipStartTime, clipEndTime) {
     });
   }
 
-exports.calculateTwitchRating = async function calculateTwitchRating(roundInfos, matchId, mapNumber) {
-    return new Promise(async (resolve, reject) => {
-        let path = `./matches/${matchId}`;
+exports.calculateTwitchRating = async function calculateTwitchRating(roundInfos, path, mapNumber) {
+    return new Promise(async (resolve) => {
         const twitchJSONfile = require(`${path}/twitch_infos.json`);
         let roundsRating = [];
     

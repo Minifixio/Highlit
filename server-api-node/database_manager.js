@@ -120,7 +120,7 @@ exports.getMapsInfos = async function getMapsInfos(matchId) {
 
 exports.getMatchInfos = async function getMatchInfos(matchId) {
     return new Promise((resolve) => {
-        const matchAllInfosQuery = "SELECT * FROM match WHERE id = ?";
+        const matchAllInfosQuery = "SELECT * FROM match WHERE match_id = ?";
         matchesDB.get(matchAllInfosQuery, [matchId], (err, row) => {
             logger.debug("Match " + matchId + " infos ", row);
             resolve(row);
@@ -280,6 +280,24 @@ exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
         const undownloadedQuery = "SELECT match_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
         matchesDB.get(undownloadedQuery, (err, row) => {
             resolve(row.match_id)
+        })
+    })
+}
+
+exports.findMatchDate = async function findMatchDate(matchId) {
+    return new Promise((resolve) => {
+        const dateQuery = "SELECT date FROM match WHERE match_id = ?";
+        matchesDB.get(dateQuery, [matchId], (err, row) => {
+            resolve(row.date);
+        })
+    })
+}
+
+exports.getAllMatches = async function getAllMatches() {
+    return new Promise((resolve) => {
+        const dateQuery = "SELECT * FROM match";
+        matchesDB.all(dateQuery, (err, row) => {
+            resolve(row);
         })
     })
 }

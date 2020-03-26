@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { interval } from 'rxjs';
 declare const Twitch: any;
 
 @Component({
@@ -13,6 +14,7 @@ export class TwitchPlayerComponent implements OnInit {
 
   twitchPlayer: any;
   playerLoading = false;
+  playerBuffering = false;
 
   constructor() { }
 
@@ -41,7 +43,20 @@ export class TwitchPlayerComponent implements OnInit {
 
   seekTo(timestamp) {
     this.twitchPlayer.pause();
+    const currentTime = this.twitchPlayer.getCurrentTime();
     this.twitchPlayer.seek(timestamp);
+    this.twitchPlayer.play();
+
+    const loadingInterval = interval(500);
+    const testLoading = loadingInterval.subscribe(() => {
+      if (currentTime === this.twitchPlayer.getCurrentTime()) {
+        this.playerBuffering = true;
+      } else {
+        this.playerBuffering = false;
+        testLoading.unsubscribe();
+      }
+    });
+
   }
 
   getCurrentTime() {

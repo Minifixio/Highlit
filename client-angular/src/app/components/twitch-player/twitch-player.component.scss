@@ -1,4 +1,4 @@
-#spinner-div {
+#loading-div {
     display: flex;
     position: absolute;
     top: 50%;
@@ -16,7 +16,26 @@
     position: fixed;
 }
 
+#buffering-text {
+    font-size: 150%;
+    font-weight: 300;
+    margin-top: 70px;
+    position: fixed;
+    color: white; 
+}
+
 #player-div {
     display: flex;
     justify-content: center;
+}
+
+#buffering-div {
+    display: flex;
+    position: absolute;
+    top: 40%;
+    left: 58%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
 }
