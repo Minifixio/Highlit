@@ -4,6 +4,9 @@ import { TwitchPlayerComponent } from '../twitch-player/twitch-player.component'
 import { TwitchService } from 'src/app/services/twitch.service';
 import { GameInfos } from 'src/app/services/models/GameInfos';
 import { RoundInfo } from 'src/app/services/models/RoundInfo';
+import { HttpService } from 'src/app/services/http.service';
+import { Router } from '@angular/router';
+import { RoundTimelineComponent } from '../round-timeline/round-timeline.component';
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 
 @Component({
@@ -19,33 +22,47 @@ export class MatchTimelineComponent implements OnInit {
   @ViewChild('twitchPlayer', {static: true})
   twitchPlayer: TwitchPlayerComponent;
 
+  @ViewChild('roundTimeline', {static: true})
+  roundTimeline: RoundTimelineComponent;
+
   startVideoTime: number;
   gameInfos: GameInfos;
   roundInfos: RoundInfo[];
   videoId: number;
   displayClipList = false;
   openPanel = true;
-  roundId = 'Select a round to play !';
+  roundId: number;
+  playerLoading: boolean;
 
   roundDisplayedInfos: RoundTimelineInfos;
 
   constructor(
-    private twitchService: TwitchService
+    private twitchService: TwitchService,
+    private httpService: HttpService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.gameInfos = this.twitchService.gameInfos;
-    console.log(this.gameInfos);
-    this.roundInfos = this.gameInfos.roundInfos;
-    this.videoId = this.gameInfos.videoId;
-    this.startVideoTime = this.gameInfos.startVideoTime;
-    this.loadClips();
-    this.twitchPlayer.displayTwitchVideo(this.videoId, this.startVideoTime);
+    if (this.twitchService.gameInfos) {
+      this.gameInfos = this.twitchService.gameInfos;
+      this.roundInfos = this.gameInfos.roundInfos;
+      this.videoId = this.gameInfos.videoId;
+      this.startVideoTime = this.gameInfos.startVideoTime;
+      this.playerLoading = true;
+
+      this.loadClips();
+      this.twitchPlayer.displayTwitchVideo(this.videoId, this.startVideoTime).then(() => {
+        this.playerLoading = false;
+      });
+    } else {
+      this.router.navigate(['/match-selection']);
+    }
   }
 
   async loadClips() {
     this.displayClipList = true;
     console.log(this.roundInfos);
+
     this.roundInfos.forEach((item, index) => {
       if (item.round_number !== 0) { // Syncing timings from Twitch Video and match timings
         if (item.round_number === 1) { // Don't add buy time for 1st round
@@ -79,5 +96,24 @@ export class MatchTimelineComponent implements OnInit {
 
   updateRoundTimeline(roundInfos) {
     this.roundDisplayedInfos = roundInfos;
+  }
+
+  async reportIssue(errorId: number) {
+    let errorMessage: string;
+    switch (errorId) {
+      case 1:
+        errorMessage = 'Wrong twitch stream';
+        break;
+      case 2:
+        errorMessage = 'Incorrect round timings';
+        break;
+      case 3:
+        errorMessage = 'Multikills are wrong';
+        break;
+      case 4:
+        errorMessage = 'Other';
+        break;
+    }
+    await this.httpService.post('mail', {type: 'error', match_id: this.gameInfos.matchId, message: errorMessage}).toPromise();
   }
 }

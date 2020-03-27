@@ -23,20 +23,23 @@ export class TwitchPlayerComponent implements OnInit {
   }
 
   displayTwitchVideo(videoId, startTime) {
-    this.playerLoading = true;
-    const options = {
-      width: window.innerWidth * 0.8,
-      height: window.innerHeight,
-      video: videoId
-    };
-    this.twitchPlayer = new Twitch.Player('player', options);
-    this.twitchPlayer.addEventListener(Twitch.Player.PLAYING, () => {
-      if (this.playerLoading === true) {
-        this.playerLoading = false;
-        setTimeout(() => {
-          this.seekTo(startTime);
-        }, 1000);
-      }
+    return new Promise((resolve) => {
+      this.playerLoading = true;
+      const options = {
+        width: window.innerWidth * 0.8,
+        height: window.innerHeight * 0.95,
+        video: videoId
+      };
+      this.twitchPlayer = new Twitch.Player('player', options);
+      this.twitchPlayer.addEventListener(Twitch.Player.PLAYING, () => {
+        if (this.playerLoading === true) {
+          this.playerLoading = false;
+          setTimeout(() => {
+            this.seekTo(startTime);
+            resolve();
+          }, 1000);
+        }
+      });
     });
   }
 

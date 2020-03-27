@@ -16,6 +16,7 @@ var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
 var twitchManager = require("./twitch_manager.js");
+var mailManager = require("./mail_manager.js");
 var debugManager = require("./debug_manager.js");
 const logger = new debugManager.logger("Http");
 
@@ -83,7 +84,16 @@ app.post('/v1/maps', async function(req, res) {
 });
 
 app.get('/v1/refresh', async function() {
-    hltvManager.getLastMatches();
+    await hltvManager.getLastMatches();
+});
+
+app.post('/v1/mail', function(req, res) {
+    if (req.body.type == 'error') {
+        let matchId = req.body.match_id;
+        let error = req.body.message;
+        mailManager.mailError(matchId, error);
+    }
+    res.json(true);
 });
 
 http.listen(3000, function () {

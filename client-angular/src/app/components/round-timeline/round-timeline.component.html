@@ -1,0 +1,14 @@
+<div id="timeline-div">
+
+    <mat-icon id="start-icon">keyboard_arrow_left</mat-icon>
+    <div [ngStyle]="computeStyle()" id="timeline-line"></div>
+    <div id="kill-container-div">
+        <div id="kill-div" *ngFor="let kill of roundInfos.kills">
+            <div [ngStyle]="computeStyle()" id="timeline-line"></div>
+            <mat-icon matTooltip="{{kill.attackerName}}" class="grow" id="kill-icon">adjust</mat-icon>
+            <div [ngStyle]="computeStyle()" id="timeline-line"></div>
+        </div>
+    </div>
+    <div [ngStyle]="computeStyle()" id="timeline-line"></div>
+    <mat-icon id="start-icon">keyboard_arrow_right</mat-icon>
+</div>

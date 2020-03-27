@@ -2,11 +2,13 @@ import { MultiKill } from './MultiKill';
 import { Kill } from './Kill';
 
 export interface RoundTimelineInfos {
-    killsCount: number;
+    round: number;
+    kills: Kill[];
     duration: number;
-    aces: Kill[];
-    tripleKills: Kill[];
-    quadKills: Kill[];
+    roundStartTime: number;
+    aces: MultiKill[];
+    tripleKills: MultiKill[];
+    quadKills: MultiKill[];
     twitchRating: number;
     isTerrorist: boolean;
 }

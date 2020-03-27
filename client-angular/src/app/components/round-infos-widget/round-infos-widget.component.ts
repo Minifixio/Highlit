@@ -21,6 +21,7 @@ export class RoundInfosWidgetComponent implements OnInit {
   @Input() twitchRating: number;
   @Input() multipleKills: MultiKill[];
   @Input() kills: Kill[];
+  @Input() startVideoTime: number;
 
   @Output() multiKillEvent = new EventEmitter<number>();
   @Output() roundDisplayedInfos = new EventEmitter<RoundTimelineInfos>();
@@ -69,8 +70,10 @@ export class RoundInfosWidgetComponent implements OnInit {
 
   sendRoundInfos() {
     const response = {
-      killsCount: this.killsCount,
+      round: this.roundId,
+      kills: this.kills,
       duration: this.endClipTime - this.startClipTime,
+      roundStartTime: this.startClipTime - this.startVideoTime,
       aces: this.aces,
       tripleKills: this.tripleKills,
       quadKills: this.quadKills,

@@ -64,12 +64,16 @@ export class MatchSelectionComponent implements OnInit {
   }
 
   async hltvLinkAdded() {
-    const matchId = this.twitchService.parseHltvLink(this.inputLink);
-    await this.httpService.post('add-match', {match_id: matchId}).toPromise();
-    this.mapSocket = this.sockets.subscribeToSocket('select-map');
-    this.mapSocket.subscribe(info => {
-      this.loadingStatus(info);
-    });
+    if (this.isLinkCorrect(this.inputLink)) {
+      const matchId = this.twitchService.parseHltvLink(this.inputLink);
+      await this.httpService.post('add-match', {match_id: matchId}).toPromise();
+      this.mapSocket = this.sockets.subscribeToSocket('select-map');
+      this.mapSocket.subscribe(info => {
+        this.loadingStatus(info);
+      });
+    } else {
+      this.showErrorToast('Please add a croorect match link. The link must come from HLTV\'s results page', null);
+    }
   }
 
   async selectMap(mapInfos) {
@@ -200,7 +204,15 @@ export class MatchSelectionComponent implements OnInit {
 
   showErrorToast(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
     });
+  }
+
+  isLinkCorrect(link: string) {
+    if (link.includes('www.hltv.org/matches/')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

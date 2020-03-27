@@ -11,6 +11,7 @@
                 totalRounds={{roundInfos?.length}}
                 videoId={{videoId}}
                 twitchRating={{roundInfo.twitch_rating}}
+                startVideoTime={{startVideoTime}}
                 [kills]="roundInfo.kills"
                 [multipleKills]=roundInfo.multipleKills
                 (multiKillEvent)="twitchSeekTo($event, 0)"
@@ -20,6 +21,20 @@
     </div>
 
     <div class="twitch-player-container">
+        <mat-card id="top-infos-card" *ngIf="!playerLoading">
+            <p *ngIf="!roundId">Select a round on the left panel !</p>
+            <p id="round-number-text" *ngIf="roundId"><b>KILLS</b></p>
+
+            <app-round-timeline id="round-timeline" #roundTimeline *ngIf="roundDisplayedInfos" [roundInfos]="roundDisplayedInfos"></app-round-timeline>
+
+            <button id="issue-button" mat-button [matMenuTriggerFor]="menu">Report an issue</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="reportIssue(1)">Wrong twitch stream</button>
+                <button mat-menu-item (click)="reportIssue(2)">Incorrect round timings</button>
+                <button mat-menu-item (click)="reportIssue(3)">Multikills are wrong</button>
+                <button mat-menu-item (click)="reportIssue(4)">Other</button>
+            </mat-menu>
+        </mat-card>
         <app-twitch-player #twitchPlayer startVideoTime={{startVideoTime}}></app-twitch-player>
     </div>
 </div>

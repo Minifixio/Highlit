@@ -73,6 +73,7 @@ exports.findMatchInfos = async function findMatchInfos(matchId, mapNumber) {
         const twitchLinkParsed = hltvManager.parseTwitchLink(twitchLink);
 
         const response = {
+            matchId: matchId,
             videoId: twitchLinkParsed.videoId,
             startVideoTime: twitchLinkParsed.startVideoTime,
             roundInfos: matchJSONfile

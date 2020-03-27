@@ -66,3 +66,4 @@ server-api-node/database/
 server-api-node/moveScript.sh
 server-api-node/tests.txt
 server-api-node/deleteScript.sh
+server-api-node/credentials.js
