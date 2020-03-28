@@ -108,18 +108,20 @@ var job = new CronJob('*/30 * * * *', async function() {
     await hltvManager.getLastMatches();
     let matchId = await dbManager.lastUndownloadedMatch();
 
-    if ((await dbManager.matchHasDemos(matchId)) == false) {
-        await demoManager.updateMatchInfos(matchId);
-    }
-
-    if ((await dbManager.isMatchDowloaded(matchId)) == false) {
-        await demoManager.dowloadDemos(matchId);
-    }
-
-    let mapsCount = await dbManager.countMaps(matchId);
-
-    for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
-        await demoManager.parseDemo(matchId, mapId);
+    if (matchId !== 0) {
+        if ((await dbManager.matchHasDemos(matchId)) == false) {
+            await demoManager.updateMatchInfos(matchId);
+        }
+    
+        if ((await dbManager.isMatchDowloaded(matchId)) == false) {
+            await demoManager.dowloadDemos(matchId);
+        }
+    
+        let mapsCount = await dbManager.countMaps(matchId);
+    
+        for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
+            await demoManager.parseDemo(matchId, mapId);
+        }
     }
 });
 

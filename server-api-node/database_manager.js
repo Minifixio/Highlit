@@ -279,7 +279,11 @@ exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
     return new Promise(async (resolve) => {
         const undownloadedQuery = "SELECT match_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
         matchesDB.get(undownloadedQuery, (err, row) => {
-            resolve(row.match_id)
+            if (row) {
+                resolve(row.match_id);
+            } else {
+                resolve([]);
+            }
         })
     })
 }
