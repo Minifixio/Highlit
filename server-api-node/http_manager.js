@@ -110,7 +110,11 @@ var job = new CronJob('*/30 * * * *', async function() {
 
     if (matchId !== 0) {
         if ((await dbManager.matchHasDemos(matchId)) == false) {
-            await demoManager.updateMatchInfos(matchId);
+            let update = await demoManager.updateMatchInfos(matchId);
+
+            if (update == 'demos_not_available' || update == 'match_not_available') {
+                return false;
+            }
         }
     
         if ((await dbManager.isMatchDowloaded(matchId)) == false) {

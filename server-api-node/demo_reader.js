@@ -24,6 +24,17 @@ exports.readDemo = function readDemo(demofileInput) {
         fs.readFile(demofileInput, (err, buffer) => {
             const demoFile = new demofile.DemoFile();
 
+            demoFile.on("end", ()=> {
+                makeRoundStats();
+                logger.debug('Match Ended !');
+                resolve(matchInfos);
+                demoFile.cancel();
+            });
+
+
+            /**
+             * Handle teams tac/tec pauses
+             */
             demoFile.entities.on("change", e => {
                 if (
                   e.tableName == "DT_VoteController" &&
@@ -45,37 +56,62 @@ exports.readDemo = function readDemo(demofileInput) {
                 }
             });
 
+
+            /**
+             * When a rounds starts
+             */
             demoFile.gameEvents.on("round_start", () => {
                 // To set the time reference to 0 when the match starts
-                if (roundId == 0) {
-                    timeReference = demoFile.currentTime + 15;
+                const teams = demoFile.teams;
+                const terrorists = teams[2];
+                const cts = teams[3];
+
+                if (terrorists.score + cts.score == 0) {
+                    logger.debug('Match is STARTING !');
+                    timeReference = demoFile.currentTime;
+                    lastRoundId = 0;
+                    lastRoundTime = 0;
+                    matchInfos = []; // Reset round match infos
                 }
 
                 roundKills = []; // Reset kills when the round starts
             })
     
+
+            /**
+             * This events triggers when : match starts, teams change sides, match ends
+             */
             demoFile.gameEvents.on("round_announce_match_start", () => {
                 /*
                 * In some special demos (as ESEA), post-game phase or event game-end isn't working...
                 * ...but "round_announce_match_start" seems to trigger when sides are switching and when match ends.
                 */
-                if (roundId == 15) { 
+                const teams = demoFile.teams;
+                const terrorists = teams[2];
+                const cts = teams[3];
+                
+                if (terrorists.score + cts.score == 15) { 
                     logger.debug('Changing sides');
                 }
-                if (roundId > 15) {
+                if (terrorists.score + cts.score > 15) {
                     logger.debug('Match has ENDED');
                     resolve(matchInfos);
                     demoFile.cancel();
                 } 
-                if (roundId < 15 && roundId > 1) {
+                if (terrorists.score + cts.score == 0) {
                     logger.debug('Match is STARTING !');
                     lastRoundTime = 0;
+                    lastRoundId = 0;
                     roundKills = [];
                     matchInfos = [];
                     timeReference = demoFile.currentTime;
                 }
             });    
     
+
+            /**
+             * Handle deaths
+             */
             demoFile.gameEvents.on("player_death", e => {
                 var killInfos = {}; // Store kills infos
                 const victim = demoFile.entities.getByUserId(e.userid);
@@ -92,8 +128,14 @@ exports.readDemo = function readDemo(demofileInput) {
                 roundKills.push(killInfos);
             });
 
+
+            /**
+             * Event triggers when : bomb is defused, all players are killed or when the timer reached the end.
+             */
             demoFile.gameEvents.on("round_end", e => {
                 const teams = demoFile.teams;
+                const terrorists = teams[2];
+                const cts = teams[3];
 
                 // For later : add reason for ending
                 if (e.winner == 2) { // id n°2 means terrorists
@@ -109,14 +151,19 @@ exports.readDemo = function readDemo(demofileInput) {
                     };
                 }
 
-                if (demoFile.gameRules.phase == 'postgame') { // If we enter postgame, then the match will end
+
+                /**if (demoFile.gameRules.phase == 'postgame') { // If we enter postgame, then the match will end
                     makeRoundStats();
                     logger.debug('Postgame phase');
                     resolve(matchInfos);
                     demoFile.cancel();
-                }
+                }**/
             });
             
+
+            /**
+             * Event triggers when a round officially ends (when the round officially stops)
+             */
             demoFile.gameEvents.on("round_officially_ended", () => {
                 const teams = demoFile.teams;
                 const terrorists = teams[2];

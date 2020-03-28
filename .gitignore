@@ -67,3 +67,5 @@ server-api-node/moveScript.sh
 server-api-node/tests.txt
 server-api-node/deleteScript.sh
 server-api-node/credentials.js
+backups/database-28-03-2020.db
+server-api-node/demo_readerV2.js
