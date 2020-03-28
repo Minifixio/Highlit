@@ -282,7 +282,7 @@ exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
             if (row) {
                 resolve(row.match_id);
             } else {
-                resolve([]);
+                resolve(0);
             }
         })
     })
