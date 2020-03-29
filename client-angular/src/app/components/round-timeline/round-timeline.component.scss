@@ -25,6 +25,18 @@
     cursor: pointer;
 }
 
+#kill-img {
+    position: relative;
+    width: 40px;
+    top: 10px;
+}
+
+#kill-img-div {
+    display: flex;
+    justify-content: center;
+    width: 30px;
+}
+
 .grow { transition: all .1s ease-in-out; }
 .grow:hover { transform: scale(0.9); }
 

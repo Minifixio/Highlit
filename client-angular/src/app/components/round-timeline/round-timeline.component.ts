@@ -21,7 +21,7 @@ export class RoundTimelineComponent implements OnInit {
 
   computeStyle() {
     let style = {
-      'width': ((((this.lineWidth * 0.95)/ this.roundInfos.kills.length)) / 2) - (26 / this.roundInfos.kills.length) - ((0.05 * this.lineWidth) / (this.roundInfos.kills.length))  + 'px',
+      'width': ((((this.lineWidth * 0.95)/ this.roundInfos.kills.length)) / 2) - (40 / this.roundInfos.kills.length) - ((0.05 * this.lineWidth) / (this.roundInfos.kills.length))  + 'px',
     };
     return style;
   }

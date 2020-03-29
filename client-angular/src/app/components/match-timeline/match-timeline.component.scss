@@ -93,11 +93,14 @@
     display: flex;
     flex-direction: row;
     height: 20px;
+    background-color: #292929;
 }
 
 #round-timeline {
+    position: relative;
     width: 100%;
     margin-left: 5%;
+    bottom: 2px;
 }
 
 #round-number-text {

@@ -30,7 +30,6 @@ export class MatchTimelineComponent implements OnInit {
   roundInfos: RoundInfo[];
   videoId: number;
   displayClipList = false;
-  openPanel = true;
   roundId: number;
   playerLoading: boolean;
 
@@ -75,7 +74,7 @@ export class MatchTimelineComponent implements OnInit {
       if (item.multipleKills) { // Same for multi kills
         item.multipleKills.forEach(multi => {
           multi.kills.forEach(kill => {
-            kill.time += this.startVideoTime;
+            kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
           });
         });
       }
@@ -86,7 +85,6 @@ export class MatchTimelineComponent implements OnInit {
     if (roundId !== 0) {
       this.roundId = roundId;
     }
-    this.openPanel = false;
     this.twitchPlayer.seekTo(timestamp);
   }
 
@@ -96,6 +94,7 @@ export class MatchTimelineComponent implements OnInit {
 
   updateRoundTimeline(roundInfos) {
     this.roundDisplayedInfos = roundInfos;
+    this.roundId = roundInfos.round;
   }
 
   async reportIssue(errorId: number) {

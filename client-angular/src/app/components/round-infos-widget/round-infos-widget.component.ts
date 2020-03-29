@@ -66,6 +66,7 @@ export class RoundInfosWidgetComponent implements OnInit {
 
   sendClipTime(timestamp) {
     this.multiKillEvent.emit(timestamp);
+    this.sendRoundInfos();
   }
 
   sendRoundInfos() {
