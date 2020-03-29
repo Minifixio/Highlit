@@ -1,0 +1,35 @@
+#about-button {
+    position: absolute;
+    font-size: 20px;
+    right: 10px;
+}
+
+#main-title {
+    font-variant: all-small-caps;
+    font-size: 50px;
+    margin-right: 10px;
+}
+
+#menu-toolbar {
+    height: 80px;
+}
+
+#title-div {
+    margin: auto;
+    display: flex;
+    align-self: baseline;
+}
+
+#title-icon {
+    font-size: 50px;
+    position: relative;
+    bottom: 10px;
+}
+
+#match-selection-icon {
+    font-size: 40px;
+    position: relative;
+    bottom: 10px;
+    margin: 10px 20px 10px 0;
+    cursor: pointer;
+}

@@ -31,6 +31,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from './components/twitch-player/twitch-player.component';
@@ -40,6 +41,7 @@ import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos
 import { MatNativeDateModule } from '@angular/material/core';
 import { AboutComponent } from './components/about/about.component';
 import { RoundTimelineComponent } from './components/round-timeline/round-timeline.component';
+import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { RoundTimelineComponent } from './components/round-timeline/round-timeli
     MatchInfosWidgetComponent,
     MapInfosWidgetComponent,
     AboutComponent,
-    RoundTimelineComponent
+    RoundTimelineComponent,
+    MenuBarComponent
   ],
   imports: [
     FormsModule,
@@ -82,7 +85,8 @@ import { RoundTimelineComponent } from './components/round-timeline/round-timeli
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
-    
+    MatSlideToggleModule,
+
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

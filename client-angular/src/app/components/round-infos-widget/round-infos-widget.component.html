@@ -43,7 +43,10 @@
 
         <mat-chip-list *ngIf="killsCount <= 8 && quadKills.length === 0 && aces.length === 0 && tripleKills.length === 0">
             <mat-chip class="multi-kills-chip" [style.background-color]="isTerrorist? '#ccba7c': '#5d79ae'" selected>
-                <p [style.color]="isTerrorist? '#424242': 'white'" class="kills-text">{{killsCount}} kills</p>
+                <div id="kill-img-div">
+                    <img id="kill-img" mat-card-image src="../../../assets/img/skull.png">
+                </div>
+                <p id="basic-kills-text">x {{killsCount}}</p>
             </mat-chip>
         </mat-chip-list>
 

@@ -34,7 +34,6 @@
     font-weight: 700;
 }
 
-
 #multiple-kills-text {
     font-size: 13px;
     margin-left: 8px;
@@ -48,6 +47,23 @@
 
 #lot-of-kill-chip {
     background-color: #0aa700;
+}
+
+#kill-img {
+    position: relative;
+    width: 35px;
+    top: 10px;
+}
+
+#kill-img-div {
+    width: 20px;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+#basic-kills-text {
+    margin:0;
+    font-size: 20px;
 }
 
 .mat-card>:first-child {
@@ -81,6 +97,7 @@
 }
 
 .twitch-hype-chip {
+    border-radius: 15px;
     min-height: 20px;
     background-color: #424242;
 }
@@ -99,4 +116,8 @@
 
 .mat-card {
     padding: 7px;
+}
+
+.mat-chip {
+    border-radius: 8px;
 }

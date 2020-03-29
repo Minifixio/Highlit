@@ -9,6 +9,7 @@ import { SocketsService } from 'src/app/services/sockets.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MapInfosWidgetComponent } from '../map-infos-widget/map-infos-widget.component';
 import { MapInfo } from 'src/app/services/models/MapInfo';
+import { MenuBarComponent } from '../menu-bar/menu-bar.component';
 
 interface MatchPerDate {
   date: string;
@@ -27,6 +28,9 @@ export class MatchSelectionComponent implements OnInit {
 
   @ViewChild('selectMapWidget', {static: true})
   selectMapWidget: MapInfosWidgetComponent;
+
+  @ViewChild('menuBar', {static: true})
+  menuBar: MenuBarComponent;
 
   inputLink: string;
   loading = false;

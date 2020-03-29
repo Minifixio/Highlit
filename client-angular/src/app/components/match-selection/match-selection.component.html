@@ -1,10 +1,7 @@
-<mat-toolbar>
-    <span>Match selection</span>
-    <button routerLink="/about" id="about-button" mat-button>About</button>
-</mat-toolbar>
+<app-menu-bar id="menu-bar" #menuBar></app-menu-bar>
 
 <div id="main-page" *ngIf="!loading">
-    <div id="match-container-div">
+    <div id="last-match-div">
         <mat-expansion-panel id="add-panel">
             <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -48,6 +45,22 @@
             </div>
         </div>
     </div>
+
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
 </div>
 
 <div *ngIf="loading" id="loading-div">
@@ -55,5 +68,4 @@
     <mat-label *ngIf="downloadPercentage !== 0">Download percentage : {{downloadPercentage}} %</mat-label>
     <mat-label *ngIf="parsingRound !== 0">Parsing round n° {{parsingRound}}</mat-label>
 </div>
-
 
