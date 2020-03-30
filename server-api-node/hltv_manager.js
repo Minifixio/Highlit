@@ -73,21 +73,37 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
     const timeCode = twitchLink.slice(scope + 3);
 
     if(timeCode.includes('h') && timeCode.includes('m') && timeCode.includes('s')) {
-        var hour = timeCode.split('h')[0];
+        var hours = timeCode.split('h')[0];
         var minutes = timeCode.split('m')[0].split('h')[1];
         var seconds = timeCode.split('m')[1].slice(0, -1);
     }
-    if(timeCode.includes('m') && timeCode.includes('s')) {
-        hour = 0;
+    if(timeCode.includes('m') && timeCode.includes('s') && !timeCode.includes('h')) {
+        hours = 0;
         minutes = timeCode.split('m')[0];
         seconds = timeCode.split('m')[1].slice(0, -1);
     } 
-    if (timeCode.includes('h') && timeCode.includes('s')) {
+    if (timeCode.includes('h') && timeCode.includes('s') && !timeCode.includes('m')) {
         minutes = 0;
-        hour = timeCode.split('h')[0];
+        hours = timeCode.split('h')[0];
         seconds = timeCode.split('h')[1].slice(0, -1);
     }
+    if (timeCode.includes('h') && timeCode.includes('m') && !timeCode.includes('s')) {
+        seconds = 0;
+        hours = timeCode.split('h')[0];
+        minutes = timeCode.split('h')[1].slice(0, -1);
+    }
+    if (timeCode.includes('h') && !timeCode.includes('m') && !timeCode.includes('s')) {
+        seconds = 0;
+        minutes = 0;
+        hours = timeCode.split('h')[0];
+    }
+    if (timeCode.includes('m') && !timeCode.includes('h') && !timeCode.includes('s')) {
+        seconds = 0;
+        hours = 0;
+        minutes = timeCode.split('m')[0];
+    }
 
+    console.log(hours, minutes, seconds)
     const pattern = 'video=v';
     const pos = twitchLink.indexOf(pattern) + pattern.length;
     var videoId = '';
@@ -100,7 +116,7 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
         }
     }
     // Start of the match in seconds. Minus 10 seconds because Twitch stream usually starts at 1:50
-    const startVideoTime = ((+hour) * 60 * 60 + (+minutes) * 60 + (+seconds)) - 10;
+    const startVideoTime = ((+hours) * 60 * 60 + (+minutes) * 60 + (+seconds)) - 10;
 
     var twitchInfos = {
         videoId: videoId,
