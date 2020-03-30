@@ -2,6 +2,7 @@
 <mat-expansion-panel (opened)="getMaps()">
     <mat-expansion-panel-header>
             <mat-panel-title id="card-title">
+                <mat-icon *ngIf="matchInfos.downloaded == 3" id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">cancel</mat-icon>
                 <mat-spinner [diameter]="20" *ngIf="matchInfos.downloaded == 2"></mat-spinner>
                 <mat-icon *ngIf="matchInfos.downloaded == 1" id="downloaded-icon" inline="true" aria-label="Match downloaded">cloud_done</mat-icon>
                 <mat-icon *ngIf="matchInfos.downloaded == 0" id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">cloud_download</mat-icon>
