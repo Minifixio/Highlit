@@ -72,14 +72,21 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
     const scope = twitchLink.indexOf('&t=');
     const timeCode = twitchLink.slice(scope + 3);
 
-    if(timeCode.includes('h')) {
+    if(timeCode.includes('h') && timeCode.includes('m') && timeCode.includes('s')) {
         var hour = timeCode.split('h')[0];
         var minutes = timeCode.split('m')[0].split('h')[1];
-    } else {
-        hour = 0
-        minutes = timeCode.split('m')[0];
+        var seconds = timeCode.split('m')[1].slice(0, -1);
     }
-    var seconds = timeCode.split('m')[1].slice(0, -1);
+    if(timeCode.includes('m') && timeCode.includes('s')) {
+        hour = 0;
+        minutes = timeCode.split('m')[0];
+        seconds = timeCode.split('m')[1].slice(0, -1);
+    } 
+    if (timeCode.includes('h') && timeCode.includes('s')) {
+        minutes = 0;
+        hour = timeCode.split('h')[0];
+        seconds = timeCode.split('h')[1].slice(0, -1);
+    }
 
     const pattern = 'video=v';
     const pos = twitchLink.indexOf(pattern) + pattern.length;
