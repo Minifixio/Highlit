@@ -3,12 +3,12 @@
 <div id="main-page">
     <mat-card>
         <mat-toolbar class="title-toolbar">
-            <span>NAME</span>
+            <span>About Highlit</span>
         </mat-toolbar>
 
         <div class="infos-div">
             <p class="hint-center-text">
-                [Name] allows you to easily rewatch your favorite Counter-Strike professional matches ! Sometimes watching match highlights is quite long. [Name] offers a visual and interactive timeline of the match and let you navigate through the best moments of the match and watch them quickly.
+                <b>Highlit</b> allows you to easily rewatch your favorite Counter-Strike professional matches ! Sometimes watching match highlights is quite long. <b>Highlit</b> offers a visual and interactive timeline of the match and let you navigate through the best moments of the match and watch them quickly.
             </p>
         </div>
 
@@ -58,7 +58,7 @@
                         cloud_download
                     </mat-icon>
                     <p class="download-text">
-                        If the match is downloaded or no
+                        If the <b>match</b> is downloaded or no
                     </p>
                 </div>
 
@@ -70,7 +70,7 @@
                         cloud_download
                     </mat-icon>
                     <p class="download-text">
-                        If the map is downloaded or no
+                        If the <b>map</b> is downloaded or no
                     </p>
                 </div>
             </div>
@@ -87,8 +87,11 @@
                 <div class="multiple-icons-div">
                 <div class="figures-div">
                     <mat-chip-list class="chip-list-kills">
-                        <mat-chip class="multi-kills-chip" selected>
-                            <p class="kills-text">6 kills</p>
+                        <mat-chip id="kills-chip" class="multi-kills-chip" selected>
+                            <div id="kill-img-div">
+                                <img id="kill-img" mat-card-image src="../../../assets/img/skull.png">
+                            </div>
+                            <p class="kills-text">x 6</p>
                         </mat-chip>
                         <mat-chip class="multi-kills-chip" id="lot-of-kill-chip" color="#0aa700" selected>
                             <p class="kills-text">
@@ -98,7 +101,7 @@
                         </mat-chip>
                     </mat-chip-list>
                     <p class="chip-desc-text">
-                        Kills : how many kills during the round
+                        <b>Kills</b> : how many kills during the round
                     </p>
                 </div>
                 <div class="figures-div">
@@ -123,7 +126,7 @@
                         </mat-chip>
                     </mat-chip-list>
                     <p class="chip-desc-text"> 
-                        Aces, quad-kills and triple-kills during the round
+                        <b>Aces, quad-kills and triple-kills</b> during the round
                     </p>
                 </div>
             </div>
@@ -131,14 +134,14 @@
             <div class="figures-div">
                 <mat-chip-list class="twitch-hype-chip-list">
                     <mat-chip class="twitch-hype-chip" selected>
-                        <p class="kills-text">
+                        <p class="twitch-text">
                             <mat-icon inline="true" class='hype-icon'>comment</mat-icon>
                             66 %
                         </p>
                     </mat-chip>
                 </mat-chip-list>
                 <p class="chip-desc-text">
-                    Twitch rating : [Name] computes the amount of twitch comments sent during the duration of the round. A high rating surely means something great happened during the round.
+                    <b>Twitch rating </b>: Highlit computes the amount of twitch comments sent during the duration of the round. A high rating surely means something great happened during the round.
                 </p>
             </div>
 

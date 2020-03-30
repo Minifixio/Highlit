@@ -1,13 +1,18 @@
 #about-button {
-    position: absolute;
     font-size: 20px;
-    right: 10px;
+    right: 5px;
 }
 
-#main-title {
+#main-title-highlit {
     font-variant: all-small-caps;
     font-size: 50px;
     margin-right: 10px;
+}
+
+#main-title-me {
+    font-variant: all-small-caps;
+    font-size: 50px;
+    margin-left: 35px;
 }
 
 #menu-toolbar {
@@ -15,7 +20,20 @@
 }
 
 #title-div {
+    display: flex;
+    flex-direction: column;
     margin: auto;
+    align-items: center;
+}
+
+#title-label {
+    position: relative;
+    bottom: 10px;
+    height: 15px;
+    font-size: 15px;
+}
+
+#title-icon-div {
     display: flex;
     align-self: baseline;
 }
