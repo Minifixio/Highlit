@@ -37,7 +37,6 @@ export class MatchInfosWidgetComponent implements OnInit {
   }
 
   async getMaps() {
-    console.log(this.matchInfos);
     if (!this.mapsInfos) {
       this.loading = true;
       this.mapsInfos = await this.httpService.getMapInfos(this.matchInfos.match_id).toPromise();

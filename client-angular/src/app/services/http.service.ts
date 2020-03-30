@@ -32,7 +32,6 @@ export class HttpService {
   }
 
   post(tag, postParams): Observable<any> {
-    console.log('POST: ', postParams);
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',

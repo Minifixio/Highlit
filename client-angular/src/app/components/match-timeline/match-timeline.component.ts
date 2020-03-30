@@ -60,7 +60,6 @@ export class MatchTimelineComponent implements OnInit {
 
   async loadClips() {
     this.displayClipList = true;
-    console.log(this.roundInfos);
 
     this.roundInfos.forEach((item, index) => {
       if (item.round_number !== 0) { // Syncing timings from Twitch Video and match timings

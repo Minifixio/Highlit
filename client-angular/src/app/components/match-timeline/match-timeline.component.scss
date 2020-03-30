@@ -45,6 +45,12 @@
     margin-left: 15px;
 }
 
+.mat-button-wrapper {
+    position: relative;
+    bottom: 8px;
+    right: 8px;
+}
+
 #ace-kills-chip {
     background-color: #ff1414;
 }
@@ -86,8 +92,14 @@
 }
 
 #issue-button {
-    width: 100%s;
-    bottom: 8px;
+    margin: 0 10px 0 10px;
+    width: fit-content;
+    bottom: 10px;
+}
+
+#back-button {
+    width: fit-content;
+    bottom: 10px;
 }
 
 #top-infos-card {
@@ -100,7 +112,7 @@
 #round-timeline {
     position: relative;
     width: 100%;
-    margin-left: 5%;
+    margin-left: 10px;
     bottom: 2px;
 }
 

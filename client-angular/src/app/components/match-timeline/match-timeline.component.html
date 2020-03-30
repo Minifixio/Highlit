@@ -23,11 +23,19 @@
     <div class="twitch-player-container">
         <mat-card id="top-infos-card" *ngIf="!playerLoading">
             <p *ngIf="!roundId">Select a round on the left panel !</p>
-            <p id="round-number-text" *ngIf="roundId"><b>KILLS</b></p>
 
             <app-round-timeline id="round-timeline" #roundTimeline *ngIf="roundDisplayedInfos" [roundInfos]="roundDisplayedInfos"></app-round-timeline>
 
-            <button id="issue-button" mat-button [matMenuTriggerFor]="menu">Report an issue</button>
+            <button mat-icon-button id="issue-button" [matMenuTriggerFor]="menu">
+                <mat-icon>report</mat-icon>
+                Report an issue
+            </button>
+
+            <button mat-icon-button id="back-button" routerLink="/match-selection">
+                <mat-icon>home</mat-icon>
+                Home
+            </button>
+
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="reportIssue(1)">Wrong twitch stream</button>
                 <button mat-menu-item (click)="reportIssue(2)">Incorrect round timings</button>

@@ -60,7 +60,6 @@ export class MatchSelectionComponent implements OnInit {
     this.currentMatches = [];
     this.listLoading = true;
     this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
-      console.log(res);
       this.matches.push({date: new Date(this.currentDate).toDateString(), matches: res});
       this.currentMatches = res;
       this.listLoading = false;
@@ -82,12 +81,10 @@ export class MatchSelectionComponent implements OnInit {
 
   async selectMap(mapInfos) {
     if (mapInfos.available === 'yes') {
-      console.log('[selectMap] Map is already available');
       const gameInfos = await this.httpService.getGameInfos(mapInfos.match_id, mapInfos.map_number).toPromise();
       this.twitchService.gameInfos = gameInfos;
       this.router.navigate(['/match']);
     } else {
-      console.log('[selectMap] Map is not available');
       this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
       this.mapSocket = this.sockets.subscribeToSocket('select-map');
       this.mapSocket.subscribe(info => {
@@ -97,7 +94,6 @@ export class MatchSelectionComponent implements OnInit {
   }
 
   loadingStatus(loadingInfos) {
-    console.log(loadingInfos);
     switch (loadingInfos.type) {
       case 'starting_download':
         this.loading = true;
@@ -128,7 +124,6 @@ export class MatchSelectionComponent implements OnInit {
         this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
         break;
       case 'game_infos':
-        console.log(loadingInfos.params);
         this.twitchService.gameInfos = loadingInfos.params;
         this.mapSocket.unsubscribe();
         this.router.navigate(['/match']);
