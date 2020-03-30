@@ -113,7 +113,7 @@ var job = new CronJob('*/30 * * * *', async function() {
             let update = await demoManager.updateMatchInfos(matchId);
 
             if (update == 'demos_not_available' || update == 'match_not_available') {
-                let today = new Date.now()
+                let today = Date.now()
                 let matchDate = await parseInt(dbManager.findMatchDate(matchId));
 
                 if (today - matchDate > 172800000) { // 172800000 is 2 days in ms

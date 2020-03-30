@@ -18,6 +18,7 @@ exports.readDemo = function readDemo(demofileInput) {
         var roundKills = [];
         var matchInfos = [];
         var lastRoundId = 0;
+        var roundEndReason;
     
         logger.debug('Reading demo: ' + demofileInput);
     
@@ -66,12 +67,21 @@ exports.readDemo = function readDemo(demofileInput) {
                 const terrorists = teams[2];
                 const cts = teams[3];
 
-                if (terrorists.score + cts.score == 0) {
-                    logger.debug('Match is STARTING !');
-                    timeReference = demoFile.currentTime;
-                    lastRoundId = 0;
-                    lastRoundTime = 0;
-                    matchInfos = []; // Reset round match infos
+                if (terrorists.score + cts.score == 0) { // When the matchs ends or when it starts, score reset to 0
+
+                    if (roundId < 2) {
+                        logger.debug('Match is STARTING !');
+                        timeReference = demoFile.currentTime;
+                        lastRoundId = 0;
+                        lastRoundTime = 0;
+                        matchInfos = []; // Reset round match infos
+                    }
+
+                    if (roundId > 14) { // Means at least 15 rounds have been played so the match ended
+                        logger.debug('Match has ENDED');
+                        resolve(matchInfos);
+                        demoFile.cancel();
+                    }
                 }
 
                 roundKills = []; // Reset kills when the round starts
@@ -151,13 +161,8 @@ exports.readDemo = function readDemo(demofileInput) {
                     };
                 }
 
+                roundEndReason = e.reason;
 
-                /**if (demoFile.gameRules.phase == 'postgame') { // If we enter postgame, then the match will end
-                    makeRoundStats();
-                    logger.debug('Postgame phase');
-                    resolve(matchInfos);
-                    demoFile.cancel();
-                }**/
             });
             
 
@@ -204,13 +209,12 @@ exports.readDemo = function readDemo(demofileInput) {
                     logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
     
                     let multipleKills = computeMultiKills(roundKills);
-            
 
                     if(timeOut == true) {
                         lastRoundTime += 30;
                         pastRoundTime += 30;
                     }
-        
+                            
                     var pastRoundInfo = {
                         'start': lastRoundTime,
                         'end': pastRoundTime,
