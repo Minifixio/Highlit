@@ -1,8 +1,12 @@
 <mat-toolbar id="menu-toolbar">
-    <button disableRipple="true" routerLink="/match-selection" mat-button>
-        <mat-icon id="match-selection-icon">video_library</mat-icon>
-    </button>
-
+    <div id="buttons-div">
+        <button id="match-selection-button" matTooltip="Match selection" disableRipple="true" routerLink="/match-selection" mat-icon-button>
+            <mat-icon id="match-selection-icon">video_library</mat-icon>
+        </button>
+        <button id="about-button" matTooltip="About page" disableRipple="true" routerLink="/match-selection" mat-icon-button>
+            <mat-icon id="about-icon">help</mat-icon>
+        </button>
+    </div>
     <div id="title-div">
         <div id="title-icon-div">
             <p id="main-title-highlit">Highlit</p>
@@ -11,7 +15,14 @@
         </div>
         <mat-label id="title-label">CSGO twitch highlights app</mat-label>
     </div>
+    <div id="contact-div">
+        <a href="https://github.com/Minifixio" target="_blank">
+            <img id="github-img" mat-card-image src="../../../assets/img/github.png">
+        </a>
+        <a href="https://twitter.com/minifixio" target="_blank">
+            <img id="twitter-img" mat-card-image src="../../../assets/img/twitter.png">
+        </a>
+    </div>
 
-    <button routerLink="/about" id="about-button" mat-button>about</button>
 </mat-toolbar>
 

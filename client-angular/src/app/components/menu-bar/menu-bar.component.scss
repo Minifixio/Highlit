@@ -1,8 +1,3 @@
-#about-button {
-    font-size: 20px;
-    right: 5px;
-}
-
 #main-title-highlit {
     font-variant: all-small-caps;
     font-size: 50px;
@@ -44,10 +39,48 @@
     bottom: 10px;
 }
 
+#about-icon {
+    font-size: 40px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
 #match-selection-icon {
     font-size: 40px;
-    position: relative;
-    bottom: 10px;
-    margin: 10px 20px 10px 0;
     cursor: pointer;
+}
+
+#about-button {
+    bottom: 5px;
+    margin-left: 60px;
+}
+
+#match-selection-button {
+    bottom: 5px;
+    margin-left: 20px;
+}
+
+#buttons-div {
+    width: 20%;
+}
+
+#contact-div {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+}
+
+#github-img {
+    cursor: pointer;
+    margin: 0;
+    margin-left: 20px;
+    width: 25px;
+}
+
+#twitter-img {
+    cursor: pointer;
+    margin: 0;
+    margin-left: 20px;
+    width: 25px;
 }
