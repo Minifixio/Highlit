@@ -36,7 +36,7 @@ export class MatchSelectionComponent implements OnInit {
   loading = false;
   lastMatches: Observable<MatchInfos[]>;
   addingMatchSocket: any;
-  mapSocket: any;
+  mapSocket: Observable<any>;
   downloadPercentage = 0;
   parsingRound = 0;
   mapsToSelect: Array<MapInfo>;
@@ -70,12 +70,13 @@ export class MatchSelectionComponent implements OnInit {
     if (this.isLinkCorrect(this.inputLink)) {
       const matchId = this.twitchService.parseHltvLink(this.inputLink);
       await this.httpService.post('add-match', {match_id: matchId}).toPromise();
-      this.mapSocket = this.sockets.subscribeToSocket('select-map');
+      this.mapSocket = this.sockets.subscribe('select-map');
       this.mapSocket.subscribe(info => {
+        console.log('hey');
         this.loadingStatus(info);
       });
     } else {
-      this.showErrorToast('Please add a croorect match link. The link must come from HLTV\'s results page', null);
+      this.showErrorToast('Please add a correct match link. The link must come from HLTV\'s results page', null);
     }
   }
 
@@ -86,7 +87,7 @@ export class MatchSelectionComponent implements OnInit {
       this.router.navigate(['/match']);
     } else {
       this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
-      this.mapSocket = this.sockets.subscribeToSocket('select-map');
+      this.mapSocket = this.sockets.subscribe('select-map');
       this.mapSocket.subscribe(info => {
         this.loadingStatus(info);
       });
@@ -125,7 +126,7 @@ export class MatchSelectionComponent implements OnInit {
         break;
       case 'game_infos':
         this.twitchService.gameInfos = loadingInfos.params;
-        this.mapSocket.unsubscribe();
+        this.sockets.unsubscribe();
         this.router.navigate(['/match']);
         break;
     }
@@ -203,15 +204,22 @@ export class MatchSelectionComponent implements OnInit {
 
   showErrorToast(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 4000,
+      duration: 10000,
     });
   }
 
   isLinkCorrect(link: string) {
+    if (!link) {
+      return false;
+    }
     if (link.includes('www.hltv.org/matches/')) {
       return true;
     } else {
       return false;
     }
+  }
+
+  panelClosed() {
+    this.sockets.unsubscribe();
   }
 }

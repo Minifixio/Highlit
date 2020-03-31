@@ -74,7 +74,8 @@ module.exports.addMatch = async function addMatch(matchId) {
 
     let mapsCount = await dbManager.countMaps(matchId);
 
-    if (mapsCount == 1) { // If there is only one map
+    // Setting this if to 10 for now because the functionality of choosing a map is not yet available 
+    if (mapsCount == 10) { // If there is only one map
         logger.debug("[AddMatch] There is only 1 map");
 
         let mapAvailable = await dbManager.isMapAvailable(matchId, 1);

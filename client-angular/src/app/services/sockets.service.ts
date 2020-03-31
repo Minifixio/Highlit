@@ -26,11 +26,15 @@ export class SocketsService {
     this.socket.emit(tag, params);
   }
 
-  subscribeToSocket(tag): Observable<SocketInfo> {
+  subscribe(tag): Observable<SocketInfo> {
     return new Observable((observer) => {
       this.socket.on(tag, (info: SocketInfo) => {
         observer.next(info);
       });
     });
+  }
+
+  unsubscribe() {
+    this.socket.disconnect();
   }
 }

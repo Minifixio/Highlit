@@ -59,7 +59,6 @@ app.post('/v1/map', async function(req, res) {
 app.post('/v1/add-match', async function(req, res) {
     let matchId = req.body.match_id;
     socketManager.addMatch(matchId);
-    console.log('add-match')
     res.json(true);
 });
 
