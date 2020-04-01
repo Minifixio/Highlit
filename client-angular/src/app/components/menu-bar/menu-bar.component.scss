@@ -1,24 +1,5 @@
-#main-title-highlit {
-    font-variant: all-small-caps;
-    font-size: 50px;
-    margin-right: 10px;
-}
-
-#main-title-me {
-    font-variant: all-small-caps;
-    font-size: 50px;
-    margin-left: 35px;
-}
-
 #menu-toolbar {
     height: 80px;
-}
-
-#title-div {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    align-items: center;
 }
 
 #title-label {
@@ -26,17 +7,6 @@
     bottom: 10px;
     height: 15px;
     font-size: 15px;
-}
-
-#title-icon-div {
-    display: flex;
-    align-self: baseline;
-}
-
-#title-icon {
-    font-size: 50px;
-    position: relative;
-    bottom: 10px;
 }
 
 #about-icon {
@@ -83,4 +53,18 @@
     margin: 0;
     margin-left: 20px;
     width: 25px;
+}
+
+#banner-img {
+    width: 70%;
+    position: relative;
+    bottom: 20px;
+}
+
+#title-div {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    margin-bottom: 20px;
 }

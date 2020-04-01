@@ -103,7 +103,6 @@ exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
         minutes = timeCode.split('m')[0];
     }
 
-    console.log(hours, minutes, seconds)
     const pattern = 'video=v';
     const pos = twitchLink.indexOf(pattern) + pattern.length;
     var videoId = '';
