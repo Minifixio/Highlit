@@ -1,3 +1,5 @@
+![Highlit](https://i.imgur.com/JUwk1w8.png)
+
 # Highlit ? Whats is it ?
 
 **[HIGHLIT.ME](https://highlit.me)** is an **open sourced** web application running under Angular which allows you to easily rewatch **Counter-Strike Global Offensive** esport matches when you missed them live. <br>
