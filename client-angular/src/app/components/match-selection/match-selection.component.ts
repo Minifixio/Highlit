@@ -204,7 +204,7 @@ export class MatchSelectionComponent implements OnInit {
 
   showErrorToast(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 10000,
+      duration: 5000,
     });
   }
 

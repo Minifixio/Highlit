@@ -27,7 +27,7 @@ export class TwitchPlayerComponent implements OnInit {
       this.playerLoading = true;
       const options = {
         width: window.innerWidth * 0.8,
-        height: window.innerHeight * 0.95,
+        height: window.innerHeight - 50,
         video: videoId
       };
       this.twitchPlayer = new Twitch.Player('player', options);
@@ -69,6 +69,7 @@ export class TwitchPlayerComponent implements OnInit {
   onResize() {
     const twitchIframe = document.querySelectorAll('iframe')[0];
     twitchIframe.width = (window.innerWidth - 300).toString();
+    twitchIframe.height = (window.innerHeight - 50).toString();
   }
 
 }

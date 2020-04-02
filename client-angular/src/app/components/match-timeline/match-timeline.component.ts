@@ -8,6 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
 import { RoundTimelineComponent } from '../round-timeline/round-timeline.component';
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-match-timeline',
@@ -38,7 +39,8 @@ export class MatchTimelineComponent implements OnInit {
   constructor(
     private twitchService: TwitchService,
     private httpService: HttpService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -113,5 +115,13 @@ export class MatchTimelineComponent implements OnInit {
         break;
     }
     await this.httpService.post('mail', {type: 'error', match_id: this.gameInfos.matchId, message: errorMessage}).toPromise();
+
+    this.showErrorToast('Thanks for your feedback !', null);
+  }
+
+  showErrorToast(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
   }
 }
