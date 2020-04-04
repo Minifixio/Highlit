@@ -19,6 +19,7 @@ exports.readDemo = function readDemo(demofileInput) {
         var matchInfos = [];
         var lastRoundId = 0;
         var roundEndReason;
+        var clutch = {};
     
         logger.debug('Reading demo: ' + demofileInput);
     
@@ -71,6 +72,7 @@ exports.readDemo = function readDemo(demofileInput) {
 
                     if (roundId < 2) {
                         logger.debug('Match is STARTING !');
+                        resetRoundInfos();
                         timeReference = demoFile.currentTime;
                         lastRoundId = 0;
                         lastRoundTime = 0;
@@ -110,6 +112,7 @@ exports.readDemo = function readDemo(demofileInput) {
                 } 
                 if (terrorists.score + cts.score == 0) {
                     logger.debug('Match is STARTING !');
+                    resetRoundInfos();
                     lastRoundTime = 0;
                     lastRoundId = 0;
                     roundKills = [];
@@ -123,6 +126,11 @@ exports.readDemo = function readDemo(demofileInput) {
              * Handle deaths
              */
             demoFile.gameEvents.on("player_death", e => {
+
+                const teams = demoFile.teams;
+                const terrorists = teams[2];
+                const cts = teams[3];
+
                 var killInfos = {}; // Store kills infos
                 const victim = demoFile.entities.getByUserId(e.userid);
                 const victimName = victim ? victim.name : "unnamed";
@@ -133,8 +141,22 @@ exports.readDemo = function readDemo(demofileInput) {
                 killInfos = {
                     attackerName, 
                     victimName, 
-                    "time": demoFile.currentTime - timeReference
+                    time: demoFile.currentTime - timeReference
                 }
+                
+                let aliveTs = terrorists.members.filter(player => player.isAlive).length;
+                let aliveCTs = cts.members.filter(player => player.isAlive).length;
+
+                if (aliveCTs == 1 && aliveTs >= 2) {
+                    let clutcher = cts.members.filter(player => player.isAlive)[0].name;
+                    clutch = {team: "ct", player: clutcher, vs: aliveTs, time: demoFile.currentTime - timeReference};
+                }
+
+                if (aliveTs == 1 && aliveCTs >=2) {
+                    let clutcher = terrorists.members.filter(player => player.isAlive)[0].name;
+                    clutch = {team: "t", player: clutcher, vs: aliveCTs, time: demoFile.currentTime - timeReference};
+                }
+
                 roundKills.push(killInfos);
             });
 
@@ -144,20 +166,18 @@ exports.readDemo = function readDemo(demofileInput) {
              */
             demoFile.gameEvents.on("round_end", e => {
                 const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
 
                 // For later : add reason for ending
                 if (e.winner == 2) { // id n°2 means terrorists
                     winningTeam = {
-                        'side': 't',
-                        'team_name': teams[2].props.DT_Team.m_szClanTeamname
+                        side: 't',
+                        team_name: teams[2].props.DT_Team.m_szClanTeamname
                     };
                 } 
                 if (e.winner == 3) { // else it is CTs
                     winningTeam = {
-                        'side': 'ct',
-                        'team_name': teams[3].props.DT_Team.m_szClanTeamname
+                        side: 'ct',
+                        team_name: teams[3].props.DT_Team.m_szClanTeamname
                     };
                 }
 
@@ -206,7 +226,7 @@ exports.readDemo = function readDemo(demofileInput) {
                     }
 
                     socketManager.socketEmit('select-map', {type: 'parsing', params: roundId});
-                    logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name + '\n');
+                    logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name);
     
                     let multipleKills = computeMultiKills(roundKills);
 
@@ -216,22 +236,30 @@ exports.readDemo = function readDemo(demofileInput) {
                     }
                             
                     var pastRoundInfo = {
-                        'start': lastRoundTime,
-                        'end': pastRoundTime,
-                        'round_number': roundId,
-                        'winning_team': winningTeam,
-                        'kills': roundKills,
-                        'multipleKills': multipleKills
+                        start: lastRoundTime,
+                        end: pastRoundTime,
+                        round_number: roundId,
+                        winning_team: winningTeam,
+                        kills: roundKills,
+                        multipleKills: multipleKills,
+                        clutch: (winningTeam.side == clutch.team) ? clutch : null
                     }
+
                     matchInfos.push(pastRoundInfo);
-    
-                    roundKills = [];
-                    winningTeam = {};
-                    timeOut = false;
+
                     lastRoundTime = demoFile.currentTime - timeReference;
-                    lastRoundId = roundId
+                    lastRoundId = roundId;
+                    resetRoundInfos();
                 }
             }
+
+            function resetRoundInfos() {
+                roundKills = [];
+                winningTeam = {};
+                timeOut = false;
+                clutch = {};
+            }
+
             demoFile.parse(buffer);
         })
     })

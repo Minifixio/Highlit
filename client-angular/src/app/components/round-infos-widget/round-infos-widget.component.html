@@ -7,9 +7,11 @@
         
         <mat-chip-list class='chip-list-kills' *ngIf="killsCount > 8 && quadKills.length === 0 && aces.length === 0 && tripleKills.length === 0">
             <mat-chip class="multi-kills-chip" id="lot-of-kill-chip" color="#0aa700" selected>
-                <p class="kills-text">
-                    <mat-icon inline="true" class='hype-icon'>grade</mat-icon>
-                    {{killsCount}} kills
+                <div id="kill-img-div">
+                    <img id="kill-img" mat-card-image src="../../../assets/img/skull.png">
+                </div>
+                <p class="many-kills-text">
+                    x {{killsCount}}
                 </p>
             </mat-chip>
         </mat-chip-list>
@@ -50,15 +52,22 @@
             </mat-chip>
         </mat-chip-list>
 
-        <mat-chip-list>
+        <mat-chip-list *ngIf="((tripleKills.length === 0 && quadKills.length === 0) || (tripleKills.length === 0 && aces.length === 0) || (quadKills.length === 0 && aces.length === 0)) && !clutch">
             <mat-chip class="twitch-hype-chip" [style.background-color]="twitchRatingColor" selected>
                 <mat-spinner diameter=15 *ngIf="twitchRating == 0"></mat-spinner>
-                <p *ngIf="twitchRating > 0" class="kills-text">
+                <p *ngIf="twitchRating > 0" class="twitch-text">
                     <mat-icon inline="true" class='hype-icon'>comment</mat-icon>
                     {{twitchRating}} %
                 </p>
             </mat-chip>
         </mat-chip-list>
+
+        <button *ngIf="clutch" id="clutch-button" mat-stroked-button>
+            <p class="clutch-text">
+                <span id="vs-clutch-text">1 VS {{clutch.vs}}</span> <span id="clutch-clutch-text"> clutch</span><br>
+                <span id="player-clutch-text">{{clutch.player}}</span>
+            </p>
+        </button>
 
         <div [style.background-color]="cardColor" id="round-id-div">
             <p id="round-id-text">{{roundId}}</p>

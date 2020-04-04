@@ -8,7 +8,7 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     return new Promise(async (resolve) => {
         let matchDatas = [];
         let maps = matchInfos.maps;
-        logger.debug("Adding new match to database :");
+        logger.debug("Adding new match to database");
 
         matchDatas.push(
             matchInfos.match_id, 
@@ -218,7 +218,6 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
         const updateQuery = "UPDATE match SET demo_id = ? WHERE match_id = ?";
         matchesDB.run(updateQuery, [matchInfos.demoId, matchId]);
         logger.debug("Updated match " + matchId + " infos");
-        logger.debug(matchInfos.maps);
         matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
             let mapData = [];
             mapData.push(matchInfos.match_id, (index + 1), map.name, map.result, "no");

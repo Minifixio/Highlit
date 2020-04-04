@@ -80,7 +80,7 @@ exports.calculateTwitchRating = async function calculateTwitchRating(roundInfos,
         let videoId = twitchLinkParsed.videoId;
         
         var getComments = new Promise((resolve) => { 
-            roundInfos.forEach(async(round) => {
+            roundInfos.forEach(async(round, index) => {
                 let startClipTime = round.start + startVideoTime;
                 let endClipTime = round.end + startVideoTime;
 
@@ -90,9 +90,21 @@ exports.calculateTwitchRating = async function calculateTwitchRating(roundInfos,
                     twitchRating = '/';
                 }
 
-                roundsRating.push(twitchRating);
-                if (roundsRating.length == roundInfos.length) {
+                 /**
+                 * This condition is used only for the last round
+                 * because on the end the match, everyone on the stream says "gg"
+                 * and it completly breaks the rating.
+                 * 
+                 * So, we take the previous round rating and use it for the last round.
+                 * 
+                 * TODO : Parse the comments and remove all of them with "GG"
+                 * (anyway, on the last round, the rating is often wrong)
+                 **/
+                if (index == (roundInfos.length - 1)) {
+                    roundsRating.push(roundsRating[index - 1]);
                     resolve();
+                } else {
+                    roundsRating.push(twitchRating);
                 }
             });
         });

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import { Kill } from '../../services/models/Kill';
 import { MultiKill } from '../../services/models/MultiKill';
+import { ClutchInfos } from '../../services/models/ClutchInfos';
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 
 @Component({
@@ -19,6 +20,7 @@ export class RoundInfosWidgetComponent implements OnInit {
   @Input() totalRounds: number;
   @Input() videoId: number;
   @Input() twitchRating: number;
+  @Input() clutch: ClutchInfos;
   @Input() multipleKills: MultiKill[];
   @Input() kills: Kill[];
   @Input() startVideoTime: number;
@@ -40,6 +42,7 @@ export class RoundInfosWidgetComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.clutch ? console.log(this.clutch.player) : 0;
     if (this.winningTeamSide === 't') {
       this.isTerrorist = true;
       this.cardColor = '#ccba7c';

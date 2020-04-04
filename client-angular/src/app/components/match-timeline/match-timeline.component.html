@@ -12,6 +12,7 @@
                 videoId={{videoId}}
                 twitchRating={{roundInfo.twitch_rating}}
                 startVideoTime={{startVideoTime}}
+                [clutch]=roundInfo.clutch
                 [kills]="roundInfo.kills"
                 [multipleKills]=roundInfo.multipleKills
                 (multiKillEvent)="twitchSeekTo($event, 0)"

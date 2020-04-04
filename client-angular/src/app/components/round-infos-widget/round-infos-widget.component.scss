@@ -66,6 +66,26 @@
     font-size: 20px;
 }
 
+#player-clutch-text {
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#clutch-clutch-text {
+    font-weight: 400;
+    font-size: 13px;
+}
+
+#vs-clutch-text {
+    font-size: 18px;
+}
+
+#clutch-button {
+    background: #fd4141;
+    padding: 5px;
+    margin-left: 5px;
+}
+
 .mat-card>:first-child {
     margin-bottom: 4px;
     margin-right: 10px;
@@ -76,9 +96,20 @@
     font-size: 13px;
 }
 
-.kills-text {
+.many-kills-text {
+    margin:0;
+    font-size: 20px;
+}
+
+.twitch-text {
     margin:0;
     font-size: 13px;
+}
+
+.clutch-text {
+    margin-top: auto;
+    margin-bottom: auto;
+    line-height: 16px;
 }
 
 .ace-kills-chip {
