@@ -10,6 +10,11 @@ import { RoundTimelineComponent } from '../round-timeline/round-timeline.compone
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+interface SelectActionContent {
+  roundId: number;
+  timestamp: number;
+}
+
 @Component({
   selector: 'app-match-timeline',
   templateUrl: './match-timeline.component.html',
@@ -28,13 +33,13 @@ export class MatchTimelineComponent implements OnInit {
 
   startVideoTime: number;
   gameInfos: GameInfos;
-  roundInfos: RoundInfo[];
-  videoId: number;
-  displayClipList = false;
+  rounds: RoundInfo[];
+  //videoId: number;
+  //displayClipList = false;
   roundId: number;
   playerLoading: boolean;
 
-  roundDisplayedInfos: RoundTimelineInfos;
+  currentRoundInfos: RoundInfo;
 
   constructor(
     private twitchService: TwitchService,
@@ -46,13 +51,14 @@ export class MatchTimelineComponent implements OnInit {
   ngOnInit(): void {
     if (this.twitchService.gameInfos) {
       this.gameInfos = this.twitchService.gameInfos;
-      this.roundInfos = this.gameInfos.roundInfos;
-      this.videoId = this.gameInfos.videoId;
+      this.rounds = this.gameInfos.roundInfos;
       this.startVideoTime = this.gameInfos.startVideoTime;
+      //this.videoId = this.gameInfos.videoId;
+      //this.startVideoTime = this.gameInfos.startVideoTime;
       this.playerLoading = true;
 
-      this.loadClips();
-      this.twitchPlayer.displayTwitchVideo(this.videoId, this.startVideoTime).then(() => {
+      this.syncClips();
+      this.twitchPlayer.displayTwitchVideo(this.gameInfos.videoId, this.startVideoTime).then(() => {
         this.playerLoading = false;
       });
     } else {
@@ -60,16 +66,16 @@ export class MatchTimelineComponent implements OnInit {
     }
   }
 
-  async loadClips() {
-    this.displayClipList = true;
+  syncClips() {
+    //this.displayClipList = true;
 
-    this.roundInfos.forEach((item, index) => {
+    this.rounds.forEach((item, index) => {
       if (item.round_number !== 0) { // Syncing timings from Twitch Video and match timings
         if (item.round_number === 1) { // Don't add buy time for 1st round
-          this.roundInfos[index].start = this.startVideoTime + item.start;
+          this.rounds[index].start = this.startVideoTime + item.start;
         } else {
-          this.roundInfos[index].start = this.startVideoTime + item.start + 25; // Adding 25 seconds for buy-time
-          this.roundInfos[index].end = this.startVideoTime + item.end + 25; // Adding 25 seconds for buy-time
+          this.rounds[index].start = this.startVideoTime + item.start + 25; // Adding 25 seconds for buy-time
+          this.rounds[index].end = this.startVideoTime + item.end + 25; // Adding 25 seconds for buy-time
         }
       }
       if (item.multipleKills) { // Same for multi kills
@@ -79,23 +85,34 @@ export class MatchTimelineComponent implements OnInit {
           });
         });
       }
+      if (item.clutch) {
+        item.clutch.time += this.startVideoTime - 10;
+      }
     });
   }
 
-  twitchSeekTo(timestamp, roundId) {
-    if (roundId !== 0) {
-      this.roundId = roundId;
-    }
+  twitchSeekTo(timestamp: number) {
+    console.log(this.currentRoundInfos);
     this.twitchPlayer.seekTo(timestamp);
   }
 
-  getCurrentTime() {
-    this.twitchPlayer.getCurrentTime();
+  updateRoundTimeline(roundInfos) {
+    this.currentRoundInfos = roundInfos;
+    this.roundId = roundInfos.roundId;
   }
 
-  updateRoundTimeline(roundInfos) {
-    this.roundDisplayedInfos = roundInfos;
-    this.roundId = roundInfos.round;
+  selectRound(roundId: number) {
+    console.log('selectRound');
+    this.currentRoundInfos = this.rounds.find(round => round.round_number === roundId);
+    this.roundId = roundId;
+    this.twitchSeekTo(this.currentRoundInfos.start);
+  }
+
+  selectAction(actionInfos: SelectActionContent) {
+    console.log('selectAction');
+    this.currentRoundInfos = this.rounds.find(round => round.round_number === actionInfos.roundId);
+    this.roundId = actionInfos.roundId;
+    this.twitchSeekTo(actionInfos.timestamp);
   }
 
   async reportIssue(errorId: number) {

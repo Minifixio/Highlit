@@ -2,10 +2,10 @@ import { MultiKill } from './MultiKill';
 import { Kill } from './Kill';
 
 export interface RoundTimelineInfos {
-    round: number;
+    roundId: number;
     kills: Kill[];
     duration: number;
-    roundStartTime: number;
+    start: number;
     aces: MultiKill[];
     tripleKills: MultiKill[];
     quadKills: MultiKill[];

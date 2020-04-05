@@ -1,22 +1,10 @@
 <div id="main-page">
     <div id="scrolling-div">
         <cdk-virtual-scroll-viewport itemSize="50" class="main-viewport">
-            <app-round-infos-widget *ngFor="let roundInfo of roundInfos" #roundInfosWidget class="round-infos-card-widget"
-                (click)="twitchSeekTo(roundInfo.start, roundInfo.round_number)" 
-                startClipTime="{{roundInfo.start}}" 
-                endClipTime="{{roundInfo.end}}" 
-                winningTeamSide="{{roundInfo.winning_team.side}}" 
-                killsCount="{{roundInfo.kills?.length}}" 
-                roundId="{{roundInfo.round_number}}"
-                totalRounds={{roundInfos?.length}}
-                videoId={{videoId}}
-                twitchRating={{roundInfo.twitch_rating}}
-                startVideoTime={{startVideoTime}}
-                [clutch]=roundInfo.clutch
-                [kills]="roundInfo.kills"
-                [multipleKills]=roundInfo.multipleKills
-                (multiKillEvent)="twitchSeekTo($event, 0)"
-                (roundDisplayedInfos)="updateRoundTimeline($event)">
+            <app-round-infos-widget *ngFor="let roundInfos of rounds" #roundInfosWidget class="round-infos-card-widget"
+                [roundInfos]=roundInfos
+                (selectActionEvent)="selectAction($event)"
+                (selectRoundEvent)="selectRound($event)">
             </app-round-infos-widget>
         </cdk-virtual-scroll-viewport>
     </div>
@@ -25,7 +13,7 @@
         <mat-card id="top-infos-card" *ngIf="!playerLoading">
             <p *ngIf="!roundId">Select a round on the left panel !</p>
 
-            <app-round-timeline id="round-timeline" #roundTimeline *ngIf="roundDisplayedInfos" [roundInfos]="roundDisplayedInfos"></app-round-timeline>
+            <app-round-timeline id="round-timeline" #roundTimeline *ngIf="currentRoundInfos" [roundInfos]="currentRoundInfos"></app-round-timeline>
 
             <button mat-icon-button id="issue-button" [matMenuTriggerFor]="menu">
                 <mat-icon>report</mat-icon>
@@ -44,6 +32,6 @@
                 <button mat-menu-item (click)="reportIssue(4)">Other</button>
             </mat-menu>
         </mat-card>
-        <app-twitch-player #twitchPlayer startVideoTime={{startVideoTime}}></app-twitch-player>
+        <app-twitch-player #twitchPlayer startVideoTime={{gameInfos.startVideoTime}}></app-twitch-player>
     </div>
 </div>

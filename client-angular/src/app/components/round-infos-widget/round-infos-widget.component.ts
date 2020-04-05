@@ -4,6 +4,12 @@ import { Kill } from '../../services/models/Kill';
 import { MultiKill } from '../../services/models/MultiKill';
 import { ClutchInfos } from '../../services/models/ClutchInfos';
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
+import { RoundInfo } from 'src/app/services/models/RoundInfo';
+
+interface SelectActionContent {
+  roundId: number;
+  timestamp: number;
+}
 
 @Component({
   selector: 'app-round-infos-widget',
@@ -12,54 +18,47 @@ import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 })
 export class RoundInfosWidgetComponent implements OnInit {
 
-  @Input() killsCount: number;
+  /**@Input() killsCount: number;
   @Input() winningTeamSide: string;
   @Input() roundId: number;
   @Input() startClipTime: number;
   @Input() endClipTime: number;
   @Input() totalRounds: number;
-  @Input() videoId: number;
   @Input() twitchRating: number;
   @Input() clutch: ClutchInfos;
   @Input() multipleKills: MultiKill[];
   @Input() kills: Kill[];
-  @Input() startVideoTime: number;
+  @Input() startVideoTime: number;**/
+  @Input() roundInfos: RoundInfo;
 
-  @Output() multiKillEvent = new EventEmitter<number>();
-  @Output() roundDisplayedInfos = new EventEmitter<RoundTimelineInfos>();
+  @Output() selectActionEvent = new EventEmitter<SelectActionContent>();
+  @Output() selectRoundEvent = new EventEmitter<number>();
 
   isTerrorist: boolean;
   cardColor = '#f44336';
-  tripleKills = [];
-  quadKills = [];
-  aces = [];
-  commentsAmount: number;
-  twitchRatingColor = '#585858';
+  aces: MultiKill[] = [];
+  quads: MultiKill[] = [];
+  triples: MultiKill[] = [];
 
-  constructor(
-    private httpService: HttpService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-
-    this.clutch ? console.log(this.clutch.player) : 0;
-    if (this.winningTeamSide === 't') {
+    if (this.roundInfos.winning_team.side === 't') {
       this.isTerrorist = true;
       this.cardColor = '#ccba7c';
     } else {
       this.cardColor = '#5d79ae';
     }
-
     this.findMultipleKills();
   }
 
   findMultipleKills() {
-    this.multipleKills.forEach(kill => {
+    this.roundInfos.multipleKills.forEach(kill => {
       if (kill.kills.length === 3) {
-        this.tripleKills.push(kill);
+        this.triples.push(kill);
       }
       if (kill.kills.length === 4) {
-        this.quadKills.push(kill);
+        this.quads.push(kill);
       }
       if (kill.kills.length === 5) {
         this.aces.push(kill);
@@ -68,23 +67,32 @@ export class RoundInfosWidgetComponent implements OnInit {
   }
 
   sendClipTime(timestamp) {
-    this.multiKillEvent.emit(timestamp);
-    this.sendRoundInfos();
+    //this.twitchSeekToEvent.emit(timestamp);
+    //this.sendRoundInfos();
   }
 
-  sendRoundInfos() {
-    const response = {
-      round: this.roundId,
+  /**sendRoundInfos() {
+    const roundInfos = {
+      roundId: this.roundId,
       kills: this.kills,
       duration: this.endClipTime - this.startClipTime,
-      roundStartTime: this.startClipTime - this.startVideoTime,
+      start: this.startClipTime,
       aces: this.aces,
       tripleKills: this.tripleKills,
       quadKills: this.quadKills,
       twitchRating: this.twitchRating,
       isTerrorist: this.isTerrorist
     };
-    this.roundDisplayedInfos.emit(response);
+    this.selectRoundEvent.emit(roundInfos);
+    this.sendClipTime(this.startClipTime);
+  }**/
+
+  selectRound() {
+    this.selectRoundEvent.emit(this.roundInfos.round_number);
+  }
+
+  selectAction(timestamp: number) {
+    this.selectActionEvent.emit({roundId: this.roundInfos.round_number, timestamp});
   }
 
   hoverCard(hover) {
