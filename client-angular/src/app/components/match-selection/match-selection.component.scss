@@ -3,8 +3,7 @@
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
-    width: fit-content;
+    width: 55%;
     border-radius: 3px;
     background-color: #292929;
 }
@@ -24,18 +23,18 @@
 }
 
 #matchinfos-div {
-    width: 100%;
+    width: 90%;
     max-width: 500px;
     margin: 5px 5px 5px 5px;
 }
 
 #matchinfos-container {
     height: fit-content;
-    justify-content: end;
+    justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
-    margin: 10px;
-    width: 1020px;
+    margin: 10px auto 10px auto;
+    width: fit-content;
 }
 
 #no-matches-error-div {
@@ -99,8 +98,10 @@
     z-index: 10;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 
+
+
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 
 .context {
     width: 100%;

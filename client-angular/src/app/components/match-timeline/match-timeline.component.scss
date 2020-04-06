@@ -9,42 +9,6 @@
     height: 100%;
 }
 
-.main-viewport {
-    height: 100%;
-    width: 300px;
-    background-color: #292929;
-}
-
-.cardList > * {
-    box-sizing: border-box;
-}
-
-.round-infos-card-widget {
-    flex: 0 1 0px;
-}
-
-.timeline-expansion {
-    margin: 20px 30px 10px 30px;
-}
-
-.multiple-kills-div {
-    margin:0;
-    font-size: 13px;
-}
-
-.kills-text {
-    margin:0;
-    font-size: 13px;
-}
-
-.hype-icon {
-    margin-right: 2px;
-}
-
-.mat-chip {
-    margin-left: 15px;
-}
-
 .mat-button-wrapper {
     position: relative;
     bottom: 8px;
@@ -82,10 +46,6 @@
     background-color: #0aa700;
 }
 
-.mat-content {
-    flex: 0.3;
-}
-
 #round-number-title {
     margin-top: 5px;
     flex-grow: 0;
@@ -118,4 +78,45 @@
 
 #round-number-text {
     width: 2%;
+}
+
+
+.mat-content {
+    flex: 0.3;
+}
+
+.main-viewport {
+    height: 100%;
+    width: 300px;
+    background-color: #292929;
+}
+
+.cardList > * {
+    box-sizing: border-box;
+}
+
+.round-infos-card-widget {
+    flex: 0 1 0px;
+}
+
+.timeline-expansion {
+    margin: 20px 30px 10px 30px;
+}
+
+.multiple-kills-div {
+    margin:0;
+    font-size: 13px;
+}
+
+.kills-text {
+    margin:0;
+    font-size: 13px;
+}
+
+.hype-icon {
+    margin-right: 2px;
+}
+
+.mat-chip {
+    margin-left: 15px;
 }

@@ -31,7 +31,12 @@ module.exports.startSockets = function startSockets(http) {
     
                 case 0: {
                     logger.debug("[SelectMap] Match is not dowloaded");
-                    mainSocket.emit('select-map', {type: 'match_not_downloaded'});
+                    mainSocket.emit('select-map', {type: 'starting_download'});
+                    await demoManager.dowloadDemos(matchId);
+                    await demoManager.parseDemo(matchId, mapNumber);
+                    
+                    let response = await demoManager.findMatchInfos(matchId, mapNumber);
+                    mainSocket.emit('select-map', {type: 'game_infos', params: response});
                     break;
                 }
     
@@ -75,7 +80,7 @@ module.exports.addMatch = async function addMatch(matchId) {
     let mapsCount = await dbManager.countMaps(matchId);
 
     // Setting this if to 10 for now because the functionality of choosing a map is not yet available 
-    if (mapsCount == 10) { // If there is only one map
+    if (mapsCount == 1) { // If there is only one map
         logger.debug("[AddMatch] There is only 1 map");
 
         let mapAvailable = await dbManager.isMapAvailable(matchId, 1);
@@ -90,6 +95,10 @@ module.exports.addMatch = async function addMatch(matchId) {
                         logger.debug("[AddMatch] ... and the match is not downloaded");
                         mainSocket.emit('select-map', {type: 'starting_download'});
                         await demoManager.dowloadDemos(matchId);
+                        await demoManager.parseDemo(matchId, 1);
+
+                        let response = await demoManager.findMatchInfos(matchId, 1);
+                        mainSocket.emit('select-map', {type: 'game_infos', params: response});
                         break;
                     }
 
