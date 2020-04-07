@@ -18,6 +18,8 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
         let score = 0;
         let maps = [];
 
+        logger.debug('Match : ' + matchInfos.team1.name + ' VS ' + matchInfos.team2.name);
+
         if (matchInfos.statsId) { // Check if match has stats
             if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0) { // Check if demos are available
                 downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;

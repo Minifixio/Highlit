@@ -1,7 +1,10 @@
 <div id="main-page">
     <div id="scrolling-div">
         <cdk-virtual-scroll-viewport itemSize="50" class="main-viewport">
-            <app-round-infos-widget *ngFor="let roundInfos of rounds" #roundInfosWidget class="round-infos-card-widget"
+            <app-round-infos-widget 
+                *ngFor="let roundInfos of rounds"
+                #roundInfosWidget 
+                class="round-infos-card-widget"
                 [roundInfos]=roundInfos
                 (selectActionEvent)="selectAction($event)"
                 (selectRoundEvent)="selectRound($event)">

@@ -276,9 +276,10 @@ exports.getMatchDemoId = function getMatchDemoId(matchId) {
 
 exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
     return new Promise(async (resolve) => {
-        const undownloadedQuery = "SELECT match_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
+        const undownloadedQuery = "SELECT match_id, team1, team2 FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
         matchesDB.get(undownloadedQuery, (err, row) => {
             if (row) {
+                logger.debug("Last undownloaded match is : " + row.team1 + " VS " + row.team2);
                 resolve(row.match_id);
             } else {
                 resolve(0);

@@ -73,3 +73,11 @@
             <p id="round-id-text">{{roundInfos.round_number}}</p>
         </div>
 </mat-card>
+
+<mat-card id="switching-sides-card" *ngIf="roundInfos.round_number == 15">
+    <p>
+        Switching sides 
+    </p>
+    <mat-icon>import_export</mat-icon>
+
+</mat-card>

@@ -86,11 +86,12 @@ export class MatchSelectionComponent implements OnInit {
       this.twitchService.gameInfos = gameInfos;
       this.router.navigate(['/match']);
     } else {
-      this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
+      this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
+      /**this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
       this.mapSocket = this.sockets.subscribe('select-map');
       this.mapSocket.subscribe(info => {
         this.loadingStatus(info);
-      });
+      });**/
     }
   }
 
