@@ -21,7 +21,7 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
         logger.debug('Match : ' + matchInfos.team1.name + ' VS ' + matchInfos.team2.name);
 
         if (matchInfos.statsId) { // Check if match has stats
-            if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0) { // Check if demos are available
+            if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0 && matchInfos.demos.length >= 2) { // Check if demos are available and stream also (it means there are minimum 2 links)
                 downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
                 demoId = downloadLink.match(/(\d+)/)[0];
                 twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
@@ -36,20 +36,13 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
                 } else {
                     score = maps[0].result.substring(0, 4);
                 }
-    
-                const response = {
-                    match_id: matchInfos.id,
-                    twitchStreams: twitchStreams,
-                    demoId: demoId,
-                    team1_name: matchInfos.team1.name,
-                    team2_name: matchInfos.team2.name,
-                    tournament: matchInfos.event.name,
-                    date: matchInfos.date,
-                    format: matchInfos.format,
-                    score: score,
-                    maps: maps
-                };
-                resolve(response);
+                
+                matchInfos.twitchStreams = twitchStreams;
+                matchInfos.demoId = demoId;
+                matchInfos.score = score;
+                matchInfos.maps = maps;
+
+                resolve(matchInfos);
 
             } else {
                 resolve('demos_not_available');

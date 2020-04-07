@@ -14,12 +14,13 @@
 }
 
 #input-field {
-    width: 70%;
+    width: 100%;
     margin-left: 20px;
 }
 
 #valid-button {
     margin: 10px;
+    color: limegreen;
 }
 
 #matchinfos-div {
@@ -61,13 +62,14 @@
 }
 
 #loading-div {
-    position: absolute;
-    right: 50%;
-    top: 40px;
-}
-
-#page-loading-spinner {
-    margin-left: 20px;
+   width: fit-content;
+   height: fit-content;
+   margin-top: 20px;
+   margin-left: auto;
+   margin-right: auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 #list-loading-spinner {
@@ -98,7 +100,25 @@
     z-index: 10;
 }
 
+#input-div {
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+}
 
+.app-match-infos-widget {
+    width: 100%;
+}
+
+.mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    width: fit-content;
+    padding-right: 1%;
+    padding-left: 1%;
+}
+
+.mat-badge-warn .mat-badge-content {
+    border-radius: 10px;
+}
 
 
 @import url('https://fonts.googleapis.com/css?family=Exo:400,700');

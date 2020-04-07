@@ -31,12 +31,12 @@ module.exports.startSockets = function startSockets(http) {
     
                 case 0: {
                     logger.debug("[SelectMap] Match is not dowloaded");
-                    mainSocket.emit('select-map', {type: 'starting_download'});
+                    mainSocket.emit('select-map', {type: 'starting_download', match_id: matchId, params: ""});
                     await demoManager.dowloadDemos(matchId);
                     await demoManager.parseDemo(matchId, mapNumber);
                     
                     let response = await demoManager.findMatchInfos(matchId, mapNumber);
-                    mainSocket.emit('select-map', {type: 'game_infos', params: response});
+                    mainSocket.emit('select-map', {type: 'game_infos', match_id: matchId, params: response});
                     break;
                 }
     
@@ -44,16 +44,16 @@ module.exports.startSockets = function startSockets(http) {
                     let mapAvailable = await dbManager.isMapAvailable(matchId, mapNumber);
                     logger.debug(mapAvailable);
                     if (mapAvailable == "no") { // Does the map is already parsed ?
-                        mainSocket.emit('select-map', {type: 'starting_parsing'});
+                        mainSocket.emit('select-map', {type: 'starting_parsing', match_id: matchId, params: ""});
                         await demoManager.parseDemo(matchId, mapNumber);
                     }
                     let response = await demoManager.findMatchInfos(mapInfos.match_id, mapInfos.map_number);
-                    mainSocket.emit('select-map', {type: 'game_infos', params: response});
+                    mainSocket.emit('select-map', {type: 'game_infos', match_id: matchId, params: response});
                     break;
                 }
     
                 case 2: {
-                    mainSocket.emit('select-map', {type: 'map_being_downloaded', params: ""});
+                    mainSocket.emit('select-map', {type: 'map_being_downloaded', match_id: matchId, params: ""});
                     break;
                 }
             }
@@ -67,14 +67,30 @@ module.exports.addMatch = async function addMatch(matchId) {
 
     if (!matchExists) { // Does the match already downloaded ?
         logger.debug("[AddMatch] Match doesn't exist");
-        await demoManager.addMatchInfos(matchId);
+        
+        let adding = await demoManager.addMatchInfos(matchId);
+
+        if (adding == 'demos_not_available' || adding == 'match_not_available') {
+            mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
+            return;
+        }
     } 
 
     logger.debug("[AddMatch] Match already exists");
     let matchHasDemos = await dbManager.matchHasDemos(matchId);
 
     if (!matchHasDemos) { // If match infos (such as demo_id, twitch JSON and maps...) does not exist
-        await demoManager.updateMatchInfos(matchId);
+        let update = await demoManager.updateMatchInfos(matchId);
+
+        if (update == 'demos_not_available' || update == 'match_not_available') {
+            let today = Date.now()
+            let matchDate = await parseInt(dbManager.findMatchDate(matchId));
+
+            if (today - matchDate > 172800000) { // 172800000 is 2 days in ms
+                await dbManager.updateMatchStatus(matchId, 3);
+            }
+            mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
+        }
     }
 
     let mapsCount = await dbManager.countMaps(matchId);
@@ -93,23 +109,29 @@ module.exports.addMatch = async function addMatch(matchId) {
                 switch (matchDownloaded) {
                     case 0: {
                         logger.debug("[AddMatch] ... and the match is not downloaded");
-                        mainSocket.emit('select-map', {type: 'starting_download'});
+                        mainSocket.emit('select-map', {type: 'starting_download', match_id: matchId, params: ""});
                         await demoManager.dowloadDemos(matchId);
                         await demoManager.parseDemo(matchId, 1);
 
                         let response = await demoManager.findMatchInfos(matchId, 1);
-                        mainSocket.emit('select-map', {type: 'game_infos', params: response});
+                        mainSocket.emit('select-map', {type: 'game_infos', match_id: matchId, params: response});
                         break;
                     }
 
                     case 1: {
-                        mainSocket.emit('select-map', {type: 'starting_parsing'});
+                        mainSocket.emit('select-map', {type: 'starting_parsing', match_id: matchId, params: ""});
                         await demoManager.parseDemo(matchId, 1); 
                         break;
                     }
 
                     case 2: {
-                        mainSocket.emit('select-map', {type: 'map_being_downloaded', params: ""});
+                        mainSocket.emit('select-map', {type: 'map_being_downloaded', match_id: matchId, params: ""});
+                        break;
+                    }
+
+                    case 3: {
+                        mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
+                        break;
                     }
                 }
                 break;
@@ -117,19 +139,19 @@ module.exports.addMatch = async function addMatch(matchId) {
 
             case 'yes': {
                 let response = await demoManager.findMatchInfos(matchId, 1);
-                mainSocket.emit('select-map', {type: 'game_infos', params: response});
+                mainSocket.emit('select-map', {type: 'game_infos', match_id: matchId, params: response});
                 break;
             }
 
             case 'parsing' : {
-                mainSocket.emit('select-map', {type: 'map_being_parsed', params: ""});
+                mainSocket.emit('select-map', {type: 'map_being_parsed', match_id: matchId, params: ""});
                 break;
             }
         }
 
     } else { // If there is more than one map
         let mapsInfos = await dbManager.getMapsInfos(matchId);
-        mainSocket.emit('select-map', {type: 'select-map', params: mapsInfos}); // User selects the map number
+        mainSocket.emit('select-map', {type: 'select-map', match_id: matchId, params: mapsInfos}); // User selects the map number
     }
 }
 module.exports.socketEmit = function socketEmit(tag, content) {

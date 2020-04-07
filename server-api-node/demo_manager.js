@@ -27,6 +27,16 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
 
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
+
+        if (hltvInfos == 'demos_not_available') {
+            resolve('demos_not_available');
+            return;
+        } 
+        if(hltvInfos == 'match_not_available') {
+            resolve('match_not_available');
+            return;
+        } 
+
         await dbManager.addMatchInfos(hltvInfos);
 
         const twitchStreams = hltvInfos.twitchStreams;
@@ -45,11 +55,14 @@ exports.updateMatchInfos = async function updateMatchInfos(matchId) {
         
         if (hltvInfos == 'demos_not_available') {
             resolve('demos_not_available');
+            return;
         } 
         if(hltvInfos == 'match_not_available') {
             resolve('match_not_available');
+            return;
         } 
-        if(hltvInfos.match_id) { // Is the match valid ?
+
+        if(hltvInfos.id) { // Is the match valid ?
             await dbManager.updateMatchInfos(hltvInfos);
             const twitchStreams = hltvInfos.twitchStreams;
             await makeTwitchJSONfile(matchId, twitchStreams, hltvInfos.maps.length);
@@ -114,7 +127,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
             let completedPercentage = Math.round((sum / contentLength) * 100);
             if (completedPercentage !== lastCompletedPercentage) {
                 logger.debug(`${completedPercentage} % of download complete`);
-                //socketManager.socketEmit('select-map', {type: 'downloading', params: completedPercentage});
+                socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
                 lastCompletedPercentage = completedPercentage;
             }
         });

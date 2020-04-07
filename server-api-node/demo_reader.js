@@ -7,7 +7,7 @@ var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
 const logger = new debugManager.logger("DemoReader");
 
-exports.readDemo = function readDemo(demofileInput) {
+exports.readDemo = function readDemo(demofileInput, matchId) {
 
     return new Promise((resolve) => {
         var timeOut = false;
@@ -225,7 +225,7 @@ exports.readDemo = function readDemo(demofileInput) {
                         pastRoundTime = demoFile.currentTime - timeReference;
                     }
 
-                    socketManager.socketEmit('select-map', {type: 'parsing', params: roundId});
+                    socketManager.socketEmit('select-map', {type: 'parsing', match_id: matchId, params: roundId});
                     logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name);
     
                     let multipleKills = computeMultiKills(roundKills);

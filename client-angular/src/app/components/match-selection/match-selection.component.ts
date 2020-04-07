@@ -16,6 +16,13 @@ interface MatchPerDate {
   matches: MatchInfos[];
 }
 
+interface SocketInfos {
+  type: string;
+  match_id: number;
+  params: any;
+}
+
+
 @Component({
   selector: 'app-match-selection',
   templateUrl: './match-selection.component.html',
@@ -68,72 +75,81 @@ export class MatchSelectionComponent implements OnInit {
 
   async hltvLinkAdded() {
     if (this.isLinkCorrect(this.inputLink)) {
-      const matchId = this.twitchService.parseHltvLink(this.inputLink);
+      const matchId = Number(this.twitchService.parseHltvLink(this.inputLink));
       await this.httpService.post('add-match', {match_id: matchId}).toPromise();
       this.mapSocket = this.sockets.subscribe('select-map');
       this.mapSocket.subscribe(info => {
-        console.log('hey');
-        this.loadingStatus(info);
+        this.loadingStatus(info, matchId);
       });
     } else {
       this.showErrorToast('Please add a correct match link. The link must come from HLTV\'s results page', null);
     }
   }
 
-  async selectMap(mapInfos) {
+  async selectMap(mapInfos: MapInfo) {
     if (mapInfos.available === 'yes') {
       const gameInfos = await this.httpService.getGameInfos(mapInfos.match_id, mapInfos.map_number).toPromise();
       this.twitchService.gameInfos = gameInfos;
       this.router.navigate(['/match']);
     } else {
       this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
-      /**this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
-      this.mapSocket = this.sockets.subscribe('select-map');
-      this.mapSocket.subscribe(info => {
-        this.loadingStatus(info);
-      });**/
     }
   }
 
-  loadingStatus(loadingInfos) {
-    switch (loadingInfos.type) {
-      case 'starting_download':
-        this.loading = true;
-        this.downloadPercentage = loadingInfos.params;
-        break;
-      case 'downloading':
-        this.loading = true;
-        this.downloadPercentage = loadingInfos.params;
-        break;
-      case 'starting_parsing':
-        this.loading = true;
-        this.downloadPercentage = 0;
-        break;
-      case 'parsing':
-        this.loading = true;
-        this.parsingRound = loadingInfos.params;
-        break;
-      case 'map_being_downloaded':
-        this.showErrorToast('Map is already being downloaded. Please wait a bit...', null);
-        break;
-      case 'map_being_parsed':
-        this.showErrorToast('Map is already being parsed. Please wait a bit...', null);
-        break;
-      case 'select-map':
-        this.mapsToSelect = loadingInfos.params;
-        break;
-      case 'match_not_downloaded':
-        this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
-        break;
-      case 'game_infos':
-        this.twitchService.gameInfos = loadingInfos.params;
-        this.sockets.unsubscribe();
-        this.router.navigate(['/match']);
-        break;
+  addMap(mapInfos: MapInfo) {
+    this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
+    this.mapSocket = this.sockets.subscribe('select-map');
+    this.mapSocket.subscribe(info => {
+      this.loadingStatus(info, mapInfos.match_id);
+    });
+  }
+
+  loadingStatus(loadingInfos: SocketInfos, matchId: number) {
+    if (loadingInfos.match_id === matchId) {
+      switch (loadingInfos.type) {
+        case 'starting_download':
+          this.loading = true;
+          break;
+        case 'downloading':
+          this.loading = true;
+          this.downloadPercentage = loadingInfos.params;
+          break;
+        case 'starting_parsing':
+          this.loading = true;
+          this.downloadPercentage = 0;
+          break;
+        case 'parsing':
+          this.loading = true;
+          this.parsingRound = loadingInfos.params;
+          break;
+        case 'map_being_downloaded':
+          this.showErrorToast('Map is already being downloaded. Please wait a bit...', null);
+          this.sockets.unsubscribe();
+          break;
+        case 'map_being_parsed':
+          this.showErrorToast('Map is already being parsed. Please wait a bit...', null);
+          this.sockets.unsubscribe();
+          break;
+        case 'select-map':
+          this.mapsToSelect = loadingInfos.params;
+          break;
+        case 'match_not_downloaded':
+          this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
+          this.sockets.unsubscribe();
+          break;
+        case 'demos_not_available':
+          this.showErrorToast('Sorry but the demos are not available for this match', null);
+          break;
+        case 'game_infos':
+          this.twitchService.gameInfos = loadingInfos.params;
+          this.sockets.unsubscribe();
+          this.router.navigate(['/match']);
+          break;
+      }
     }
   }
 
-  async changePage(direction) {
+  async changePage(direction: string) {
     const date = new Date(this.currentDate);
     this.listLoading = true;
 
@@ -222,5 +238,9 @@ export class MatchSelectionComponent implements OnInit {
 
   panelClosed() {
     this.sockets.unsubscribe();
+  }
+
+  getMatchStars(stars: number) {
+    return ' ★ '.repeat(stars);
   }
 }
