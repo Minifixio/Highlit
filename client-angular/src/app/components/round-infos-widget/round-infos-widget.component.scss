@@ -69,6 +69,7 @@
 #player-clutch-text {
     font-size: 15px;
     font-weight: 900;
+    font-size: 0.9vw;
 }
 
 #clutch-clutch-text {
@@ -89,6 +90,7 @@
     background: #fd4141;
     padding: 5px;
     margin-left: 5px;
+    width: 100%;
 }
 
 .mat-card>:first-child {
@@ -99,6 +101,7 @@
 .multiple-kills-div {
     margin:0;
     font-size: 13px;
+    height: 100%;
 }
 
 .many-kills-text {
@@ -120,16 +123,19 @@
 .ace-kills-chip {
     min-height: 30px;
     background-color: #ff1414;
+    height: fit-content;
 }
 
 .quad-kills-chip {
     min-height: 30px;
     background-color: #ca09ec;
+    height: fit-content;
 }
 
 .triple-kills-chip {
     min-height: 30px;
     background-color: #ff8d0091;
+    height: fit-content;
 }
 
 .twitch-hype-chip {

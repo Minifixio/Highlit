@@ -1,4 +1,6 @@
 /* eslint-disable no-async-promise-executor */
+// Mainteance mode
+const maintenance = true;
 
 // Imports
 const express = require('express');
@@ -16,9 +18,13 @@ var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
 var twitchManager = require("./twitch_manager.js");
+var cronManager = require("./cron_manager.js");
 var mailManager = require("./mail_manager.js");
 var debugManager = require("./debug_manager.js");
 const logger = new debugManager.logger("Http");
+
+// Starting cron task
+if(!maintenance) { cronManager.cronJob.start(); logger.debug('Starting cron job') }
 
 // Express
 app.use(cors());
@@ -30,7 +36,6 @@ app.use(express.static('dist'));
 app.all("/match*", function(req, res){
     res.sendFile("index.html", { root: __dirname + "/dist"});
 });
-
 
 app.all("/*", function(req, res, next){
   res.header('Access-Control-Allow-Origin', '*');
@@ -134,5 +139,3 @@ var job = new CronJob('*/30 * * * *', async function() {
         }
     }
 });
-
-job.start();

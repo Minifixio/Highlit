@@ -42,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AboutComponent } from './components/about/about.component';
 import { RoundTimelineComponent } from './components/round-timeline/round-timeline.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { MaintenancePageComponent } from './components/maintenance-page/maintenance-page.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
     MapInfosWidgetComponent,
     AboutComponent,
     RoundTimelineComponent,
-    MenuBarComponent
+    MenuBarComponent,
+    MaintenancePageComponent
   ],
   imports: [
     FormsModule,
