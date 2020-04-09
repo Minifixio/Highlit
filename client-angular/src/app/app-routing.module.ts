@@ -6,17 +6,16 @@ import { AboutComponent } from './pages/about/about.component';
 import { MaintenancePageComponent  } from './pages/maintenance-page/maintenance-page.component';
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 
-const maintenance = false;
+const maintenance = true;
 
 const routes: Routes = maintenance ? [
-  //{ path: '**', redirectTo: '/maintenance', pathMatch: 'full'},
-  { path: 'maintenance', component: MaintenancePageComponent},
-  { path: 'round', component: RoundInfosWidgetComponent},
+  { path: '**', redirectTo: '/maintenance', pathMatch: 'full'},
+  { path: 'maintenance', component: MaintenancePageComponent}
 ] : [
   { path: '', redirectTo: '/match-selection', pathMatch: 'full'},
   { path: 'match', component: MatchTimelineComponent},
   { path: 'match-selection', component: MatchSelectionComponent},
-  { path: 'about', component: AboutComponent},
+  { path: 'about', component: AboutComponent}
 ];
 
 @NgModule({

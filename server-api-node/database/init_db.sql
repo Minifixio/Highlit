@@ -25,4 +25,4 @@ create table maps(
 create table team(
     team_id INTEGER PRIMARY KEY,
     team_name TEXT
-)
+);
