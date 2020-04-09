@@ -7,11 +7,11 @@
                 <mat-icon *ngIf="matchInfos.downloaded == 1" id="downloaded-icon" inline="true" aria-label="Match downloaded">cloud_done</mat-icon>
                 <mat-icon *ngIf="matchInfos.downloaded == 0" id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">cloud_download</mat-icon>
                 <div id="score-div">
-                    <p class="team-text">&nbsp; {{matchInfos.team1}} &nbsp;</p>
+                    <p class="team-text">&nbsp; {{matchInfos.team1_name}} &nbsp;</p>
                     <p class="score-text" [style.color]="winnerSide == 'right'? 'red': 'limegreen'">{{score[0]}} &nbsp;</p>
                     <p class="score-text">- &nbsp;</p>
                     <p class="score-text" [style.color]="winnerSide == 'left'? 'red': 'limegreen'">{{score[1]}} &nbsp;</p>
-                    <p class="team-text">{{matchInfos.team2}}	&nbsp;</p>
+                    <p class="team-text">{{matchInfos.team2_name}}	&nbsp;</p>
                 </div>
             </mat-panel-title>
             <mat-panel-description>

@@ -12,8 +12,9 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
 
         matchDatas.push(
             matchInfos.id, 
-            matchInfos.team1.name, 
-            matchInfos.team2.name, 
+            matchInfos.team1.id, 
+            matchInfos.team2.id,
+            matchInfos.winnerTeam.id,  
             matchInfos.event.name, 
             matchInfos.format,
             matchInfos.score,
@@ -22,19 +23,23 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
             0 // 0 equals to map not yet available
         );
 
-        const matchQuery = "INSERT INTO match(match_id, team1, team2, tournament, match_format, score, date, demo_id, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        const matchQuery = "INSERT INTO match(match_id, team1_id, team2_id, winner_team_id, tournament, match_format, score, date, demo_id, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         matchesDB.run(matchQuery, matchDatas);
     
         maps.forEach(async(map, index) => {
             let mapData = [];
-            mapData.push(matchInfos.id, (index + 1), map.name, map.result, "no");
+            mapData.push(matchInfos.id, (index + 1), map.name, map.result, 0);
     
             const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
             logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         });
+
+        addTeam(matchInfos.team1);
+        addTeam(matchInfos.team2);
+
         logger.debug("Added match " + matchInfos.id + " infos");
-        resolve(1);
+        resolve();
     })
 }
 
@@ -49,7 +54,7 @@ exports.updateMapStatus = function updateMapStatus(matchId, mapNumber, status) {
             matchesDB.run(mapUpdateQuery, [status, matchId, mapNumber]);
             logger.debug("Updated map " + mapNumber + " status to " + status + " for match " + matchId);
         }
-        resolve(1)
+        resolve()
     })
 }
 
@@ -83,14 +88,14 @@ exports.isMapAvailable = function isMapAvailable(matchId, mapNumber) {
                 logger.debug(err);
             }
             if(row) {
-                if(row.available == "yes") { 
-                    resolve('yes');
+                if(row.available == 1) { 
+                    resolve(1);
                 } 
-                if(row.available == "no") { 
-                    resolve('no');
+                if(row.available == 0) { 
+                    resolve(0);
                 }
-                if(row.available == "parsing") { // If the map is already being analysed
-                    resolve('parsing');
+                if(row.available == 2) { // If the map is already being analysed
+                    resolve(2);
                 }
             } else {
                 resolve('not_available');
@@ -169,7 +174,7 @@ exports.getLastMatches = async function getLastMatches() {
 
 exports.getLastMatchByDate = async function getLastMatchByDate(startDate, endDate) {
     return new Promise((resolve, reject) => {
-        const lastMatchesQuery = "SELECT * FROM match WHERE date < ? AND date > ? ORDER BY date";
+        const lastMatchesQuery = "SELECT m.match_id, m.team1_id, m.team2_id, m.winner_team_id, m.tournament, m.match_format, m.score, stars, m.date, m.demo_id, m.downloaded, t1.team_name as team1_name, t2.team_name as team2_name FROM match m, team t1, team t2 WHERE date < ? AND date > ? AND t1.team_id = m.team1_id AND t2.team_id = m.team2_id ORDER BY date";
         matchesDB.all(lastMatchesQuery, [startDate, endDate], (err, row) => {
             if(err) {
                 reject(err);
@@ -182,24 +187,28 @@ exports.getLastMatchByDate = async function getLastMatchByDate(startDate, endDat
 
 exports.addLastMatches = async function addLastMatches(lastMatches) {
     return new Promise(async (resolve) => {
-    // 'OR IGNORE' means that if the match already exists, we don't add it
-    const matchQuery = "INSERT OR IGNORE INTO match(match_id, team1, team2, tournament, match_format, score, date, stars, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ";
-    lastMatches.forEach(async(match) => {
-        await requestToDb(matchQuery, [
-            match.id,
-            match.team1.name,
-            match.team2.name,
-            match.event.name,
-            match.format,
-            match.result,
-            match.date,
-            match.stars,
-            0
-        ]);
-    });
+        // 'OR IGNORE' means that if the match already exists, we don't add it
+        const matchQuery = "INSERT OR IGNORE INTO match(match_id, team1_id, team2_id, tournament, match_format, score, date, stars, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        lastMatches.forEach(async(match) => {
+            await requestToDb(matchQuery, [
+                match.id,
+                match.team1.id,
+                match.team2.id,
+                match.event.name,
+                match.format,
+                match.result,
+                match.date,
+                match.stars,
+                0
+            ]);
 
-    logger.debug("Added last matches to DB");
-    resolve(1)
+            await addTeam(match.team1);
+            await addTeam(match.team2);
+        });
+
+        logger.debug("Added last matches to DB");
+        resolve(1)
     })
 }
 
@@ -217,12 +226,13 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
         let matchId = matchInfos.id;
 
         // Adding demo_id for future downloads
-        const updateQuery = "UPDATE match SET demo_id = ? WHERE match_id = ?";
-        matchesDB.run(updateQuery, [matchInfos.demoId, matchId]);
+        const updateQuery = "UPDATE match SET demo_id = ?, winner_team_id = ? WHERE match_id = ?";
+        matchesDB.run(updateQuery, [matchInfos.demoId, matchInfos.winnerTeam.id, matchId]);
         logger.debug("Updated match " + matchId + " infos");
+
         matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
             let mapData = [];
-            mapData.push(matchId, (index + 1), map.name, map.result, "no");
+            mapData.push(matchId, (index + 1), map.name, map.result, 0);
     
             const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
@@ -278,10 +288,10 @@ exports.getMatchDemoId = function getMatchDemoId(matchId) {
 
 exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
     return new Promise(async (resolve) => {
-        const undownloadedQuery = "SELECT match_id, team1, team2 FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
+        const undownloadedQuery = "SELECT match_id, team1_id, team2_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
         matchesDB.get(undownloadedQuery, (err, row) => {
             if (row) {
-                logger.debug("Last undownloaded match is : " + row.team1 + " VS " + row.team2);
+                logger.debug("Last undownloaded match is : " + row.team1_id + " VS " + row.team2_id);
                 resolve(row.match_id);
             } else {
                 resolve(0);
@@ -305,5 +315,22 @@ exports.getAllMatches = async function getAllMatches() {
         matchesDB.all(dateQuery, (err, row) => {
             resolve(row);
         })
+    })
+}
+
+exports.findTeamName = async function findTeamName(teamId) {
+    return new Promise((resolve) => {
+        const getTeamByIdQuery = "SELECT team_name FROM team WHERE team_id = ?"
+        matchesDB.get(getTeamByIdQuery, [teamId], (err, row) => {
+            resolve(row.team_name);
+        })
+    })
+}
+
+async function addTeam(team) {
+    return new Promise(async(resolve) => {
+        const teamQuery = "INSERT OR IGNORE INTO team(team_id, team_name) VALUES(?, ?)";
+        await requestToDb(teamQuery, [team.id, team.name]);
+        resolve();
     })
 }

@@ -1,0 +1,168 @@
+{
+    "start": 0,
+    "end": 69.140625,
+    "round_number": 1,
+    "winning_team": {
+        "side": "t",
+        "team_name": "NVCSGO",
+        "team_id": 2
+    },
+    "kills": [
+        {
+            "attacker_name": "ZOREE",
+            "victim_name": "ryann",
+            "victim_team": "ct",
+            "attacker_team": "t",
+            "time": 12.578125
+        },
+        {
+            "attacker_name": "Calyx",
+            "victim_name": "hoody",
+            "victim_team": "t",
+            "attacker_team": "ct",
+            "time": 35.90625
+        },
+        {
+            "attacker_name": "moose",
+            "victim_name": "doto",
+            "victim_team": "t",
+            "attacker_team": "ct",
+            "time": 47.109375
+        },
+        {
+            "attacker_name": "MICHU",
+            "victim_name": "sAw",
+            "victim_team": "ct",
+            "attacker_team": "t",
+            "time": 52.96875
+        },
+        {
+            "attacker_name": "ZOREE",
+            "victim_name": "moose",
+            "victim_team": "ct",
+            "attacker_team": "t",
+            "time": 53.28125
+        },
+        {
+            "attacker_name": "MICHU",
+            "victim_name": "ZOREE",
+            "victim_team": "ct",
+            "attacker_team": "t",
+            "time": 57.234375
+        },
+        {
+            "attacker_name": "sLowi",
+            "victim_name": "MICHU",
+            "victim_team": "t",
+            "attacker_team": "ct",
+            "time": 62.765625
+        },
+        {
+            "attacker_name": "sLowi",
+            "victim_name": "Nifty",
+            "victim_team": "t",
+            "attacker_team": "ct",
+            "time": 64.703125
+        },
+        {
+            "attacker_name": "sLowi",
+            "victim_name": "Calyx",
+            "victim_team": "t",
+            "attacker_team": "ct",
+            "time": 79.84375
+        }
+    ],
+    "multiple_kills": {
+        "triples": [
+            {
+                "attacker_name": "sLowi * GGBET GG BET GG BET",
+                "kills": [
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "MICHU",
+                        "time": 62.765625
+                    },
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "Nifty",
+                        "time": 64.703125
+                    },
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "Calyx",
+                        "time": 79.84375
+                    }
+                ]
+            },
+            {
+                "attacker_name": "MINIFIIo",
+                "kills": [
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "MICHU",
+                        "time": 62.765625
+                    },
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "Nifty",
+                        "time": 64.703125
+                    },
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "Calyx",
+                        "time": 79.84375
+                    }
+                ]
+            }
+        ],
+        "quads": [
+            {
+                "attacker_name": "Hlooooooooooooo * GGBET GG BET",
+                "kills": [
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "MICHU",
+                        "time": 62.765625
+                    },
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "Nifty",
+                        "time": 64.703125
+                    },
+                    {
+                        "attacker_name": "sLowi",
+                        "victim_name": "Calyx",
+                        "time": 79.84375
+                    }
+                ]
+            }
+        ],
+        "aces": []
+    },
+    "round_end_reason": 1,
+    "buy": {
+        "t": {
+            "team_id": 1,
+            "value": 4050,
+            "type": {
+                "id": 0,
+                "name": "eco"
+            }
+        },
+        "ct": {
+            "team_id": 2,
+            "value": 4400,
+            "type": {
+                "id": 3,
+                "name": "eco"
+            }
+        }
+    },
+    "clutch": {
+        "team": "t",
+        "player": "farlig",
+        "vs": 2,
+        "time": 1476.28125
+    },
+    "twitch_rating": null
+}

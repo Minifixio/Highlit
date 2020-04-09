@@ -103,7 +103,7 @@ module.exports.addMatch = async function addMatch(matchId) {
 
         switch (mapAvailable) {
 
-            case 'no': {
+            case 0: {
                 logger.debug("[AddMatch] ... but map is not available");
                 let matchDownloaded = await dbManager.isMatchDowloaded(matchId);
                 switch (matchDownloaded) {
@@ -137,13 +137,13 @@ module.exports.addMatch = async function addMatch(matchId) {
                 break;
             }
 
-            case 'yes': {
+            case 1: {
                 let response = await demoManager.findMatchInfos(matchId, 1);
                 mainSocket.emit('select-map', {type: 'game_infos', match_id: matchId, params: response});
                 break;
             }
 
-            case 'parsing' : {
+            case 2 : {
                 mainSocket.emit('select-map', {type: 'map_being_parsed', match_id: matchId, params: ""});
                 break;
             }

@@ -1,0 +1,62 @@
+#t-weapon-img-div {
+    background-color: #ccb97cc5;
+    border-radius: 5px 0 0 5px;
+}
+
+#ct-weapon-img-div {
+    background-color: #5d79aec4;
+    border-radius: 0 5px 5px 0;
+}
+
+.weapon-img-div {
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+    border: 2px solid;
+    width: fit-content;
+    border-color: #ffffff57;
+}
+
+#buy-infos-div {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+}
+
+.weapon-img {
+    width: 3vw;
+    margin:0;
+    position: relative;
+    margin: -30% -20% -30% -20%;
+    min-width: 50px;
+}
+
+#divider {
+    width: 5px;
+    height: 100%;
+}
+
+.team-buy-infos-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.value-div {
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-color: #ffffff57;
+    border-radius: 0 0 5px 5px;
+    padding: 0 3px 0 3px;
+}
+
+#t-value-div {
+    background-color: #4d442b;
+    font-size: 90%;
+}
+
+#ct-value-div {
+    background-color: #2f3e58;
+    font-size: 90%;
+}

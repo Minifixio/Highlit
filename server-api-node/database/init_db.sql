@@ -2,11 +2,13 @@
 
 create table match(
     match_id INTEGER PRIMARY KEY,
-    team1 TEXT,
-    team2 TEXT,
+    team1_id INTEGER,
+    team2_id INTEGER,
+    winner_team_id INTEGER,
     tournament TEXT,
     match_format TEXT,
     score TEXT,
+    stars INTEGER,
     date INTERGER,
     demo_id INTEGER,
     downloaded INTEGER
@@ -17,5 +19,10 @@ create table maps(
     map_number INTEGER,
     map_name TEXT,
     score TEXT,
-    available TEXT
+    available INTEGER
 );
+
+create table team(
+    team_id INTEGER PRIMARY KEY,
+    team_name TEXT
+)

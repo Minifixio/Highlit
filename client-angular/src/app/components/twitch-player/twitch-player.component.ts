@@ -26,8 +26,8 @@ export class TwitchPlayerComponent implements OnInit {
     return new Promise((resolve) => {
       this.playerLoading = true;
       const options = {
-        width: window.innerWidth * 0.8,
-        height: window.innerHeight - 50,
+        width: window.innerWidth - 400,
+        height: window.innerHeight - 30,
         video: videoId
       };
       this.twitchPlayer = new Twitch.Player('player', options);
@@ -68,8 +68,8 @@ export class TwitchPlayerComponent implements OnInit {
 
   onResize() {
     const twitchIframe = document.querySelectorAll('iframe')[0];
-    twitchIframe.width = (window.innerWidth - 300).toString();
-    twitchIframe.height = (window.innerHeight - 50).toString();
+    twitchIframe.width = (window.innerWidth - 400).toString();
+    twitchIframe.height = (window.innerHeight - 30).toString();
   }
 
 }

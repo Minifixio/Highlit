@@ -63,7 +63,6 @@ exports.getMapInfos = async function getMapInfos(mapId) {
 }
 
 exports.parseTwitchLink = function parseTwitchLink(twitchLink) {
-    logger.debug(twitchLink)
     const scope = twitchLink.indexOf('&t=');
     const timeCode = twitchLink.slice(scope + 3);
 
@@ -125,5 +124,12 @@ exports.getLastMatches = async function getLastMatches() {
         let lastMatches = await HLTV.getResults({page: 1, contentFilters: [1]});
         await dbManager.addLastMatches(lastMatches);
         resolve(1)
+    })
+}
+
+exports.getTeamInfos = async function getTeamInfos(id) {
+    return new Promise(async(resolve) => {
+        let teamInfos = await HLTV.getTeam({id: id});
+        resolve(teamInfos)
     })
 }

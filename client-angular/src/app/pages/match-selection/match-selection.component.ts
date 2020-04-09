@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { TwitchService } from 'src/app/services/twitch.service';
 import { Router } from '@angular/router';
-import { MatchInfosWidgetComponent } from '../match-infos-widget/match-infos-widget.component';
+import { MatchInfosWidgetComponent } from '../../components/match-infos-widget/match-infos-widget.component';
 import { HttpService } from 'src/app/services/http.service';
 import { Observable } from 'rxjs';
 import { MatchInfos } from 'src/app/services/models/MatchInfos';
 import { SocketsService } from 'src/app/services/sockets.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MapInfosWidgetComponent } from '../map-infos-widget/map-infos-widget.component';
+import { MapInfosWidgetComponent } from '../../components/map-infos-widget/map-infos-widget.component';
 import { MapInfo } from 'src/app/services/models/MapInfo';
-import { MenuBarComponent } from '../menu-bar/menu-bar.component';
+import { MenuBarComponent } from '../../components/menu-bar/menu-bar.component';
 
 interface MatchPerDate {
   date: string;
@@ -87,7 +87,7 @@ export class MatchSelectionComponent implements OnInit {
   }
 
   async selectMap(mapInfos: MapInfo) {
-    if (mapInfos.available === 'yes') {
+    if (mapInfos.available === 1) {
       const gameInfos = await this.httpService.getGameInfos(mapInfos.match_id, mapInfos.map_number).toPromise();
       this.twitchService.gameInfos = gameInfos;
       this.router.navigate(['/match']);

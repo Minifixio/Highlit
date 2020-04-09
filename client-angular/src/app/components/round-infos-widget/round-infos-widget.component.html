@@ -1,83 +1,55 @@
-    <mat-card 
-        [style.border-color]="cardColor" 
-        class="round-infos-card" 
-        (mouseover)="hoverCard(true)"
-        (mouseleave)="hoverCard(false)"
-        (click)="selectRound()">
-        
-        <mat-chip-list class='chip-list-kills' *ngIf="roundInfos.kills.length > 8 && quads.length === 0 && aces.length === 0 && triples.length === 0">
-            <mat-chip class="multi-kills-chip" id="lot-of-kill-chip" color="#0aa700" selected>
-                <div id="kill-img-div">
-                    <img id="kill-img" mat-card-image src="../../../assets/img/skull.png">
-                </div>
-                <p class="many-kills-text">
-                    x {{roundInfos.kills.length}}
-                </p>
+
+<mat-card 
+    [style.border-color]="cardColor" 
+    class="round-infos-card" 
+    (mouseover)="hoverCard(true)"
+    (mouseleave)="hoverCard(false)">
+
+    <div (click)="selectRound()" [style.background-color]="cardColor" id="round-number-div">
+        <p id="round-number-p">{{roundInfos.round_number}}</p>
+        <mat-icon id="round-number-icon">play_circle_outline</mat-icon>
+    </div>
+    <app-end-round-reason-widget #roundEndReasonWidget [roundEndReason]="roundInfos.round_end_reason" [winningTeam]="roundInfos.winning_team.side" id="end-round-reason-widget"></app-end-round-reason-widget>
+
+    <div id="top-infos-div">
+        <app-buy-infos-widget #buyInfosWidget [buyInfos]="roundInfos.buy" id="buy-infos-widget"></app-buy-infos-widget>
+        <app-round-kills-widget #roundKillsWidget [kills]="roundInfos.kills" id="round-kills-widget"></app-round-kills-widget>    
+    </div>
+
+    <div id="divider" *ngIf="multiKill"></div>
+
+    <div id="bottom-infos-div" *ngIf="multiKill">
+        <mat-chip-list>
+
+            <mat-chip (click)="selectAction(triple.kills[0].time)" class="triple-chip" *ngFor="let triple of roundInfos.multiple_kills.triples">
+                <mat-icon class="multi-play-icon">play_circle_outline</mat-icon>
+                <p class="amount-kill-p">x3</p>
+                <p class="attacker-kill-p">{{triple.attacker_name}}</p>
             </mat-chip>
-        </mat-chip-list>
 
-        <mat-chip-list class='chip-list-kills' *ngIf="triples.length > 0">
-            <mat-chip class="triple-kills-chip" color="#944646" selected>
-                x3
-                <div class="multiple-kills-div"> 
-                    <p (click)="selectAction(triple.kills[0].time)" id="multiple-kills-text" *ngFor="let triple of triples">{{triple.attackerName}}</p>
-                </div>
+            <mat-chip (click)="selectAction(quad.kills[0].time)" class="quad-chip" *ngFor="let quad of roundInfos.multiple_kills.quads">
+                <mat-icon class="multi-play-icon">play_circle_outline</mat-icon>
+                <p class="amount-kill-p">x4</p>
+                <p class="attacker-kill-p">{{quad.attacker_name}}</p>
             </mat-chip>
-        </mat-chip-list>
 
-        <mat-chip-list class='chip-list-kills' *ngIf="quads.length > 0">
-            <mat-chip class="quad-kills-chip" selected>
-                x4
-                <div class="multiple-kills-div"> 
-                    <p (click)="selectAction(quad.kills[0].time)" id="multiple-kills-text" *ngFor="let quad of quads">{{quad.attackerName}}</p>
-                </div>
+            <mat-chip (click)="selectAction(ace.kills[0].time)" class="ace-chip" *ngFor="let ace of roundInfos.multiple_kills.aces">
+                <mat-icon class="multi-play-icon">play_circle_outline</mat-icon>
+                <p class="amount-kill-p">ACE</p>
+                <p class="attacker-kill-p">{{ace.attacker_name}}</p>
             </mat-chip>
-        </mat-chip-list>
 
-        <mat-chip-list class='chip-list-kills' *ngIf="aces.length > 0">
-            <mat-chip class="ace-kills-chip" color="warn" selected>
-                ACE
-                <div class="multiple-kills-div"> 
-                    <p (click)="selectAction(ace.kills[0].time)" id="multiple-kills-text" *ngFor="let ace of aces">{{ace.attackerName}}</p>
-                </div>
+            <mat-chip (click)="selectAction(roundInfos.clutch.time)" class="clutch-chip" *ngIf="roundInfos.clutch">
+                <mat-icon class="multi-play-icon">play_circle_outline</mat-icon>
+                <p class="amount-kill-p">1vs{{roundInfos.clutch.vs}}</p>
+                <p class="attacker-kill-p">{{roundInfos.clutch.player}}</p>
             </mat-chip>
+
         </mat-chip-list>
-
-        <mat-chip-list *ngIf="roundInfos.kills.length <= 8 && quads.length === 0 && aces.length === 0 && triples.length === 0">
-            <mat-chip class="multi-kills-chip" [style.background-color]="isTerrorist? '#ccba7c': '#5d79ae'" selected>
-                <div id="kill-img-div">
-                    <img id="kill-img" mat-card-image src="../../../assets/img/skull.png">
-                </div>
-                <p id="basic-kills-text">x {{roundInfos.kills.length}}</p>
-            </mat-chip>
-        </mat-chip-list>
-
-        <mat-chip-list *ngIf="((triples.length === 0 && quads.length === 0) || (triples.length === 0 && aces.length === 0) || (quads.length === 0 && aces.length === 0)) && !roundInfos.clutch">
-            <mat-chip class="twitch-hype-chip" color="#585858" selected>
-                <mat-spinner diameter=15 *ngIf="roundInfos.twitch_rating == 0"></mat-spinner>
-                <p *ngIf="roundInfos.twitch_rating > 0" class="twitch-text">
-                    <mat-icon inline="true" class='hype-icon'>comment</mat-icon>
-                    {{roundInfos.twitch_rating}} %
-                </p>
-            </mat-chip>
-        </mat-chip-list>
-
-        <button *ngIf="roundInfos.clutch" id="clutch-button" (click)="selectAction(roundInfos.clutch.time) ; $event.stopPropagation()" mat-raised-button>
-            <p class="clutch-text">
-                <span id="vs-clutch-text">1 VS {{roundInfos.clutch.vs}}</span> <span id="clutch-clutch-text"> clutch</span><br>
-                <span id="player-clutch-text">{{roundInfos.clutch.player}}</span>
-            </p>
-        </button>
-
-        <div [style.background-color]="cardColor" id="round-id-div">
-            <p id="round-id-text">{{roundInfos.round_number}}</p>
-        </div>
+    </div>
 </mat-card>
 
 <mat-card id="switching-sides-card" *ngIf="roundInfos.round_number == 15">
-    <p>
-        Switching sides 
-    </p>
+    <p> Switching sides </p>
     <mat-icon>import_export</mat-icon>
-
 </mat-card>

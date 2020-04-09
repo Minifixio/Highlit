@@ -3,9 +3,10 @@
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 70%;
     border-radius: 3px;
     background-color: #292929;
+    margin-bottom: 20px;
 }
 
 #main-page {
@@ -24,14 +25,14 @@
 }
 
 #matchinfos-div {
-    width: 90%;
+    width: 80%;
     max-width: 500px;
-    margin: 5px 5px 5px 5px;
+    margin: 5px 20px 5px 20px;
 }
 
 #matchinfos-container {
     height: fit-content;
-    justify-content: space-evenly;
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
     margin: 10px auto 10px auto;

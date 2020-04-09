@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { RoundInfosWidgetComponent } from '../round-infos-widget/round-infos-widget.component';
-import { TwitchPlayerComponent } from '../twitch-player/twitch-player.component';
+import { RoundInfosWidgetComponent } from '../../components/round-infos-widget/round-infos-widget.component';
+import { TwitchPlayerComponent } from '../../components/twitch-player/twitch-player.component';
 import { TwitchService } from 'src/app/services/twitch.service';
 import { GameInfos } from 'src/app/services/models/GameInfos';
 import { RoundInfo } from 'src/app/services/models/RoundInfo';
 import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
-import { RoundTimelineComponent } from '../round-timeline/round-timeline.component';
+import { RoundTimelineComponent } from '../../components/round-timeline/round-timeline.component';
 import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -78,13 +78,24 @@ export class MatchTimelineComponent implements OnInit {
           this.rounds[index].end = this.startVideoTime + item.end + 25; // Adding 25 seconds for buy-time
         }
       }
-      if (item.multipleKills) { // Same for multi kills
-        item.multipleKills.forEach(multi => {
-          multi.kills.forEach(kill => {
+      if (item.multiple_kills) { // Same for multi kills
+        item.multiple_kills.triples.forEach(triple => {
+          triple.kills.forEach(kill => {
+            kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
+          });
+        });
+        item.multiple_kills.quads.forEach(quad => {
+          quad.kills.forEach(kill => {
+            kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
+          });
+        });
+        item.multiple_kills.aces.forEach(ace => {
+          ace.kills.forEach(kill => {
             kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
           });
         });
       }
+
       if (item.clutch) {
         item.clutch.time += this.startVideoTime - 10;
       }
@@ -92,7 +103,6 @@ export class MatchTimelineComponent implements OnInit {
   }
 
   twitchSeekTo(timestamp: number) {
-    console.log(this.currentRoundInfos);
     this.twitchPlayer.seekTo(timestamp);
   }
 
@@ -102,14 +112,12 @@ export class MatchTimelineComponent implements OnInit {
   }
 
   selectRound(roundId: number) {
-    console.log('selectRound');
     this.currentRoundInfos = this.rounds.find(round => round.round_number === roundId);
     this.roundId = roundId;
     this.twitchSeekTo(this.currentRoundInfos.start);
   }
 
   selectAction(actionInfos: SelectActionContent) {
-    console.log('selectAction');
     this.currentRoundInfos = this.rounds.find(round => round.round_number === actionInfos.roundId);
     this.roundId = actionInfos.roundId;
     this.twitchSeekTo(actionInfos.timestamp);

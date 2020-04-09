@@ -10,7 +10,6 @@ const { unrar } = require('unrar-promise');
 var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
-var httpManager = require("./http_manager.js");
 var twitchManager = require("./twitch_manager.js");
 var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
@@ -44,7 +43,7 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
 
         await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
 
-        await dbManager.updateMapStatus(matchId, 0, 'no');
+        await dbManager.updateMapStatus(matchId, 0, 0);
         resolve(1);
     });
 }
@@ -101,7 +100,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
 
         let demoId = await dbManager.getMatchDemoId(matchId);
         logger.debug('Download demos for match ' + matchId + ' demo id is : ' + demoId);
-        await dbManager.updateMapStatus(matchId, 0, 'downloading');
+        await dbManager.updateMapStatus(matchId, 0, 2);
         await dbManager.updateMatchStatus(matchId, 2);
 
         let path = await findMatchPath(matchId);
@@ -126,8 +125,8 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
             let sum = length.reduce((a, b) => a + b, 0);
             let completedPercentage = Math.round((sum / contentLength) * 100);
             if (completedPercentage !== lastCompletedPercentage) {
-                logger.debug(`${completedPercentage} % of download complete`);
-                socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
+                completedPercentage % 10 == 0 ? logger.debug(`${completedPercentage} % of download complete`): null;
+                //socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
                 lastCompletedPercentage = completedPercentage;
             }
         });
@@ -137,7 +136,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
             logger.debug('Finished unrar for demo ' + matchId);
             await unlink(`${path}/${matchId}.rar`);
 
-            await dbManager.updateMapStatus(matchId, 0, 'no');
+            await dbManager.updateMapStatus(matchId, 0, 0);
             await dbManager.updateMatchStatus(matchId, 1);
             resolve(1);
         });
@@ -146,7 +145,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
 
 exports.parseDemo = async function parseDemo(matchId, mapNumber) {
     return new Promise (async(resolve) => {
-        await dbManager.updateMapStatus(matchId, mapNumber, 'parsing');
+        await dbManager.updateMapStatus(matchId, mapNumber, 2);
         logger.debug('Parsing demo for match ' + matchId + ' map ' + mapNumber);
         let path = await findMatchPath(matchId);
         const readdir = util.promisify(fs.readdir);
@@ -170,7 +169,7 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
         roundInfos = await twitchManager.calculateTwitchRating(roundInfos, path, mapNumber);
 
         await makeMatchJSONfile(matchId, mapNumber, roundInfos);
-        await dbManager.updateMapStatus(matchId, mapNumber, 'yes');
+        await dbManager.updateMapStatus(matchId, mapNumber, 1);
         await unlink(`${path}/dem/${map}`); // Delete dem file
 
         if (result.length == 1) {

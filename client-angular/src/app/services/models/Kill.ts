@@ -1,5 +1,7 @@
 export interface Kill {
-    attackerName: string;
-    victimName: string;
+    attacker_name: string;
+    victim_name: string;
+    victim_team: string;
+    attacker_team: string;
     time: number;
 }

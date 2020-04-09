@@ -1,0 +1,19 @@
+.kills-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.kill-img {
+    width: 20px;
+    min-width: 20px;
+    margin: 0 2px 0 2px;
+}
+
+.kill-img-div {
+    height: fit-content;
+    width: fit-content;
+    background-color: #353535;
+    display: flex;
+    padding: 2px 4px 2px 4px;
+    border-radius: 5px;
+}

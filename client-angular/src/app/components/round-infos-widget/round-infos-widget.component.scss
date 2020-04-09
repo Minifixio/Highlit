@@ -1,165 +1,137 @@
 .round-infos-card {
+    padding: 10px;
+}
+
+.round-infos-card {
     margin: 5px 2px 5px 2px;
-    border-radius: 11px 11px 11px 11px;
-    -moz-border-radius: 11px 11px 11px 11px;
-    -webkit-border-radius: 11px 11px 11px 11px;
-    border: 9px solid;
+    border-radius: 5px;
+    border: 5px solid;
     border-color: #000000;
 
     display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 3px 3px 8px 3px;
+}
+
+#top-infos-div {
+    display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 8px 10px 8px 10px;
-    cursor: pointer;
+    flex-wrap: wrap;
+    width: 90%;
+    margin-left: -10px;
+    justify-content: center;
 }
 
-.round-infos-card:hover {
-    border-color: #f44336;
+#buy-infos-widget {
+    width: fit-content;
+    margin-bottom: 10px;
 }
 
-#round-id-div {
-    background-color: #f44336;
-    width: 13%;
-    display: inline-block;
+#end-round-reason-widget {
+    margin-bottom: 10px;
+    width: 30px;
     position: absolute;
+    right: 10px;
+    top: 30px;
+}
+
+#round-number-div {
+    z-index: 2;
+    position: absolute;
+    display: flex;
+    justify-content: center;
     right: 0;
-    border-bottom-left-radius: 20px;
-    border-top-left-radius: 20px;
-}
-
-#round-id-text {
-    margin-bottom: 0;
-    padding: 10px;
-    font-size: larger;
-    font-weight: 700;
-}
-
-#multiple-kills-text {
-    font-size: 13px;
-    margin-left: 8px;
-    margin: -6px 0 -6px 8px;
+    top: 0;
+    width: 10%;
+    padding: 1px 6px;
+    border-radius: 0 0 0 5px;
     cursor: pointer;
 }
 
-#multiple-kills-text:hover {
-    font-style: oblique;
+#top-infos-div > * {
+    margin: 5px;
 }
 
-#lot-of-kill-chip {
-    background-color: #0aa700;
-}
-
-#kill-img {
-    position: relative;
-    width: 35px;
-    top: 10px;
-}
-
-#kill-img-div {
-    width: 20px;
-    margin-top: 15px;
-    margin-left: 5px;
-}
-
-#basic-kills-text {
-    margin:0;
-    font-size: 20px;
-}
-
-#player-clutch-text {
-    font-size: 15px;
+#round-number-p {
+    height: fit-content;
+    text-align: center;
+    margin: 0;
+    font-size: 120%;
     font-weight: 900;
-    font-size: 0.9vw;
+    padding: 2px 0;
 }
 
-#clutch-clutch-text {
+#round-number-icon {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+
+#divider {
+    background-color: #353535;
+    width: 90%;
+    height: 3px;
+    border-radius: 1px;
+    margin: 5px 0 3pxpx 0;
+}
+
+.attacker-kill-p {
+    margin:0;
     font-weight: 400;
     font-size: 13px;
+    margin-top: 3px;
 }
 
-#vs-clutch-text {
-    font-size: 18px;
+.amount-kill-p {
+    margin:0;
+    margin-right: 5px;
+    font-size: larger;
+}
+
+.multi-play-icon {
+    margin: 0 5px 0 -8px;
+}
+
+.triple-chip {
+    background-color: #ff8d0091;
+}
+
+.quad-chip {
+    background-color: #ca09ec;
+}
+
+.ace-chip {
+    background-color: #ff1414;
+}
+
+.clutch-chip {
+    background-color: #ff1414;
+    border: 3px solid;
+    border-color: #a80000;
+}
+
+.mat-chip {
+    border-radius: 5px;
+    height: fit-content;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+#bottom-infos-div {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    margin-bottom: 0;
 }
 
 #switching-sides-card {
     display: flex;
     justify-content: center;
-}
-
-#clutch-button {
-    background: #fd4141;
     padding: 5px;
-    margin-left: 5px;
-    width: 100%;
 }
 
-.mat-card>:first-child {
-    margin-bottom: 4px;
-    margin-right: 10px;
-}
-
-.multiple-kills-div {
+#switching-sides-card > * {
     margin:0;
-    font-size: 13px;
-    height: 100%;
-}
-
-.many-kills-text {
-    margin:0;
-    font-size: 20px;
-}
-
-.twitch-text {
-    margin:0;
-    font-size: 13px;
-}
-
-.clutch-text {
-    margin-top: auto;
-    margin-bottom: auto;
-    line-height: 16px;
-}
-
-.ace-kills-chip {
-    min-height: 30px;
-    background-color: #ff1414;
-    height: fit-content;
-}
-
-.quad-kills-chip {
-    min-height: 30px;
-    background-color: #ca09ec;
-    height: fit-content;
-}
-
-.triple-kills-chip {
-    min-height: 30px;
-    background-color: #ff8d0091;
-    height: fit-content;
-}
-
-.twitch-hype-chip {
-    border-radius: 15px;
-    min-height: 20px;
-    background-color: #585858;
-}
-
-.multi-kills-chip {
-    min-height: 30px;
-}
-
-.hype-icon {
-    margin-right: 2px;
-}
-
-.mat-card-content {
-    margin: 0;
-}
-
-.mat-card {
-    padding: 7px;
-}
-
-.mat-chip {
-    border-radius: 8px;
 }

@@ -1,5 +1,6 @@
 import { Kill } from '../models/Kill';
-import { MultiKill } from '../models/MultiKill';
+import { MultiKills } from '../models/MultiKills';
+import { BuyInfos } from './BuyInfos';
 
 export interface RoundInfo {
     start: number;
@@ -7,7 +8,9 @@ export interface RoundInfo {
     round_number: number;
     winning_team: WinnigTeam;
     kills: Kill[];
-    multipleKills: MultiKill[];
+    multiple_kills: MultiKills;
+    buy: BuyInfos;
+    round_end_reason: number;
     clutch: ClutchInfos;
     twitch_rating: number;
 }
@@ -15,6 +18,7 @@ export interface RoundInfo {
 interface WinnigTeam {
     side: string;
     team_name: string;
+    team_id: number;
 }
 
 interface ClutchInfos {

@@ -5,7 +5,7 @@
         <div id="kill-div" *ngFor="let kill of roundInfos.kills">
             <div [ngStyle]="computeStyle()" id="timeline-line"></div>
             <div id="kill-img-div">
-                <img id="kill-img" class="grow" matTooltip="{{kill.attackerName}}" mat-card-image src="../../../assets/img/skull.png">
+                <img id="kill-img" class="grow" matTooltip="{{kill.attacker_name}}" mat-card-image src="../../../assets/img/skull.png">
             </div>
             <div [ngStyle]="computeStyle()" id="timeline-line"></div>
         </div>

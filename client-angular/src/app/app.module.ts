@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatchTimelineComponent } from './components/match-timeline/match-timeline.component';
+import { MatchTimelineComponent } from './pages/match-timeline/match-timeline.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -35,14 +35,17 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from './components/twitch-player/twitch-player.component';
-import { MatchSelectionComponent } from './components/match-selection/match-selection.component';
+import { MatchSelectionComponent } from './pages/match-selection/match-selection.component';
 import { MatchInfosWidgetComponent } from './components/match-infos-widget/match-infos-widget.component';
 import { MapInfosWidgetComponent } from './components/map-infos-widget/map-infos-widget.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { AboutComponent } from './components/about/about.component';
+import { AboutComponent } from './pages/about/about.component';
 import { RoundTimelineComponent } from './components/round-timeline/round-timeline.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
-import { MaintenancePageComponent } from './components/maintenance-page/maintenance-page.component';
+import { MaintenancePageComponent } from './pages/maintenance-page/maintenance-page.component';
+import { BuyInfosWidgetComponent } from './components/buy-infos-widget/buy-infos-widget.component';
+import { EndRoundReasonWidgetComponent } from './components/end-round-reason-widget/end-round-reason-widget.component';
+import { RoundKillsWidgetComponent } from './components/round-kills-widget/round-kills-widget.component';
 
 
 @NgModule({
@@ -57,7 +60,10 @@ import { MaintenancePageComponent } from './components/maintenance-page/maintena
     AboutComponent,
     RoundTimelineComponent,
     MenuBarComponent,
-    MaintenancePageComponent
+    MaintenancePageComponent,
+    BuyInfosWidgetComponent,
+    EndRoundReasonWidgetComponent,
+    RoundKillsWidgetComponent
   ],
   imports: [
     FormsModule,
