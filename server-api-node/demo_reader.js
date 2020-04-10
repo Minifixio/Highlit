@@ -86,7 +86,7 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                         startMatch()
                     }
 
-                    if (roundId > 14) { // Means at least 15 rounds have been played so the match ended
+                    if (roundId > 15) { // Means at least 15 rounds have been played so the match ended
                         logger.debug('Match has ENDED');
                         resolve(matchInfos);
                         demoFile.cancel();
@@ -117,7 +117,7 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                     resolve(matchInfos);
                     demoFile.cancel();
                 } 
-                if (terrorists.score + cts.score == 0) {
+                if (terrorists.score + cts.score == 0 && roundId < 14) {
                     startMatch();
                 }
             });
