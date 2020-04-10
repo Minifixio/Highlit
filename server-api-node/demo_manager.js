@@ -149,8 +149,10 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
         logger.debug('Map to parse is : ' + map)
         var roundInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
 
-        let roundsPlayed = findMapRoundsPlayed(matchId, mapNumber);
+        let roundsPlayed = await findMapRoundsPlayed(matchId, mapNumber);
 
+        logger.debug("Rounds parsed length : " + roundInfos.length + " / Rounds played : " + roundsPlayed);
+        
         if (roundInfos.length !== roundsPlayed) {
             logger.debug('Wrong parsing for map : ' + map + " for match : " + matchId);
             await dbManager.updateMapStatus(matchId, mapNumber, 3);
@@ -320,10 +322,12 @@ exports.makeRmCommands = async function makeRmCommands() {
 }
 
 async function findMapRoundsPlayed(matchId, mapNumber) {
-    let score = await dbManager.findMapScore(matchId, mapNumber);
+    return new Promise(async(resolve) => {
+        let score = await dbManager.findMapScore(matchId, mapNumber);
 
-    score = score.substring(0, 5).split(":").map(e => parseInt(e)).reduce((a, b) => a + b);
-
-    return score;
+        score = score.substring(0, 5).split(":").map(e => parseInt(e)).reduce((a, b) => a + b);
+    
+        resolve(score);
+    })
 }
 
