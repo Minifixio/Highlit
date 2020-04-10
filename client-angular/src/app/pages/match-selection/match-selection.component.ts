@@ -69,6 +69,7 @@ export class MatchSelectionComponent implements OnInit {
     this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
       this.matches.push({date: new Date(this.currentDate).toDateString(), matches: res});
       this.currentMatches = res;
+      console.log(res)
       this.listLoading = false;
     });
   }

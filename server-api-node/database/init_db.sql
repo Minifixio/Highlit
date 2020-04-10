@@ -19,7 +19,8 @@ create table maps(
     map_number INTEGER,
     map_name TEXT,
     score TEXT,
-    available INTEGER
+    available INTEGER,
+    winner_team_id INTEGER
 );
 
 create table team(

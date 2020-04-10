@@ -1,4 +1,6 @@
 
+<img class="team-logo-img" mat-card-image [src]="'https://static.hltv.org/images/team/logo/'+ map.winner_team_id">
+
 <img [ngStyle]="{ 'filter': map.available == 1? 'none': 'grayscale(100%)' }" (click)="selectMap()" class="grow" id="map-img" mat-card-image src="../../../assets/img/maps_img/{{map.map_name}}.jpg" alt={{map.map_name}}>
 
 <div id="map-infos-div">

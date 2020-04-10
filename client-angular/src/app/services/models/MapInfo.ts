@@ -3,5 +3,6 @@ export interface MapInfo {
     map_number: number;
     map_name: string;
     score: string;
+    winner_team_id: number;
     available: number;
 }

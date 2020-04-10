@@ -43,6 +43,10 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
             } else {
                 score = maps[0].result.substring(0, 4);
             }
+
+            let loserTeam;
+            matchInfos.winnerTeam.id == matchInfos.team1.id ? loserTeam = matchInfos.team2.id : loserTeam = matchInfos.team1.id;
+            maps = getMapWinner(maps, matchInfos.winnerTeam.id, loserTeam);
         }
 
         if (!matchInfos.statsId) { 
@@ -144,4 +148,39 @@ exports.getMatchInfos = async function getMatchInfos(id) {
         let matchInfos = await HLTV.getMatch({id: id});
         resolve(matchInfos)
     })
+}
+
+function getMapWinner(maps, winningTeam, losingTeam) {
+    if (maps.length == 1) {
+        maps[0].winnerTeamId = winningTeam;
+    }
+
+    if (maps.length == 2) {
+        maps.forEach(map => {
+            map.winnerTeamId = winningTeam;
+        });
+    }
+
+    if (maps.length >= 3) {
+        let team1maps = [];
+        let team2maps = [];
+
+        maps.forEach(map => {
+            let result = map.result.substring(0, 5).split(":");
+
+            result[0] > result[1] ? team1maps.push(map) : team2maps.push(map);
+        });
+
+        if (team1maps.length > team2maps.length) {
+            team1maps.map(map => map.winnerTeamId = winningTeam);
+            team2maps.map(map => map.winnerTeamId = losingTeam);
+        } else {
+            team2maps.map(map => map.winnerTeamId = winningTeam);
+            team1maps.map(map => map.winnerTeamId = losingTeam);
+        }
+
+        maps = team1maps.concat(team2maps);
+    }
+
+    return maps;
 }

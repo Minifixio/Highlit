@@ -6,7 +6,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { MaintenancePageComponent  } from './pages/maintenance-page/maintenance-page.component';
 import { RoundInfosWidgetComponent } from './components/round-infos-widget/round-infos-widget.component';
 
-const maintenance = true;
+const maintenance = false;
 
 const routes: Routes = maintenance ? [
   { path: '**', redirectTo: '/maintenance', pathMatch: 'full'},

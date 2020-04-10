@@ -46,6 +46,7 @@ import { MaintenancePageComponent } from './pages/maintenance-page/maintenance-p
 import { BuyInfosWidgetComponent } from './components/buy-infos-widget/buy-infos-widget.component';
 import { EndRoundReasonWidgetComponent } from './components/end-round-reason-widget/end-round-reason-widget.component';
 import { RoundKillsWidgetComponent } from './components/round-kills-widget/round-kills-widget.component';
+import { MatchInfosComponent } from './components/match-infos/match-infos.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { RoundKillsWidgetComponent } from './components/round-kills-widget/round
     MaintenancePageComponent,
     BuyInfosWidgetComponent,
     EndRoundReasonWidgetComponent,
-    RoundKillsWidgetComponent
+    RoundKillsWidgetComponent,
+    MatchInfosComponent
   ],
   imports: [
     FormsModule,
