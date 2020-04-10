@@ -117,7 +117,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
             uri: file_url
         });
         req.pipe(out);
-        req.on( 'response', function ( data ) {
+        req.on( 'response', function (data) {
             contentLength = parseInt(data.headers['content-length']);
         });
         req.on('data', function (chunk) {
@@ -146,7 +146,8 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
 exports.parseDemo = async function parseDemo(matchId, mapNumber) {
     return new Promise (async(resolve) => {
         await dbManager.updateMapStatus(matchId, mapNumber, 2);
-        logger.debug('Parsing demo for match ' + matchId + ' map ' + mapNumber);
+
+        //logger.debug('Parsing demo for match ' + matchId + ' map ' + mapNumber);
         let path = await findMatchPath(matchId);
         const readdir = util.promisify(fs.readdir);
         var result = await (await readdir(`${path}/dem`)).filter(file => file.includes('.dem'));
@@ -182,7 +183,7 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
             await rmdir(`${path}/dem`);
         }
 
-        resolve(1);
+        resolve();
     })
 }
 

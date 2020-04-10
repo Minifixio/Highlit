@@ -13,8 +13,12 @@ var job = new CronJob('*/30 * * * *', async function() {
     await hltvManager.getLastMatches();
     let matchId = await dbManager.lastUndownloadedMatch();
 
+    matchId == 0 ? logger.debug("All matches are downloaded") : logger.debug("Last undownloaded match : " + matchId);
+
     if (matchId !== 0) {
         if ((await dbManager.matchHasDemos(matchId)) == false) {
+            logger.debug("Match has no demoId");
+
             let update = await demoManager.updateMatchInfos(matchId);
 
             if (update == 'demos_not_available' || update == 'match_not_available') {
@@ -27,9 +31,11 @@ var job = new CronJob('*/30 * * * *', async function() {
 
                 return false;
             }
+
+            logger.debug("Match updated successfully");
         }
     
-        if ((await dbManager.isMatchDowloaded(matchId)) == false) {
+        if ((await dbManager.isMatchDowloaded(matchId)) == 0) {
             await demoManager.dowloadDemos(matchId);
         }
     

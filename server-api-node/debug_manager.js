@@ -3,8 +3,12 @@ var logger = class Logger {
         this.component = component;
     }
     debug(message) {
+        let date = new Date();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+
         if(!(this.component == "")) {
-            console.log("[" + this.component + "] ", message)
+            console.log(hours + " : " + minutes + "| [" + this.component + "] ", message)
         }
     }
 }

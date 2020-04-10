@@ -46,15 +46,16 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
 exports.updateMapStatus = function updateMapStatus(matchId, mapNumber, status) {
     return new Promise(async (resolve) => {
         if (mapNumber == 0) {
-            const mapDownloadingQuery = "UPDATE maps SET available = ? WHERE match_id = ?";
-            matchesDB.run(mapDownloadingQuery, [status, matchId]);
+            const mapsUpdateQuery = "UPDATE maps SET available = ? WHERE match_id = ?";
+            await requestToDb(mapsUpdateQuery, [status, matchId])
             logger.debug("Updated maps status to " + status + " for match " + matchId);
+            resolve()
         } else {
             const mapUpdateQuery = "UPDATE maps SET available = ? WHERE match_id = ? AND map_number = ?";
-            matchesDB.run(mapUpdateQuery, [status, matchId, mapNumber]);
+            await requestToDb(mapUpdateQuery, [status, matchId, mapNumber]);
             logger.debug("Updated map " + mapNumber + " status to " + status + " for match " + matchId);
+            resolve()
         }
-        resolve()
     })
 }
 
@@ -215,9 +216,9 @@ exports.addLastMatches = async function addLastMatches(lastMatches) {
 exports.updateMatchStatus = function updateMatchStatus(matchId, status) {
     return new Promise(async (resolve) => {
         const statusQuery = "UPDATE match SET downloaded = ? WHERE match_id = ?";
-        matchesDB.run(statusQuery, [status, matchId]);
+        await requestToDb(statusQuery, [status, matchId]);
         logger.debug("Updated match status to " + status + " for match " + matchId);
-        resolve(1)
+        resolve()
     })
 }
 
@@ -228,7 +229,7 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
         // Adding demo_id for future downloads
         const updateQuery = "UPDATE match SET demo_id = ?, winner_team_id = ? WHERE match_id = ?";
         matchesDB.run(updateQuery, [matchInfos.demoId, matchInfos.winnerTeam.id, matchId]);
-        logger.debug("Updated match " + matchId + " infos");
+        //logger.debug("Updated match " + matchId + " infos");
 
         matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
             let mapData = [];
@@ -236,7 +237,7 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
     
             const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
-            logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
+            //logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         });
         resolve(1);
     })
@@ -264,10 +265,10 @@ exports.matchHasDemos = async function matchHasDemos(matchId) {
         const statusQuery = "SELECT demo_id FROM match WHERE match_id = ?";
         matchesDB.get(statusQuery, [matchId], (err, row) => {
             if (row.demo_id == null) {
-                logger.debug("Match " + matchId + " does not have a demo_id");
+                //logger.debug("Match " + matchId + " does not have a demo_id");
                 resolve(false);
             } else {
-                logger.debug("Match " + matchId + " has a demo_id");
+                //logger.debug("Match " + matchId + " has a demo_id");
                 resolve(true);
             }
         });
@@ -291,7 +292,7 @@ exports.lastUndownloadedMatch = async function lastUndownloadedMatch() {
         const undownloadedQuery = "SELECT match_id, team1_id, team2_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
         matchesDB.get(undownloadedQuery, (err, row) => {
             if (row) {
-                logger.debug("Last undownloaded match is : " + row.team1_id + " VS " + row.team2_id);
+                //logger.debug("Last undownloaded match is : " + row.team1_id + " VS " + row.team2_id);
                 resolve(row.match_id);
             } else {
                 resolve(0);
