@@ -8,7 +8,7 @@ var logger = class Logger {
         let minutes = date.getMinutes();
 
         if(!(this.component == "")) {
-            console.log(hours + " : " + minutes + "| [" + this.component + "] ", message)
+            console.log(hours + ":" + minutes + " | [" + this.component + "] ", message)
         }
     }
 }

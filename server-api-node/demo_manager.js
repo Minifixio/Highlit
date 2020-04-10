@@ -27,15 +27,6 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
 
-        if (hltvInfos == 'demos_not_available') {
-            resolve('demos_not_available');
-            return;
-        } 
-        if(hltvInfos == 'match_not_available') {
-            resolve('match_not_available');
-            return;
-        } 
-
         await dbManager.addMatchInfos(hltvInfos);
 
         const twitchStreams = hltvInfos.twitchStreams;
@@ -44,29 +35,21 @@ exports.addMatchInfos = async function addMatchInfos(matchId) {
         await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
 
         await dbManager.updateMapStatus(matchId, 0, 0);
-        resolve(1);
+        resolve(hltvInfos.available);
     });
 }
 
 exports.updateMatchInfos = async function updateMatchInfos(matchId) {
     return new Promise(async(resolve) => {
         const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
-        
-        if (hltvInfos == 'demos_not_available') {
-            resolve('demos_not_available');
-            return;
-        } 
-        if(hltvInfos == 'match_not_available') {
-            resolve('match_not_available');
-            return;
-        } 
 
         if(hltvInfos.id) { // Is the match valid ?
             await dbManager.updateMatchInfos(hltvInfos);
             const twitchStreams = hltvInfos.twitchStreams;
-            await makeTwitchJSONfile(matchId, twitchStreams, hltvInfos.maps.length);
-            resolve(true);
+            hltvInfos.maps.length > 0 ? await makeTwitchJSONfile(matchId, twitchStreams, hltvInfos.maps.length): null;
         }
+
+        resolve(hltvInfos.available);
     })
 }
 
@@ -166,6 +149,15 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
         logger.debug('Map to parse is : ' + map)
         var roundInfos = await demoReader.readDemo(`${path}/dem/${map}`, matchId);
 
+        let roundsPlayed = findMapRoundsPlayed(matchId, mapNumber);
+
+        if (roundInfos.length !== roundsPlayed) {
+            logger.debug('Wrong parsing for map : ' + map + " for match : " + matchId);
+            await dbManager.updateMapStatus(matchId, mapNumber, 3);
+            resolve(false);
+            return false;
+        }
+
         // TODO : Make a function to test if twitch comments are available or no
         roundInfos = await twitchManager.calculateTwitchRating(roundInfos, path, mapNumber);
 
@@ -183,7 +175,7 @@ exports.parseDemo = async function parseDemo(matchId, mapNumber) {
             await rmdir(`${path}/dem`);
         }
 
-        resolve();
+        resolve(true);
     })
 }
 
@@ -326,3 +318,12 @@ exports.makeRmCommands = async function makeRmCommands() {
     file.end();
 
 }
+
+async function findMapRoundsPlayed(matchId, mapNumber) {
+    let score = await dbManager.findMapScore(matchId, mapNumber);
+
+    score = score.substring(0, 5).split(":").map(e => parseInt(e)).reduce((a, b) => a + b);
+
+    return score;
+}
+

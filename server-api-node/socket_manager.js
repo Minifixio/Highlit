@@ -70,7 +70,7 @@ module.exports.addMatch = async function addMatch(matchId) {
         
         let adding = await demoManager.addMatchInfos(matchId);
 
-        if (adding == 'demos_not_available' || adding == 'match_not_available') {
+        if (adding == 3) {
             mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
             return;
         }
@@ -82,12 +82,12 @@ module.exports.addMatch = async function addMatch(matchId) {
     if (!matchHasDemos) { // If match infos (such as demo_id, twitch JSON and maps...) does not exist
         let update = await demoManager.updateMatchInfos(matchId);
 
-        if (update == 'demos_not_available' || update == 'match_not_available') {
+        if (update == 3) {
             let today = Date.now()
             let matchDate = await parseInt(dbManager.findMatchDate(matchId));
 
             if (today - matchDate > 172800000) { // 172800000 is 2 days in ms
-                await dbManager.updateMatchStatus(matchId, 3);
+                await dbManager.updateMatchStatus(matchId, 4);
             }
             mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
         }
@@ -130,6 +130,11 @@ module.exports.addMatch = async function addMatch(matchId) {
                     }
 
                     case 3: {
+                        mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
+                        break;
+                    }
+                    
+                    case 4: {
                         mainSocket.emit('select-map', {type: 'demos_not_available', match_id: matchId, params: ""});
                         break;
                     }

@@ -20,36 +20,41 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
 
         logger.debug('Match : ' + matchInfos.team1.name + ' VS ' + matchInfos.team2.name);
 
-        if (matchInfos.statsId) { // Check if match has stats
-            if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0 && matchInfos.demos.length >= 2) { // Check if demos are available and stream also (it means there are minimum 2 links)
-                downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
-                demoId = downloadLink.match(/(\d+)/)[0];
-                twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
-                maps = matchInfos.maps.filter(map => map.statsId); // Check if map has been played or not
-        
-                if (maps.length >= 2 && maps.length < 4) {
-                    if (matchInfos.winnerTeam.name == matchInfos.team1.name) {
-                        score = "2" + " - " + (maps.length - 2).toString();
-                    } else {
-                        score = (maps.length- 2).toString()  + " - " + "2";
-                    }
-                } else {
-                    score = maps[0].result.substring(0, 4);
-                }
-                
-                matchInfos.twitchStreams = twitchStreams;
-                matchInfos.demoId = demoId;
-                matchInfos.score = score;
-                matchInfos.maps = maps;
+        matchInfos.available = 0; // 0 means the match is not yet available
 
-                resolve(matchInfos);
-
-            } else {
-                resolve('demos_not_available');
-            }
+        if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0 && matchInfos.demos.length >= 2) { // Check if demos are available and stream also (it means there are minimum 2 links)
+            downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
+            demoId = downloadLink.match(/(\d+)/)[0];
+            twitchStreams = matchInfos.demos.filter(obj => obj.link.includes('twitch'));
+            maps = matchInfos.maps.filter(map => map.statsId); // Check if map has been played or not
         } else {
-            resolve('match_not_available');
+            matchInfos.available = 3;
         }
+
+        if (maps.length == 0) { 
+            matchInfos.available = 3;
+        } else {
+            if (maps.length >= 2 && maps.length < 4) {
+                if (matchInfos.winnerTeam.name == matchInfos.team1.name) {
+                    score = "2" + " - " + (maps.length - 2).toString();
+                } else {
+                    score = (maps.length- 2).toString()  + " - " + "2";
+                }
+            } else {
+                score = maps[0].result.substring(0, 4);
+            }
+        }
+
+        if (!matchInfos.statsId) { 
+            matchInfos.available = 3;
+        }
+        
+        matchInfos.twitchStreams = twitchStreams;
+        matchInfos.demoId = demoId;
+        matchInfos.score = score;
+        matchInfos.maps = maps;
+
+        resolve(matchInfos);
     })
 }
 
@@ -131,5 +136,12 @@ exports.getTeamInfos = async function getTeamInfos(id) {
     return new Promise(async(resolve) => {
         let teamInfos = await HLTV.getTeam({id: id});
         resolve(teamInfos)
+    })
+}
+
+exports.getMatchInfos = async function getMatchInfos(id) {
+    return new Promise(async(resolve) => {
+        let matchInfos = await HLTV.getMatch({id: id});
+        resolve(matchInfos)
     })
 }

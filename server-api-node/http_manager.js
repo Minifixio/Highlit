@@ -74,13 +74,10 @@ app.post('/v1/maps', async function(req, res) {
     if (!matchHasDemos) {
         logger.debug("Maps for match " + matchId + " does not exist");
         let update = await demoManager.updateMatchInfos(matchId);
-        if (update == 'match_not_available') {
+        if (update == 3) {
             response = [];
         }
-        if (update == 'demos_not_available') {
-            response = [];
-        } 
-        if (update == true) {
+        if (update == 0) {
             response = await dbManager.getMapsInfos(matchId);  
         }
     }

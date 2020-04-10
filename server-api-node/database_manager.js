@@ -20,7 +20,7 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
             matchInfos.score,
             matchInfos.date,
             matchInfos.demoId,
-            0 // 0 equals to map not yet available
+            matchInfos.available
         );
 
         const matchQuery = "INSERT INTO match(match_id, team1_id, team2_id, winner_team_id, tournament, match_format, score, date, demo_id, downloaded) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
@@ -227,18 +227,18 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
         let matchId = matchInfos.id;
 
         // Adding demo_id for future downloads
-        const updateQuery = "UPDATE match SET demo_id = ?, winner_team_id = ? WHERE match_id = ?";
-        matchesDB.run(updateQuery, [matchInfos.demoId, matchInfos.winnerTeam.id, matchId]);
+        const updateQuery = "UPDATE match SET demo_id = ?, winner_team_id = ?, downloaded = ? WHERE match_id = ?";
+        matchesDB.run(updateQuery, [matchInfos.demoId, matchInfos.winnerTeam.id, matchInfos.available, matchId]);
         //logger.debug("Updated match " + matchId + " infos");
 
-        matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
+        matchInfos.maps.length > 0 ? matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
             let mapData = [];
             mapData.push(matchId, (index + 1), map.name, map.result, 0);
     
             const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
             //logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
-        });
+        }) : null;
         resolve(1);
     })
 }
@@ -333,5 +333,27 @@ async function addTeam(team) {
         const teamQuery = "INSERT OR IGNORE INTO team(team_id, team_name) VALUES(?, ?)";
         await requestToDb(teamQuery, [team.id, team.name]);
         resolve();
+    })
+}
+
+exports.lastUnavailableMatch = async function lastUnavailableMatch() {
+    return new Promise(async (resolve) => {
+        const undownloadedQuery = "SELECT * FROM match WHERE downloaded = 3 ORDER BY date LIMIT 1";
+        matchesDB.all(undownloadedQuery, (err, row) => {
+            if (row) {
+                resolve(row);
+            } else {
+                resolve(false);
+            }
+        })
+    })
+}
+
+exports.findMapScore = async function findMapScore(matchId, mapNumber) {
+    return new Promise((resolve) => {
+        const getMapScore = "SELECT score FROM maps WHERE match_id = ? AND map_number = ?"
+        matchesDB.get(getMapScore, [matchId, mapNumber], (err, row) => {
+            resolve(row.score);
+        })
     })
 }
