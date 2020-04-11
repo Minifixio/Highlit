@@ -28,9 +28,9 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     
         maps.forEach(async(map, index) => {
             let mapData = [];
-            mapData.push(matchInfos.id, (index + 1), map.name, map.result, map.winnerTeamId, 0);
+            mapData.push(matchInfos.id, (index + 1), map.name, map.result, 0);
     
-            const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, winner_team_id, available) VALUES(?, ?, ?, ?, ?, ?)";
+            const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
             logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         });
@@ -66,17 +66,8 @@ exports.isMatchDowloaded = function isMatchDowloaded(matchId) {
             if (err) {
                 logger.debug(err);
             }
-            if (row.downloaded == 0) {
-                resolve(0);
-            }
-            if (row.downloaded == 1) {
-                resolve(1);
-            } 
-            if (row.downloaded == 2) {
-                resolve(2);
-            } else {
-                reject('Map not available');
-            }
+
+            resolve(row.downloaded);
         });
     })
 }
@@ -233,10 +224,9 @@ exports.updateMatchInfos = function updateMatchInfos(matchInfos) {
 
         matchInfos.maps.length > 0 ? matchInfos.maps.forEach(async(map, index) => { // Adding each map to the maps table
             let mapData = [];
-            console.log(map)
-            mapData.push(matchId, (index + 1), map.name, map.result, map.winnerTeamId, 0);
+            mapData.push(matchId, (index + 1), map.name, map.result, 0);
     
-            const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, winner_team_id, available) VALUES(?, ?, ?, ?, ?, ?)";
+            const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
             //logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         }) : null;

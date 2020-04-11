@@ -37,6 +37,15 @@ module.exports.startSockets = function startSockets(http) {
                     
                     let response = await demoManager.findMatchInfos(matchId, mapNumber);
                     mainSocket.emit('select-map', {type: 'game_infos', match_id: matchId, params: response});
+
+
+                    // Make sue to parse the demos left
+                    let mapsCount = await dbManager.countMaps(matchId);
+
+                    for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
+                        mapId !== mapNumber ? await demoManager.parseDemo(matchId, mapId): null;
+                    }
+
                     break;
                 }
     
@@ -54,6 +63,11 @@ module.exports.startSockets = function startSockets(http) {
     
                 case 2: {
                     mainSocket.emit('select-map', {type: 'map_being_downloaded', match_id: matchId, params: ""});
+                    break;
+                }
+
+                case 3: {
+                    mainSocket.emit('select-map', {type: 'map_not_available', match_id: matchId, params: ""});
                     break;
                 }
             }

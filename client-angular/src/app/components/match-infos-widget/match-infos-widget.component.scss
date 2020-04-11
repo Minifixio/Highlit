@@ -41,6 +41,9 @@
 .map-infos-widget {
     flex-grow: 0;
     flex-basis: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .score-text {
@@ -68,4 +71,5 @@
 
 .team-logo-img {
     width: 20px;
+    margin: 0;
 }
