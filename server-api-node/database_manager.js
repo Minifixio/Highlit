@@ -66,17 +66,8 @@ exports.isMatchDowloaded = function isMatchDowloaded(matchId) {
             if (err) {
                 logger.debug(err);
             }
-            if (row.downloaded == 0) {
-                resolve(0);
-            }
-            if (row.downloaded == 1) {
-                resolve(1);
-            } 
-            if (row.downloaded == 2) {
-                resolve(2);
-            } else {
-                reject('Map not available');
-            }
+
+            resolve(row.downloaded);
         });
     })
 }

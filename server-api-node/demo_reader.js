@@ -210,9 +210,10 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                     };
                 }
 
-
-                tEquipmentValue = terrorists.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-                ctEquipmentValue = cts.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                if (terrorists.members.filter(player => player).length > 0 && cts.members.filter(player => player).length > 0) {
+                    tEquipmentValue = terrorists.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                    ctEquipmentValue = cts.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                }
 
                 if (tEquipmentValue == null || tEquipmentValue == null) {
                     tEquipmentValue, ctEquipmentValue = 25000
