@@ -173,8 +173,12 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                 const terrorists = teams[2];
                 const cts = teams[3];
 
-                tEquipmentValue = terrorists.members.reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-                ctEquipmentValue = cts.members.reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                tEquipmentValue = terrorists.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                ctEquipmentValue = cts.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+
+                if (tEquipmentValue == null || tEquipmentValue == null) {
+                    tEquipmentValue, ctEquipmentValue = 25000
+                }
             });
 
 
@@ -206,11 +210,13 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                     };
                 }
 
-                if (terrorists.members.length == 0 || cts.members.length == 0) {
+                if (terrorists.members.filter(player => player).length > 0 && cts.members.filter(player => player).length > 0) {
+                    tEquipmentValue = terrorists.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                    ctEquipmentValue = cts.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
+                }
+
+                if (tEquipmentValue == null || tEquipmentValue == null) {
                     tEquipmentValue, ctEquipmentValue = 25000
-                } else {
-                    tEquipmentValue = terrorists.members.reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-                    ctEquipmentValue = cts.members.reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
                 }
                
                 roundEndReason = e.reason;
