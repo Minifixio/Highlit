@@ -2,6 +2,7 @@
 var sq = require('sqlite3');
 var matchesDB = new sq.Database(__dirname + '/database/matches.db');
 var debugManager = require("./debug_manager.js");
+var hltvManager = require("./hltv_manager.js");
 const logger = new debugManager.logger("db");
 
 exports.addMatchInfos = async function addMatchInfos(matchInfos) {
@@ -346,5 +347,46 @@ exports.findMapScore = async function findMapScore(matchId, mapNumber) {
         matchesDB.get(getMapScore, [matchId, mapNumber], (err, row) => {
             resolve(row.score);
         })
+    })
+}
+
+
+exports.hasMapsWinnerId = async function hasMapsWinnerId(matchId) {
+    return new Promise((resolve) => {
+        const winnerIdRequest = "SELECT winner_team_id FROM maps WHERE match_id = ?"
+        matchesDB.all(winnerIdRequest, [matchId], (err, row) => {
+            
+            row.forEach(el => { if(!el.winner_team_id) { resolve(false); return; } });
+            resolve(true)
+        })
+    })
+}
+
+exports.updateMapsWinnerId = async function updateMapsWinnerId(matchId) {
+    return new Promise(async(resolve) => {
+        const mapsInfos = await this.getMapsInfos(matchId);
+
+        const mapTeamsRequest = "SELECT winner_team_id, team1_id, team2_id FROM match WHERE match_id = ?";
+
+        matchesDB.get(mapTeamsRequest, [matchId], (err, row) => {
+            const winnerId = row.winner_team_id;
+            let loserId = "";
+            winnerId == row.team1_id ? loserId = row.team2_id : loserId = row.team1_id;
+
+            mapsInfos.map(map => map.result = map.score);
+            let maps = hltvManager.getMapWinner(mapsInfos, winnerId, loserId);
+
+            maps.forEach(async(map) => await setMapWinnerId(matchId, map.map_number, map.winnerTeamId));
+            resolve()
+        });
+    })
+}
+
+async function setMapWinnerId(matchId, mapNumber, winnerId) {
+    return new Promise(async (resolve) => {
+        const updateWinnerRequest = "UPDATE maps SET winner_team_id = ? WHERE match_id = ? AND map_number = ?";
+
+        await requestToDb(updateWinnerRequest, [winnerId, matchId, mapNumber]);
+        resolve();
     })
 }

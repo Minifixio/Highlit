@@ -46,7 +46,7 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
 
             let loserTeam;
             matchInfos.winnerTeam.id == matchInfos.team1.id ? loserTeam = matchInfos.team2.id : loserTeam = matchInfos.team1.id;
-            maps = getMapWinner(maps, matchInfos.winnerTeam.id, loserTeam);
+            maps = this.getMapWinner(maps, matchInfos.winnerTeam.id, loserTeam);
         }
 
         if (!matchInfos.statsId) { 
@@ -150,7 +150,7 @@ exports.getMatchInfos = async function getMatchInfos(id) {
     })
 }
 
-function getMapWinner(maps, winningTeam, losingTeam) {
+exports.getMapWinner = function getMapWinner(maps, winningTeam, losingTeam) {
     if (maps.length == 1) {
         maps[0].winnerTeamId = winningTeam;
     }

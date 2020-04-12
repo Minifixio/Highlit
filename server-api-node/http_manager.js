@@ -80,7 +80,16 @@ app.post('/v1/maps', async function(req, res) {
         if (update == 0) {
             response = await dbManager.getMapsInfos(matchId);  
         }
+    } 
+
+    let hasMapsWinnerId = await dbManager.hasMapsWinnerId(matchId);
+
+    // For the old matches without winner team id for maps
+    if (!hasMapsWinnerId) {
+        await dbManager.updateMapsWinnerId(matchId)
+        response = await dbManager.getMapsInfos(matchId);  
     }
+    
     res.json(response);
 });
 
@@ -101,38 +110,4 @@ http.listen(3000, function () {
     socketManager = require("./socket_manager.js");
     socketManager.startSockets(http);
     logger.debug('App listening on port 3000');
-});
-
-
-// Cron tasks
-var job = new CronJob('*/30 * * * *', async function() {
-    await hltvManager.getLastMatches();
-    let matchId = await dbManager.lastUndownloadedMatch();
-
-    if (matchId !== 0) {
-        if ((await dbManager.matchHasDemos(matchId)) == false) {
-            let update = await demoManager.updateMatchInfos(matchId);
-
-            if (update == 'demos_not_available' || update == 'match_not_available') {
-                let today = Date.now()
-                let matchDate = await parseInt(dbManager.findMatchDate(matchId));
-
-                if (today - matchDate > 172800000) { // 172800000 is 2 days in ms
-                    await dbManager.updateMatchStatus(matchId, 3);
-                }
-
-                return false;
-            }
-        }
-    
-        if ((await dbManager.isMatchDowloaded(matchId)) == false) {
-            await demoManager.dowloadDemos(matchId);
-        }
-    
-        let mapsCount = await dbManager.countMaps(matchId);
-    
-        for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
-            await demoManager.parseDemo(matchId, mapId);
-        }
-    }
 });
