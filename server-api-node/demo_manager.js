@@ -109,7 +109,7 @@ exports.dowloadDemos = async function dowloadDemos(matchId) {
             let completedPercentage = Math.round((sum / contentLength) * 100);
             if (completedPercentage !== lastCompletedPercentage) {
                 completedPercentage % 10 == 0 ? logger.debug(`${completedPercentage} % of download complete`): null;
-                //socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
+                socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
                 lastCompletedPercentage = completedPercentage;
             }
         });

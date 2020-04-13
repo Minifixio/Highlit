@@ -29,9 +29,9 @@ exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     
         maps.forEach(async(map, index) => {
             let mapData = [];
-            mapData.push(matchInfos.id, (index + 1), map.name, map.result, 0);
+            mapData.push(matchInfos.id, (index + 1), map.name, map.winnerTeamId, map.result, 0);
     
-            const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, score, available) VALUES(?, ?, ?, ?, ?)";
+            const mapQuery = "INSERT INTO maps(match_id, map_number, map_name, winner_team_id, score, available) VALUES(?, ?, ?, ?, ?, ?)";
             await requestToDb(mapQuery, mapData);
             logger.debug("Added map " + (index + 1) + " infos. Map is : " + map.name);
         });
