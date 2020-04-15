@@ -24,6 +24,14 @@
     color: limegreen;
 }
 
+#error-button {
+    margin: 10px;
+    color: red;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
 #matchinfos-div {
     width: 80%;
     max-width: 550px;

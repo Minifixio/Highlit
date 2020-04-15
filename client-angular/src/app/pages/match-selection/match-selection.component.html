@@ -14,8 +14,8 @@
                     <mat-label>HLTV match link</mat-label>
                     <input matInput cdkTextareaAutosize placeholder="HLTV match link" [(ngModel)]="inputLink">
                 </mat-form-field>
-                <!--<button id='valid-button' (click)="showErrorToast('This service will be soon available...', null)" mat-stroked-button color="warn">Not available for now</button>-->
-                <button id='valid-button' mat-stroked-button (click)="hltvLinkAdded()">OK</button>
+                <button id='error-button' (click)="showErrorToast('This service will be soon available...', null)" mat-stroked-button color="warn">Not available for now</button>
+                <!--<button id='valid-button' mat-stroked-button (click)="hltvLinkAdded()">OK</button>-->
             </div>
             <div *ngIf="mapsToSelect" id="map-selection-div">
                 <app-map-infos-widget id="map-infos-widget" *ngFor="let map of mapsToSelect" #selectMapWidget (mapSelected)="addMap($event)" [map]="map"></app-map-infos-widget>

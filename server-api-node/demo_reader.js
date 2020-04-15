@@ -289,7 +289,7 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                         pastRoundTime = demoFile.currentTime - timeReference;
                     }
 
-                    socketManager.socketEmit('select-map', {type: 'parsing', match_id: matchId, params: roundId});
+                    //socketManager.socketEmit('select-map', {type: 'parsing', match_id: matchId, params: roundId});
                     logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name);
     
                     let multipleKills = computeMultiKills(roundKills);
