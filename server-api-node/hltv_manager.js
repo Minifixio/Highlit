@@ -22,6 +22,10 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
 
         matchInfos.available = 0; // 0 means the match is not yet available
 
+        if (!matchInfos.winnerTeam) { // If winnerTeam is undefined
+            matchInfos.winnerTeam = {}
+        }
+
         if(matchInfos.demos.filter(obj => obj.name.includes('GOTV')).length > 0 && matchInfos.demos.length >= 2) { // Check if demos are available and stream also (it means there are minimum 2 links)
             downloadLink = matchInfos.demos.filter(obj => obj.name.includes('GOTV'))[0].link;
             demoId = downloadLink.match(/(\d+)/)[0];
@@ -34,19 +38,33 @@ exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
         if (maps.length == 0) { 
             matchInfos.available = 3;
         } else {
-            if (maps.length >= 2 && maps.length < 4) {
-                if (matchInfos.winnerTeam.name == matchInfos.team1.name) {
-                    score = "2" + " - " + (maps.length - 2).toString();
-                } else {
-                    score = (maps.length- 2).toString()  + " - " + "2";
-                }
-            } else {
-                score = maps[0].result.substring(0, 4);
-            }
 
-            let loserTeam;
-            matchInfos.winnerTeam.id == matchInfos.team1.id ? loserTeam = matchInfos.team2.id : loserTeam = matchInfos.team1.id;
-            maps = this.getMapWinner(maps, matchInfos.winnerTeam.id, loserTeam);
+            // For the BO2 cases
+            if(matchInfos.format.includes("Best of 2") || matchInfos.format.includes("bo2")) {
+                maps = getBO2winner(maps, matchInfos.team1, matchInfos.team2);
+                if (maps[0].winnerTeamId == maps[1].winnerTeamId) {
+                    maps[0].winnerTeamId == matchInfos.team1 ? score = "2 - 0": score = "0 - 2";
+                    matchInfos.winnerTeam.id = maps[0].winnerTeamId;
+                } else {
+                    score = "1 - 1";
+                    matchInfos.winnerTeam.id = 0;
+                }
+
+            } else {
+                if (maps.length >= 2 && maps.length < 4) {
+                    if (matchInfos.winnerTeam.name == matchInfos.team1.name) {
+                        score = "2" + " - " + (maps.length - 2).toString();
+                    } else {
+                        score = (maps.length- 2).toString()  + " - " + "2";
+                    }
+                } else {
+                    score = maps[0].result.substring(0, 4);
+                }
+    
+                let loserTeam;
+                matchInfos.winnerTeam.id == matchInfos.team1.id ? loserTeam = matchInfos.team2.id : loserTeam = matchInfos.team1.id;
+                maps = this.getMapWinner(maps, matchInfos.winnerTeam.id, loserTeam);
+            }
         }
 
         if (!matchInfos.statsId) { 
@@ -181,6 +199,18 @@ exports.getMapWinner = function getMapWinner(maps, winningTeam, losingTeam) {
 
         maps = team1maps.concat(team2maps);
     }
+
+    return maps;
+}
+
+function getBO2winner(maps, team1, team2) {
+    let team1maps = [];
+    let team2maps = [];
+    maps.forEach(map => {
+        let result = map.result.substring(0, 5).split(":").map(val => parseInt(val));
+
+        result[0] > result[1] ? map.winnerTeamId = team1.id : map.winnerTeamId = team2.id 
+    });
 
     return maps;
 }
