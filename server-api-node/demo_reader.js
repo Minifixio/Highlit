@@ -253,7 +253,7 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
             }
 
             function getTeamId(clanName) {
-                if (!localTeams[0] || !localTeams[1]) {
+                if (!localTeams[0].clanName  || !localTeams[1].clanName ) {
                     return null
                 } else {
                     return localTeams.find(team => team.clanName == clanName).id;
