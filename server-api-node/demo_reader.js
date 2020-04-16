@@ -153,14 +153,15 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
                     aliveCTs = cts.members.filter(player => player).filter(player => player.isAlive).length;
                 }
 
+                let clutcher = ""
 
                 if (aliveCTs == 1 && aliveTs >= 2) {
-                    let clutcher = cts.members.filter(player => player.isAlive)[0].name;
+                    cts.members.every(p => p) ? clutcher = cts.members.filter(player => player.isAlive)[0].name : null
                     clutch = {team: "ct", player: clutcher, vs: aliveTs, time: demoFile.currentTime - timeReference};
                 }
 
                 if (aliveTs == 1 && aliveCTs >=2) {
-                    let clutcher = terrorists.members.filter(player => player.isAlive)[0].name;
+                    terrorists.members.every(p => p) ? clutcher = terrorists.members.filter(player => player.isAlive)[0].name : null
                     clutch = {team: "t", player: clutcher, vs: aliveCTs, time: demoFile.currentTime - timeReference};
                 }
 
