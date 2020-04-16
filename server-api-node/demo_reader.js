@@ -253,7 +253,11 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
             }
 
             function getTeamId(clanName) {
-                return localTeams.find(team => team.clanName == clanName).id;
+                if (!localTeams[0] || !localTeams[1]) {
+                    return null
+                } else {
+                    return localTeams.find(team => team.clanName == clanName).id;
+                }
             }
 
             function startMatch() {
@@ -261,7 +265,7 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
 
                 logger.debug('Match is STARTING !');
                 resetRoundInfos();
-                initTeamsId(teams[2], teams[3]);
+                teams[2].initTeamsId(teams[2], teams[3]);
                 lastRoundTime = 0;
                 lastRoundId = 0;
                 matchInfos = [];
