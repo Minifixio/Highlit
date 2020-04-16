@@ -265,7 +265,7 @@ exports.readDemo = function readDemo(demofileInput, matchId) {
 
                 logger.debug('Match is STARTING !');
                 resetRoundInfos();
-                teams[2].initTeamsId(teams[2], teams[3]);
+                initTeamsId(teams[2], teams[3]);
                 lastRoundTime = 0;
                 lastRoundId = 0;
                 matchInfos = [];
