@@ -5,7 +5,7 @@ const demofile = require("demofile")
 const fs = require("fs")
 var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.logger("DemoReader");
+const logger = new debugManager.logger("demo_reader");
 
 /**
  * Utils

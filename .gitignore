@@ -71,3 +71,6 @@ backups/database-28-03-2020.db
 server-api-node/demo_readerV2.js
 server-api-node/test_manager.js
 server-api-node/utils/lastMatches.sql
+server-api-node/logs/demos.log
+server-api-node/logs/main.log
+server-api-node/logs/server.log

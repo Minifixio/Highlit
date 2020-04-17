@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 var credentials = require('./credentials.js');
 var debugManager = require("./debug_manager.js");
 var dbManager = require("./database_manager.js");
-const logger = new debugManager.logger("Mail");
+const logger = new debugManager.logger("mail");
 
 function sendMail(subject, content) {
 
@@ -20,7 +20,7 @@ function sendMail(subject, content) {
             logger.debug("Error when sending the email")
             logger.debug(error);
         }else{
-            logger.debug("Mail sent with success")
+            logger.debug("A report mail was sent")
         }
         smtpTransport.close();
     });

@@ -6,7 +6,7 @@ var demoManager = require("./demo_manager.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.logger("Cron");
+const logger = new debugManager.logger("cron");
 
 // Cron tasks
 var job = new CronJob('*/30 * * * *', async function() {

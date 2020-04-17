@@ -8,7 +8,6 @@ const app = express();
 const http = require('http').createServer(app);
 const cors = require('cors');
 const bodyParser = require('body-parser');
-var CronJob = require('cron').CronJob;
 var socketManager;
 module.exports.http = http;
 
@@ -21,7 +20,7 @@ var twitchManager = require("./twitch_manager.js");
 var cronManager = require("./cron_manager.js");
 var mailManager = require("./mail_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.logger("Http");
+const logger = new debugManager.logger("http");
 
 // Starting cron task
 if(!maintenance) { cronManager.cronJob.start(); logger.debug('Starting cron job') }

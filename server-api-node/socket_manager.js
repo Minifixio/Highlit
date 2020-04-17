@@ -9,7 +9,7 @@ var mainSocket;
 var demoManager = require("./demo_manager.js");
 var dbManager = require("./database_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.logger("Sockets");
+const logger = new debugManager.logger("sockets");
 
 app.use(cors());
 app.use(bodyParser.json());
