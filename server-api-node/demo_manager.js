@@ -13,7 +13,7 @@ var hltvManager = require("./hltv_manager.js");
 var twitchManager = require("./twitch_manager.js");
 var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.logger("demo_manager");
+const logger = new debugManager.loggerService("demo_manager");
 
 // Promisify
 const writeFile = util.promisify(fs.writeFile);

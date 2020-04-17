@@ -20,7 +20,7 @@ var twitchManager = require("./twitch_manager.js");
 var cronManager = require("./cron_manager.js");
 var mailManager = require("./mail_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.logger("http");
+const logger = new debugManager.loggerService("http");
 
 // Starting cron task
 if(!maintenance) { cronManager.cronJob.start(); logger.debug('Starting cron job') }

@@ -1,18 +1,19 @@
 const winston = require('winston');
-const { createLogger, format, transports } = require('winston');
 const logLocation = (__dirname + '/logs/');
+const LEVEL = Symbol.for('level');
+const MESSAGE = Symbol.for('message');
 
 const consoleFormat = winston.format.printf(
                         (info) => {
                             let message =  `${dateLog()} | ${info.level.toUpperCase()} | `
-                            message = info.name ? message + `FROM:${info.name} | ` : message
+                            message = info.from ? message + `FROM:${info.from} | ` : message
                             message += info.message
                             return message
                         })
                         
 const fileFormat = winston.format.printf(
                         (info) => {
-                            let message = {level: info.level.toLocaleUpperCase(), from: info.name, message: info.message}
+                            let message = {level: info.level.toLocaleUpperCase(), from: info.from, message: info.message}
                             return JSON.stringify(message)
                         })
 
@@ -20,7 +21,7 @@ function dateLog() {
     return new Date(Date.now()).toUTCString();
 }
 
-class opts {
+class LoggerOptions {
     constructor(filename) {
         this.format = winston.format.json();
         this.exitOnError = false;
@@ -29,58 +30,77 @@ class opts {
           new winston.transports.File({ filename: logLocation + filename + '.log', timestamp: true}),
         ];
     }
-
 }
 
-const mainLogger = winston.createLogger(new opts('main'));
-const serverLogger = winston.createLogger(new opts('server'));
-const demosLogger = winston.createLogger(new opts('demos'));
-
-const loggers = {
-    server: {
-        logger: serverLogger,
-        components: ['http', 'sockets']
-    },
-
-    demos: {
-        logger: demosLogger,
-        components: ['demo_manager', 'demo_reader']
-    },
-
-    main: {
-        logger: mainLogger
+class Logger {
+    constructor(name, components, logger) {
+        this.name = name;
+        this.components = components;
+        this.logger = logger
+    }
+    
+    isComponent(name) {
+        if (this.components.includes(name)) {
+            return true
+        }
     }
 }
 
+const mainLogger = new Logger('main', [], winston.createLogger(new LoggerOptions('main')));
+const serverLogger = new Logger('server', ['http', 'sockets'], winston.createLogger(new LoggerOptions('server')));
+const demosLogger = new Logger('demos', ['demo_manager', 'demo_reader'], winston.createLogger(new LoggerOptions('demos')));
+
+const loggers = [mainLogger, serverLogger, demosLogger];
+
 if (process.env.NODE_ENV !== 'production') {
-    loggers.main.logger.add(new winston.transports.Console({
+    mainLogger.logger.add(new winston.transports.Console({
         format: consoleFormat,
-        timestamp: true
+        log(info, callback) {
+            setImmediate(() => this.emit('logged', info));
+    
+            if (this.stderrLevels[info[LEVEL]]) {
+              console.error(info[MESSAGE]);
+          
+              if (callback) {
+                callback();
+              }
+              return;
+            }
+          
+            console.log(info[MESSAGE]);
+          
+            if (callback) {
+              callback();
+            }
+        }
     }))
 }
 
-var logger = class Logger {
+var loggerService = class loggerService {
     constructor(name) {
         this.name = name;
+        this.logger = findLogger(this.name)
     }
     debug(message) {
-        if (findLogger(this.name)) {
-            const logger = findLogger(this.name);
-            logger.info({from: this.name, message: message})
+        if (this.logger) {
+            this.logger.info({from: this.name, message: message})
         }
 
-        loggers.main.logger.info({from: this.name, message: message})
+        mainLogger.logger.info({from: this.name, message: message})
     }
 }
 
 function findLogger(name) {
-    for (let key of Object.keys(loggers)) {
-        if(loggers[key].components.includes(name) && loggers[key].components) {
-            return loggers[key].logger
-        } else {
-            return null;
+    let res = null;
+
+    loggers.forEach(val => {
+        if (val.isComponent(name)) {
+            res = val.logger
         }
-    }
+    })
+
+    return res
 }
 
-module.exports.logger = logger;
+module.exports.loggerService = loggerService;
+module.exports.find = findLogger;
