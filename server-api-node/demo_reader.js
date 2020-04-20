@@ -3,9 +3,8 @@
  */
 const demofile = require("demofile")
 const fs = require("fs")
-var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.loggerService("demo_reader");
+//var socketManager = require("./socket_manager.js");
 
 /**
  * Utils
@@ -16,336 +15,270 @@ let computeMultiKills = multiKillsUtil.computeMultiKills;
 const buyTypeUtil = require("./utils/buy_type.js");
 let getBuyType = buyTypeUtil.getBuyType;
 
-exports.readDemo = function readDemo(demofileInput, matchId) {
+const events = {
+    demo: {
+        END: "end"
+    },
 
-    return new Promise((resolve) => {
-        var timeOut = false;
-        var winningTeam = {};
-        var roundId = 0;
-        var timeReference = 0;
-        var lastRoundTime = 0;
-        var roundKills = [];
-        var matchInfos = [];
-        var lastRoundId = 0;
-        var roundEndReason;
-        var clutch = {};
-        var localTeams = [];
-        var tEquipmentValue = 0;
-        var ctEquipmentValue = 0;
-    
-        logger.debug('Reading demo: ' + demofileInput);
-    
-        fs.readFile(demofileInput, (err, buffer) => {
-            const demoFile = new demofile.DemoFile();
+    game: {
+        ROUND_START: "round_start",
+        ROUND_END: "round_end",
+        ROUND_OFFICIALLY_ENDED: "round_officially_ended",
+        ROUND_ANNOUNCE_MATCH_START: "round_announce_match_start",
+        BUYTIME_ENDED: "buytime_ended",
+        PLAYER_DEATH: "player_death",
+        ROUND_ANNOUNCE_LAST_ROUND_HALF: "round_announce_last_round_half",
+        ROUND_ANNOUNCE_FINAL: "round_announce_final",
+        BEGIN_NEW_MATCH: "begin_new_match"
+    },
 
-            demoFile.on("end", ()=> {
-                makeRoundStats();
-                logger.debug('Match Ended !');
-                resolve(matchInfos);
-                demoFile.cancel();
-            });
+    entities: {
+        CHANGE: "change"
+    }
+}
 
+class Round {
+    constructor(id, startTime) {
+        this.id = id
+        this.start_time = startTime
+        this.end_time
+        this.winning_team
+        this.kills = []
+        this.multi_kills = []
+        this.end_reason
+        this.buy
+        this.clutch
+    }
 
-            /**
-             * Handle teams tac/tec pauses
-             */
-            demoFile.entities.on("change", e => {
-                if (
-                  e.tableName == "DT_VoteController" &&
-                  e.varName == "m_iOnlyTeamToVote" &&
-                  e.newValue !== -1
-                ) {
-                    timeOut = true;
-    
-                    demoFile.teams.map(team => {
-                        if (
-                        team.props.DT_Team.m_iTeamNum ==
-                        e.entity.props.DT_VoteController.m_iOnlyTeamToVote
-                        ) {
-                        logger.debug(
-                            `Team called timeout: ${team.props.DT_Team.m_szClanTeamname}`
-                        );
-                        }
-                    });
-                }
-            });
+    addPause() {
+        this.start_time += 30
+    }
 
+    addKill(attacker, victim, time) {
 
-            /**
-             * When a rounds starts
-             */
-            demoFile.gameEvents.on("round_start", () => {
-                // To set the time reference to 0 when the match starts
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-
-                if (terrorists.score + cts.score == 0) { // When the matchs ends or when it starts, score reset to 0
-
-                    if (roundId < 2) {
-                        startMatch()
-                    }
-
-                    if (roundId > 15) { // Means at least 15 rounds have been played so the match ended
-                        logger.debug('Match has ENDED');
-                        resolve(matchInfos);
-                        demoFile.cancel();
-                    }
-                }
-
-                roundKills = []; // Reset kills when the round starts
-            })
-    
-
-            /**
-             * This events triggers when : match starts, teams change sides, match ends
-             */
-            demoFile.gameEvents.on("round_announce_match_start", () => {
-                /*
-                * In some special demos (as ESEA), post-game phase or event game-end isn't working...
-                * ...but "round_announce_match_start" seems to trigger when sides are switching and when match ends.
-                */
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-                
-                if (terrorists.score + cts.score == 15) { 
-                    logger.debug('Changing sides');
-                }
-                if (terrorists.score + cts.score > 15) {
-                    logger.debug('Match has ENDED');
-                    resolve(matchInfos);
-                    demoFile.cancel();
-                } 
-                if (terrorists.score + cts.score == 0 && roundId < 14) {
-                    startMatch();
-                }
-            });
-
-            /**
-             * Handle deaths
-             */
-            demoFile.gameEvents.on("player_death", e => {
-
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-
-                let aliveCTs, aliveTs = 0;
-
-                var killInfos = {}; // Store kills infos
-                const victim = demoFile.entities.getByUserId(e.userid);
-                const victimName = victim ? victim.name : "unnamed";
+        const victimName = victim ? victim.name : "unnamed";
+        const attackerName = attacker ? attacker.name : "unnamed";
         
-                const attacker = demoFile.entities.getByUserId(e.attacker);
-                const attackerName = attacker ? attacker.name : "unnamed";
-                
-                killInfos = {
-                    attacker_name: attackerName, 
-                    victim_name: victimName, 
-                    victim_team: victim.teamNumber == 2 ? 't' : 'ct',
-                    attacker_team: victim.teamNumber == 2 ? 't' : 'ct',
-                    time: demoFile.currentTime - timeReference
-                }
-                
-                if (!terrorists.members.length == 0) {
-                    aliveTs = terrorists.members.filter(player => player).filter(player => player.isAlive).length;
-                    aliveCTs = cts.members.filter(player => player).filter(player => player.isAlive).length;
-                }
+        let killInfos = {
+            attacker_name: attackerName, 
+            victim_name: victimName, 
+            victim_team: victim.teamNumber == 2 ? 't' : 'ct',
+            attacker_team: victim.teamNumber == 2 ? 't' : 'ct',
+            time: time
+        }
 
-                let clutcher = ""
+        this.kills.push(killInfos)
+    }
 
-                if (aliveCTs == 1 && aliveTs >= 2) {
-                    cts.members.every(p => p) ? clutcher = cts.members.filter(player => player.isAlive)[0].name : null
-                    clutch = {team: "ct", player: clutcher, vs: aliveTs, time: demoFile.currentTime - timeReference};
-                }
-
-                if (aliveTs == 1 && aliveCTs >=2) {
-                    terrorists.members.every(p => p) ? clutcher = terrorists.members.filter(player => player.isAlive)[0].name : null
-                    clutch = {team: "t", player: clutcher, vs: aliveCTs, time: demoFile.currentTime - timeReference};
-                }
-
-                roundKills.push(killInfos);
-            });
-
-
-            demoFile.gameEvents.on('buytime_ended', () => {
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-
-                tEquipmentValue = terrorists.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-                ctEquipmentValue = cts.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-
-                if (tEquipmentValue == null || tEquipmentValue == null) {
-                    tEquipmentValue, ctEquipmentValue = 25000
-                }
-            });
-
-
-            /**
-             * Event triggers when : bomb is defused, all players are killed or when the timer reached the end.
-             */
-            demoFile.gameEvents.on("round_end", e => {
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-
-                if (localTeams.length == 0) {
-                    initTeamsId(terrorists, cts);
-                }
-
-                // For later : add reason for ending
-                if (e.winner == 2) { // id n°2 means terrorists
-                    winningTeam = {
-                        side: 't',
-                        team_name: teams[2].clanName,
-                        team_id: localTeams.length > 0 ? getTeamId(teams[2].clanName) : null
-                    };
-                } 
-                if (e.winner == 3) { // else it is CTs
-                    winningTeam = {
-                        side: 'ct',
-                        team_name: teams[3].clanName,
-                        team_id: localTeams.length > 0 ? getTeamId(teams[3].clanName) : null
-                    };
-                }
-
-                if (terrorists.members.filter(player => player).length > 0 && cts.members.filter(player => player).length > 0) {
-                    tEquipmentValue = terrorists.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-                    ctEquipmentValue = cts.members.filter(player => player).reduce((a, b) => ({freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue})).freezeTimeEndEquipmentValue
-                }
-
-                if (tEquipmentValue == null || tEquipmentValue == null) {
-                    tEquipmentValue, ctEquipmentValue = 25000
-                }
-               
-                roundEndReason = e.reason;
-
-            });
-            
-
-            /**
-             * Event triggers when a round officially ends (when the round officially stops)
-             */
-            demoFile.gameEvents.on("round_officially_ended", () => {
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-
-                if ((cts.score == 16 && terrorists.score < 15) || (terrorists.score == 16 && cts.score < 15)) {
-                    makeRoundStats();
-                    logger.debug('Match reached 16 points');
-                    resolve(matchInfos);
-                    demoFile.cancel();
-                }
-
-                makeRoundStats();
-            });
-
-
-            /**
-             * Utils functions
-             */
-            function initTeamsId(team1, team2) {
-                team1.id = 1;
-                team2.id = 2;
-                localTeams.push(team1, team2);
+    makeBuy(tEquipment, ctEquipment) {
+        this.buy = {
+            t: {
+                value: tEquipment,
+                type: getBuyType(tEquipment)
+            },
+            ct: {
+                value: ctEquipment,
+                type: getBuyType(ctEquipment)
             }
+        }
+    }
 
-            function getTeamId(clanName) {
-                if (localTeams.length == 0) {
-                    return null
-                } else {
-                    return localTeams.find(team => team.clanName == clanName).id;
-                }
-            }
+    end() {
+        this.multi_kills = computeMultiKills(this.kills)
+    }
 
-            function startMatch() {
-                const teams = demoFile.teams;
+    computeClutch() { // Todo : make a util to compute clutches : to compute before official end or not ?
 
-                logger.debug('Match is STARTING !');
-                resetRoundInfos();
-                initTeamsId(teams[2], teams[3]);
-                lastRoundTime = 0;
-                lastRoundId = 0;
-                matchInfos = [];
-                timeReference = demoFile.currentTime;
-            }
+    }
 
-            function makeRoundStats() {
-                const teams = demoFile.teams;
-                const terrorists = teams[2];
-                const cts = teams[3];
-                roundId = cts.score + terrorists.score;
+}
 
-                // Sometimes in some ESEA games, unknown strange rounds appear when sides switch with the same roundId...
-                // ...it is just to make sure it does not happen...
-                if (roundId !== lastRoundId) {  
+class MatchInfos {
+    constructor(expectedRounds, matchId) {
+        this.expectedRounds = expectedRounds
+        this.rounds = []
+        this.currentRound = new Round(0, 0)
+        this.matchLogger = new debugManager.DemoReadingLogger(matchId);
+    }
 
-                    if (Math.abs(lastRoundId - roundId) >= 14) {
-                        roundId = lastRoundId + 1;
-                    }
+    startMatch() {
+        this.matchLogger.matchLog('match started')
+        this.rounds = []
+    }
 
-                    // To make sure to remove the 15 sec of warmup + 15 sec because time reference resets on round 1 with +15 sec
-                    if (roundId == 1) { 
-                        var pastRoundTime = demoFile.currentTime - timeReference - 15;
+    endMatch() {
+        if (this.rounds.length == this.expectedRounds) {
+            this.matchLogger.matchLog('match ended')
+            this.syncRounds()
+            this.matchLogger.endLogs()
+            return true
+        } else {
+            return false
+        }
+    }
+
+    roundStart(id, time) {
+        if (id < this.rounds.length) {
+            id = this.rounds.length + 1
+        }
+
+        this.currentRound = new Round(id, time)
+        this.matchLogger.roundLog(id, 'started')
+    }
+
+    roundEnd(winner, reason, teams, time) {
+        if (winner == 2) { // id n°2 means terrorists
+            this.currentRound.winning_team = {
+                side: 't',
+                team_name: teams[2].clanName
+            };
+        } 
+        if (winner == 3) { // else it is CTs
+            this.currentRound.winning_team = {
+                side: 'ct',
+                team_name: teams[3].clanName
+            };
+        }
+
+        if (winner != 2 && winner != 3) {
+            this.currentRound.winning_team = null
+        }
+        
+        this.currentRound.end_time = time
+        this.currentRound.end_reason = reason
+        this.matchLogger.roundLog(this.currentRound.id, 'ended : ' + (this.currentRound.winning_team? this.currentRound.winning_team.team_name: undefined))
+    }
+
+    roundOfficiallyEnd() {
+        this.currentRound.end()
+
+        if (this.currentRound.winning_team == null || this.currentRound.kills.length > 9) {
+            this.matchLogger.matchLog('wrong round')
+        } else {
+            this.rounds.push(this.currentRound)
+        }
+    }
+
+    halfTime() {
+        this.matchLogger.matchLog('halftime')
+    }
+
+    syncRounds() {
+        this.rounds.forEach(round => {
+            round.start_time = round.start_time - this.rounds[0].start_time
+        })
+    }
+}
+
+module.exports.DemoReader = class DemoReader {
+    constructor(fileInput, matchId, expectedRounds) {
+        this.fileInput = fileInput
+        this.matchInfos = new MatchInfos(expectedRounds, matchId)
+        this.demoFile
+    }
+
+    async read() {
+        return new Promise((resolve, reject) => {
+            fs.readFile(this.fileInput, (err, buffer) => {
+                this.demoFile = new demofile.DemoFile();
+
+                this.demoFile.on(events.demo.END, () => {
+                    this.matchInfos.roundOfficiallyEnd()
+                    if(this.matchInfos.endMatch()) {
+                        resolve(this.matchInfos.rounds)
                     } else {
-                        pastRoundTime = demoFile.currentTime - timeReference;
+                        reject('wrong parsing')
                     }
 
-                    //socketManager.socketEmit('select-map', {type: 'parsing', match_id: matchId, params: roundId});
-                    logger.debug('Stats for round n°' + roundId + ' / Winning team: ' + winningTeam.team_name);
-    
-                    let multipleKills = computeMultiKills(roundKills);
-
-                    if(timeOut == true) {
-                        lastRoundTime += 30;
-                        pastRoundTime += 30;
-                    }
+                    this.demoFile.cancel()
+                })
                     
-                    let buy = {
-                        t: {
-                            team_id: getTeamId(terrorists.clanName),
-                            value: tEquipmentValue,
-                            type: getBuyType(tEquipmentValue)
-                        },
-                        ct: {
-                            team_id: getTeamId(cts.clanName),
-                            value: ctEquipmentValue,
-                            type: getBuyType(ctEquipmentValue)
+                this.demoFile.entities.on(events.entities.CHANGE, e => this.handlePause(e))
+    
+                this.demoFile.gameEvents.on(events.game.ROUND_START, () => {
+                    this.matchInfos.roundStart(this.demoFile.gameRules.roundNumber, this.demoFile.currentTime)
+                })
+    
+                this.demoFile.gameEvents.on(events.game.ROUND_END, e => {
+                    this.matchInfos.roundEnd(e.winner, e.reason, this.demoFile.teams, this.demoFile.currentTime)
+                })
+    
+                this.demoFile.gameEvents.on(events.game.ROUND_OFFICIALLY_ENDED, () => {
+                    this.matchInfos.roundOfficiallyEnd()
+                    if (this.matchInfos.endMatch()) {
+                        resolve(this.matchInfos.rounds)
+                        this.demoFile.cancel()
+                    }
+                })
+    
+                this.demoFile.gameEvents.on(events.game.ROUND_ANNOUNCE_MATCH_START, () => {
+                    if (this.matchInfos.rounds.length < 15) {
+                        this.matchInfos.startMatch()
+                    }
+    
+                    if (this.matchInfos.rounds.length == 15) {
+                        this.matchInfos.halfTime()
+                    }
+    
+                    if (this.matchInfos.rounds.length > 15) {
+                        if (this.matchInfos.endMatch() != false) {
+                            resolve(this.matchInfos.rounds)
                         }
                     }
+                })
 
-                    var pastRoundInfo = {
-                        start: lastRoundTime,
-                        end: pastRoundTime,
-                        round_number: roundId,
-                        winning_team: winningTeam,
-                        kills: roundKills,
-                        multiple_kills: multipleKills,
-                        round_end_reason: roundEndReason,
-                        buy: buy,
-                        clutch: (winningTeam.side == clutch.team) ? clutch : null
+                this.demoFile.gameEvents.on(events.game.PLAYER_DEATH, kill => {
+                    let attacker = this.demoFile.entities.getByUserId(kill.attacker)
+                    let victim = this.demoFile.entities.getByUserId(kill.userid)
+                    this.matchInfos.currentRound.addKill(attacker, victim, this.demoFile.currentTime)
+                })
+
+                this.demoFile.gameEvents.on(events.game.BUYTIME_ENDED, () => {
+                    const terrorists = this.demoFile.teams[2]
+                    const cts = this.demoFile.teams[3]
+                    let tEquipment, ctEquipment = null
+
+                    if (cts.members.length != 0 && terrorists.members.length != 0) {
+                        tEquipment = terrorists.members.filter(player => player).reduce((a, b) => (
+                            {freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue}
+                            )).freezeTimeEndEquipmentValue
+
+                        ctEquipment= cts.members.filter(player => player).reduce((a, b) => (
+                            {freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue}
+                            )).freezeTimeEndEquipmentValue
                     }
 
-                    matchInfos.push(pastRoundInfo);
+                    if (tEquipment== null || ctEquipment == null) {
+                        tEquipment, ctEquipment = 25000
+                    }
 
-                    lastRoundTime = demoFile.currentTime - timeReference;
-                    lastRoundId = roundId;
-                    resetRoundInfos();
-                }
-            }
+                    this.matchInfos.currentRound.makeBuy(tEquipment, ctEquipment)
+                })
 
-            function resetRoundInfos() {
-                roundKills = [];
-                winningTeam = {};
-                timeOut = false;
-                clutch = {};
-            }
+                this.demoFile.gameEvents.on(events.game.BEGIN_NEW_MATCH, () => {
+                    if (this.matchInfos.rounds.length < 15) {
+                        this.matchInfos.startMatch()
+                    }
+                })
 
-            demoFile.parse(buffer);
+                this.demoFile.parse(buffer)
+            })
         })
-    })
-    
+    }
+
+    handlePause(e) {
+        if (
+            e.tableName == "DT_VoteController" &&
+            e.varName == "m_iOnlyTeamToVote" &&
+            e.newValue !== -1
+        ) {
+            this.demoFile.teams.map(team => {
+                if (team.props.DT_Team.m_iTeamNum == e.entity.props.DT_VoteController.m_iOnlyTeamToVote) {
+                    this.matchInfos.currentRound.addPause()
+                    this.matchInfos.matchLogger.matchLog(`Team called timeout: ${team.props.DT_Team.m_szClanTeamname}`);
+                }
+            });
+        }
+
+    }
 }
