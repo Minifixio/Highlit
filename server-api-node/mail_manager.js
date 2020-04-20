@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 var credentials = require('./credentials.js');
 var debugManager = require("./debug_manager.js");
 var dbManager = require("./database_manager.js");
-const logger = new debugManager.loggerService("mail");
+const logger = new debugManager.Logger("mail");
 
 function sendMail(subject, content) {
 

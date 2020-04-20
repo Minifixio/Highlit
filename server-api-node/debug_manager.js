@@ -1,7 +1,22 @@
 const winston = require('winston');
 const logLocation = (__dirname + '/logs/');
+const { format } = require('winston');
+const { combine, prettyPrint } = format;
 const LEVEL = Symbol.for('level');
 const MESSAGE = Symbol.for('message');
+
+process.on('unhandledRejection', (reason) => {
+    errorLogger.logger.error(reason);
+    process.exit(1);
+})
+process.on('uncaughtException', (reason) => {
+    errorLogger.logger.error(reason);
+    process.exit(1);
+});
+
+function dateLog() {
+    return new Date(Date.now()).toUTCString();
+}
 
 const consoleFormat = winston.format.printf(
                         (info) => {
@@ -13,21 +28,27 @@ const consoleFormat = winston.format.printf(
                         
 const fileFormat = winston.format.printf(
                         (info) => {
-                            let message = {level: info.level.toLocaleUpperCase(), from: info.from, message: info.message}
+                            let message = {date: dateLog(), level: info.level.toLocaleUpperCase(), from: info.from, message: info.message}
                             return JSON.stringify(message)
                         })
 
-function dateLog() {
-    return new Date(Date.now()).toUTCString();
-}
+const demoFormat = combine(
+                        format.printf(
+                            (info) => {
+                                delete info.level; 
+                                info.match = info.message;
+                                info.date = dateLog()
+                                delete info.message; 
+                                return info;
+                            }), 
+                         prettyPrint())
 
 class LoggerOptions {
     constructor(filename) {
-        this.format = winston.format.json();
         this.exitOnError = false;
         this.format = fileFormat;
         this.transports = [
-          new winston.transports.File({ filename: logLocation + filename + '.log', timestamp: true}),
+            new winston.transports.File({ filename: logLocation + filename + '.log'})
         ];
     }
 }
@@ -50,7 +71,17 @@ const mainLogger = new Logger('main', [], winston.createLogger(new LoggerOptions
 const serverLogger = new Logger('server', ['http', 'sockets'], winston.createLogger(new LoggerOptions('server')));
 const demosLogger = new Logger('demos', ['demo_manager', 'demo_reader'], winston.createLogger(new LoggerOptions('demos')));
 
-const loggers = [mainLogger, serverLogger, demosLogger];
+const demoReadingLoggerOpts = new LoggerOptions('demos_reading');
+demoReadingLoggerOpts.format = demoFormat;
+const demoReadingLogger = new Logger('demos_reading', [], winston.createLogger(demoReadingLoggerOpts));
+
+const errorLoggerOpts = new LoggerOptions('errors');
+errorLoggerOpts.transports = [ new winston.transports.File({ filename: logLocation + 'errors.log', level: 'debug', handleExceptions: true}) ];
+errorLoggerOpts.format = winston.format.json();
+const errorLogger = new Logger('errors', [], winston.createLogger(errorLoggerOpts))
+errorLogger.logger.exceptions.handle(new winston.transports.File({ filename: logLocation + 'errors.log' }));
+
+const loggers = [mainLogger, serverLogger, demosLogger, errorLogger, demoReadingLogger];
 
 if (process.env.NODE_ENV !== 'production') {
     mainLogger.logger.add(new winston.transports.Console({
@@ -76,7 +107,7 @@ if (process.env.NODE_ENV !== 'production') {
     }))
 }
 
-var loggerService = class loggerService {
+module.exports.Logger = class LoggerService {
     constructor(name) {
         this.name = name;
         this.logger = findLogger(this.name)
@@ -87,6 +118,27 @@ var loggerService = class loggerService {
         }
 
         mainLogger.logger.info({from: this.name, message: message})
+    }
+}
+
+module.exports.DemoReadingLogger =  class DemoReadingLogger {
+    constructor(matchId) {
+        this.matchId = matchId;
+        this.matchLogsInfos = [];
+    }
+
+    roundLog(roundId, infos) {
+        console.log({type: 'round', roundId, infos})
+        this.matchLogsInfos.push({type: 'round', roundId, infos})
+    }
+
+    matchLog(infos) {
+        console.log({type: 'other', infos})
+        this.matchLogsInfos.push({type: 'other', infos})
+    }
+
+    endLogs() {
+        demoReadingLogger.logger.info({matchId: this.matchId, matchInfos: this.matchLogsInfos});
     }
 }
 
@@ -101,6 +153,3 @@ function findLogger(name) {
 
     return res
 }
-
-module.exports.loggerService = loggerService;
-module.exports.find = findLogger;

@@ -6,7 +6,7 @@ const { HLTV } = require('hltv');
 // Files
 var dbManager = require("./database_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.loggerService("hltv");
+const logger = new debugManager.Logger("hltv");
 
 exports.hltvMatchInfos = async function hltvMatchInfos(matchId) {
     logger.debug('Looking for informations for match ' + matchId);

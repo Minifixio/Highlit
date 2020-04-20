@@ -13,14 +13,12 @@ module.exports.http = http;
 
 // Files
 var demoManager = require("./demo_manager.js");
-var demoReader = require("./demo_reader.js");
 var dbManager = require("./database_manager.js");
 var hltvManager = require("./hltv_manager.js");
-var twitchManager = require("./twitch_manager.js");
 var cronManager = require("./cron_manager.js");
 var mailManager = require("./mail_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.loggerService("http");
+const logger = new debugManager.Logger("http");
 
 // Starting cron task
 if(!maintenance) { cronManager.cronJob.start(); logger.debug('Starting cron job') }

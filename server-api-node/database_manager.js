@@ -3,7 +3,7 @@ var sq = require('sqlite3');
 var matchesDB = new sq.Database(__dirname + '/database/matches.db');
 var debugManager = require("./debug_manager.js");
 var hltvManager = require("./hltv_manager.js");
-const logger = new debugManager.loggerService("db");
+const logger = new debugManager.Logger("db");
 
 exports.addMatchInfos = async function addMatchInfos(matchInfos) {
     return new Promise(async (resolve) => {
