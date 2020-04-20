@@ -74,3 +74,7 @@ server-api-node/utils/lastMatches.sql
 server-api-node/logs/demos.log
 server-api-node/logs/main.log
 server-api-node/logs/server.log
+server-api-node/logs/demos_reading.log
+server-api-node/logs/error.log
+server-api-node/logs/errors.log
+server-api-node/demo_readerV3.js
