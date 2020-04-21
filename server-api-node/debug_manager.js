@@ -4,6 +4,7 @@ const { format } = require('winston');
 const { combine, prettyPrint } = format;
 const LEVEL = Symbol.for('level');
 const MESSAGE = Symbol.for('message');
+var debugMode = true;
 
 /**process.on('unhandledRejection', (reason) => {
     errorLogger.logger.error(reason);
@@ -108,7 +109,7 @@ var demoReadingLogger = new Logger(
 
 const loggers = [mainLogger, serverLogger, demosLogger, demoReadingLogger];
 
-if (process.env.NODE_ENV !== 'production') {
+if (debugMode) {
     mainLogger.logger.add(new winston.transports.Console({
         format: consoleFormat,
         log(info, callback) {
