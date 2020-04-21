@@ -5,14 +5,14 @@ const { combine, prettyPrint } = format;
 const LEVEL = Symbol.for('level');
 const MESSAGE = Symbol.for('message');
 
-process.on('unhandledRejection', (reason) => {
+/**process.on('unhandledRejection', (reason) => {
     errorLogger.logger.error(reason);
     process.exit(1);
 })
 process.on('uncaughtException', (reason) => {
     errorLogger.logger.error(reason);
     process.exit(1);
-});
+});**/
 
 function dateLog() {
     return new Date(Date.now()).toUTCString();
@@ -53,6 +53,13 @@ class LoggerOptions {
     }
 }
 
+const demoReadingLoggerOpts = new LoggerOptions('demos_reading');
+demoReadingLoggerOpts.format = demoFormat;
+
+const errorLoggerOpts = new LoggerOptions('errors');
+errorLoggerOpts.transports = [ new winston.transports.File({ filename: logLocation + 'errors.log', level: 'debug', handleExceptions: true}) ];
+errorLoggerOpts.format = winston.format.json();
+
 class Logger {
     constructor(name, components, logger) {
         this.name = name;
@@ -67,21 +74,39 @@ class Logger {
     }
 }
 
-var mainLogger = new Logger('main', [], winston.createLogger(new LoggerOptions('main')));
-var serverLogger = new Logger('server', ['http', 'sockets'], winston.createLogger(new LoggerOptions('server')));
-var demosLogger = new Logger('demos', ['demo_manager', 'demo_reader'], winston.createLogger(new LoggerOptions('demos')));
+var mainLogger = new Logger(
+    'main', 
+    ['cron', 'db', 'demo_manager', 'hltv', 'mail', 'twitch'], 
+    winston.createLogger(new LoggerOptions('main'))
+);
 
-const demoReadingLoggerOpts = new LoggerOptions('demos_reading');
-demoReadingLoggerOpts.format = demoFormat;
-var demoReadingLogger = new Logger('demos_reading', [], winston.createLogger(demoReadingLoggerOpts));
+var serverLogger = new Logger(
+    'server', 
+    ['http', 'sockets'], 
+    winston.createLogger(new LoggerOptions('server'))
+);
 
-const errorLoggerOpts = new LoggerOptions('errors');
-errorLoggerOpts.transports = [ new winston.transports.File({ filename: logLocation + 'errors.log', level: 'debug', handleExceptions: true}) ];
-errorLoggerOpts.format = winston.format.json();
-var errorLogger = new Logger('errors', [], winston.createLogger(errorLoggerOpts))
-errorLogger.logger.exceptions.handle(new winston.transports.File({ filename: logLocation + 'errors.log' }));
+var demosLogger = new Logger(
+    'demos', 
+    ['demo_manager', 'demo_reader'], 
+    winston.createLogger(new LoggerOptions('demos'))
+);
 
-const loggers = [mainLogger, serverLogger, demosLogger, errorLogger, demoReadingLogger];
+var demoReadingLogger = new Logger(
+    'demos_reading', 
+    [], 
+    winston.createLogger(demoReadingLoggerOpts)
+);
+
+/**var errorLogger = new Logger(
+    'errors', 
+    [],
+    winston.createLogger(errorLoggerOpts)
+);**/
+//errorLogger.logger.exceptions.handle(new winston.transports.File({ filename: logLocation + 'errors.log' }));
+
+
+const loggers = [mainLogger, serverLogger, demosLogger, demoReadingLogger];
 
 if (process.env.NODE_ENV !== 'production') {
     mainLogger.logger.add(new winston.transports.Console({
@@ -110,14 +135,12 @@ if (process.env.NODE_ENV !== 'production') {
 class LoggerService {
     constructor(name) {
         this.name = name;
-        this.logger = findLogger(this.name)
+        this.loggers = findLoggers(this.name)
     }
     debug(message) {
-        if (this.logger) {
-            this.logger.info({from: this.name, message: message})
+        if (this.loggers.length > 0) {
+            this.loggers.forEach(logger => logger.info({from: this.name, message: message}));
         }
-
-        mainLogger.logger.info({from: this.name, message: message})
     }
 }
 
@@ -128,12 +151,12 @@ class DemoReadingLogger {
     }
 
     roundLog(roundId, infos) {
-        console.log({type: 'round', roundId, infos})
+        //console.log({type: 'round', roundId, infos})
         this.matchLogsInfos.push({type: 'round', roundId, infos})
     }
 
     matchLog(infos) {
-        console.log({type: 'other', infos})
+        //console.log({type: 'other', infos})
         this.matchLogsInfos.push({type: 'other', infos})
     }
 
@@ -142,12 +165,12 @@ class DemoReadingLogger {
     }
 }
 
-function findLogger(name) {
-    let res = null;
+function findLoggers(name) {
+    let res = [];
 
     loggers.forEach(val => {
         if (val.isComponent(name)) {
-            res = val.logger
+            res.push(val.logger) 
         }
     })
 
