@@ -204,8 +204,6 @@ exports.getMapWinner = function getMapWinner(maps, winningTeam, losingTeam) {
 }
 
 function getBO2winner(maps, team1, team2) {
-    let team1maps = [];
-    let team2maps = [];
     maps.forEach(map => {
         let result = map.result.substring(0, 5).split(":").map(val => parseInt(val));
 
