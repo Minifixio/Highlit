@@ -19,7 +19,6 @@ var job = new CronJob('*/30 * * * *', async function() {
     lastMatchId == 0 ? checkUnavailableMatch() : cronTask(lastMatchId);
 });
 
-
 async function cronTask(matchId) {
 
     if ((await dbManager.matchHasDemos(matchId)) == false) {
@@ -38,13 +37,23 @@ async function cronTask(matchId) {
     }
 
     if ((await dbManager.isMatchDowloaded(matchId)) == 0) {
-        await demoManager.dowloadDemos(matchId);
+        try {
+            await demoManager.dowloadDemos(matchId);
+        } catch (err) {
+            logger.debug('Error during the download of the demos')
+            return;
+        }
     }
 
     let mapsCount = await dbManager.countMaps(matchId);
 
     for (let mapId = 1; mapId < mapsCount + 1; mapId++) {
-        await demoManager.parseDemo(matchId, mapId);
+
+        try {
+            await demoManager.parseDemo(matchId, mapId);
+        } catch(err) {
+            logger.debug('Error during the parsing of the map ' + mapId)
+        }
     }
 }
 
