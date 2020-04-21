@@ -67,18 +67,18 @@ class Logger {
     }
 }
 
-const mainLogger = new Logger('main', [], winston.createLogger(new LoggerOptions('main')));
-const serverLogger = new Logger('server', ['http', 'sockets'], winston.createLogger(new LoggerOptions('server')));
-const demosLogger = new Logger('demos', ['demo_manager', 'demo_reader'], winston.createLogger(new LoggerOptions('demos')));
+var mainLogger = new Logger('main', [], winston.createLogger(new LoggerOptions('main')));
+var serverLogger = new Logger('server', ['http', 'sockets'], winston.createLogger(new LoggerOptions('server')));
+var demosLogger = new Logger('demos', ['demo_manager', 'demo_reader'], winston.createLogger(new LoggerOptions('demos')));
 
 const demoReadingLoggerOpts = new LoggerOptions('demos_reading');
 demoReadingLoggerOpts.format = demoFormat;
-const demoReadingLogger = new Logger('demos_reading', [], winston.createLogger(demoReadingLoggerOpts));
+var demoReadingLogger = new Logger('demos_reading', [], winston.createLogger(demoReadingLoggerOpts));
 
 const errorLoggerOpts = new LoggerOptions('errors');
 errorLoggerOpts.transports = [ new winston.transports.File({ filename: logLocation + 'errors.log', level: 'debug', handleExceptions: true}) ];
 errorLoggerOpts.format = winston.format.json();
-const errorLogger = new Logger('errors', [], winston.createLogger(errorLoggerOpts))
+var errorLogger = new Logger('errors', [], winston.createLogger(errorLoggerOpts))
 errorLogger.logger.exceptions.handle(new winston.transports.File({ filename: logLocation + 'errors.log' }));
 
 const loggers = [mainLogger, serverLogger, demosLogger, errorLogger, demoReadingLogger];
@@ -107,7 +107,7 @@ if (process.env.NODE_ENV !== 'production') {
     }))
 }
 
-module.exports.Logger = class LoggerService {
+class LoggerService {
     constructor(name) {
         this.name = name;
         this.logger = findLogger(this.name)
@@ -121,7 +121,7 @@ module.exports.Logger = class LoggerService {
     }
 }
 
-module.exports.DemoReadingLogger =  class DemoReadingLogger {
+class DemoReadingLogger {
     constructor(matchId) {
         this.matchId = matchId;
         this.matchLogsInfos = [];
@@ -153,3 +153,6 @@ function findLogger(name) {
 
     return res
 }
+
+module.exports.DemoReadingLogger =  DemoReadingLogger;
+module.exports.Logger = LoggerService
