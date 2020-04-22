@@ -180,6 +180,11 @@ module.exports.DemoReader = class DemoReader {
     async read() {
         return new Promise((resolve, reject) => {
             fs.readFile(this.fileInput, (err, buffer) => {
+                
+                if (err) {
+                    reject(err)
+                }
+
                 this.demoFile = new demofile.DemoFile();
 
                 this.demoFile.on(events.demo.END, () => {

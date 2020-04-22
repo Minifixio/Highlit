@@ -251,6 +251,14 @@ async function parseDemo(matchId, mapNumber) {
                 }
             })
         }
+
+        if (map == null || result.length == 0) {
+            logger.debug('dem file for map ' + map + ' not availablefor match : '  + matchId);
+            await dbManager.updateMapStatus(matchId, mapNumber, 3);
+            reject('dem file not available')
+            return;
+        }
+
         logger.debug('Map to parse is : ' + map)
 
         // Find the amount of rounds played for the demo reader
