@@ -58,7 +58,7 @@ const demoReadingLoggerOpts = new LoggerOptions('demos_reading');
 demoReadingLoggerOpts.format = demoFormat;
 
 const errorLoggerOpts = new LoggerOptions('errors');
-errorLoggerOpts.transports = [ new winston.transports.File({ filename: logLocation + 'errors.log', level: 'debug', handleExceptions: true}) ];
+errorLoggerOpts.transports = [ new winston.transports.File({ filename: logLocation + 'errors.log', level: 'debug'}) ];
 errorLoggerOpts.format = winston.format.json();
 
 class Logger {
