@@ -5,6 +5,10 @@ function computeAllClutch(rounds) {
 
 function computeClutch(kills, winningTeam) {
 
+    if (winningTeam == null || winningTeam.side == null) {
+        return null
+    }
+
     let winnerSide = winningTeam.side
     let teamPlayersDead = 0
     let clutch = null
@@ -33,3 +37,4 @@ function computeClutch(kills, winningTeam) {
 }
 
 module.exports.computeClutch = computeClutch;
+module.exports.computeAllClutch = computeAllClutch;

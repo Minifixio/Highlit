@@ -15,7 +15,7 @@ let computeMultiKills = multiKillsUtil.computeMultiKills;
 const buyTypeUtil = require("./utils/buy_type.js");
 let getBuyType = buyTypeUtil.getBuyType;
 
-const clutchUtil = require("./utils/clucth.js");
+const clutchUtil = require("./utils/clutch.js");
 let computeClutch = clutchUtil.computeClutch;
 
 const events = {
@@ -66,7 +66,7 @@ class Round {
             attacker_name: attackerName, 
             victim_name: victimName, 
             victim_team: victim.teamNumber == 2 ? 't' : 'ct',
-            attacker_team: attacker.teamNumber == 2 ? 't' : 'ct',
+            attacker_team: attacker ? (attacker.teamNumber == 2 ? 't' : 'ct') : victim.teamNumber == 2 ? 'ct' : 't', // Handling the case where the player kills himself
             time: time
         }
 
@@ -88,12 +88,9 @@ class Round {
 
     end() {
         this.multi_kills = computeMultiKills(this.kills)
-    }
-
-    computeClutch() { 
         this.clutch = computeClutch(this.kills, this.winning_team)
+        console.log(this.clutch)
     }
-
 }
 
 class MatchInfos {
@@ -185,6 +182,7 @@ module.exports.DemoReader = class DemoReader {
             fs.readFile(this.fileInput, (err, buffer) => {
 
                 if (err) {
+                    this.matchInfos.matchLogger.endLogs()
                     reject(err)
                 }
 
@@ -195,6 +193,8 @@ module.exports.DemoReader = class DemoReader {
                     if(this.matchInfos.endMatch()) {
                         resolve(this.matchInfos.rounds)
                     } else {
+                        this.matchInfos.matchLogger.matchLog('wrong parsing')
+                        this.matchInfos.matchLogger.endLogs()
                         reject('wrong parsing')
                     }
 
@@ -214,7 +214,6 @@ module.exports.DemoReader = class DemoReader {
                 this.demoFile.gameEvents.on(events.game.ROUND_OFFICIALLY_ENDED, () => {
                     this.matchInfos.roundOfficiallyEnd()
                     if (this.matchInfos.endMatch()) {
-                        resolve(this.matchInfos.rounds)
                         this.demoFile.cancel()
                     }
                 })
