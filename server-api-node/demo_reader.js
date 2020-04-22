@@ -15,6 +15,9 @@ let computeMultiKills = multiKillsUtil.computeMultiKills;
 const buyTypeUtil = require("./utils/buy_type.js");
 let getBuyType = buyTypeUtil.getBuyType;
 
+const clutchUtil = require("./utils/clucth.js");
+let computeClutch = clutchUtil.computeClutch;
+
 const events = {
     demo: {
         END: "end"
@@ -63,7 +66,7 @@ class Round {
             attacker_name: attackerName, 
             victim_name: victimName, 
             victim_team: victim.teamNumber == 2 ? 't' : 'ct',
-            attacker_team: victim.teamNumber == 2 ? 't' : 'ct',
+            attacker_team: attacker.teamNumber == 2 ? 't' : 'ct',
             time: time
         }
 
@@ -87,8 +90,8 @@ class Round {
         this.multi_kills = computeMultiKills(this.kills)
     }
 
-    computeClutch() { // Todo : make a util to compute clutches : to compute before official end or not ?
-
+    computeClutch() { 
+        this.clutch = computeClutch(this.kills, this.winning_team)
     }
 
 }
@@ -180,7 +183,7 @@ module.exports.DemoReader = class DemoReader {
     async read() {
         return new Promise((resolve, reject) => {
             fs.readFile(this.fileInput, (err, buffer) => {
-                
+
                 if (err) {
                     reject(err)
                 }
