@@ -214,7 +214,9 @@ async function downloadFile(url, dest) {
         });
 
         file.on('error', (err) => {
-            fs.unlink(dest);
+            fs.unlink(dest, (e) => {
+                reject(e)
+            });
             reject(err)
         });
     })

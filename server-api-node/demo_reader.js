@@ -89,7 +89,6 @@ class Round {
     end() {
         this.multi_kills = computeMultiKills(this.kills)
         this.clutch = computeClutch(this.kills, this.winning_team)
-        console.log(this.clutch)
     }
 }
 
