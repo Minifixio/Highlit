@@ -115,63 +115,6 @@ async function dowloadDemos(matchId) {
         }).catch((err) => {
             reject(err)
         })
-
-
-        /**
-        // The file where we will write the datas
-        var out = fs.createWriteStream(`${path}/${matchId}.rar`);
-    
-        var contentLength;
-        var length = [];
-        let lastCompletedPercentage = 0;
-    
-        // A new get request
-        var req = request({
-            method: 'GET',
-            uri: file_url
-        });
-
-        // Pass the request to the writable file
-        req.pipe(out);
-
-        // Get the content lenght to compute the download percentage
-        req.on('response', function (data) {
-            contentLength = parseInt(data.headers['content-length']);
-        });
-
-        req.on('data', function (chunk) {
-            length.push(chunk.length);
-            let sum = length.reduce((a, b) => a + b, 0);
-            let completedPercentage = Math.round((sum / contentLength) * 100);
-            if (completedPercentage !== lastCompletedPercentage) {
-                completedPercentage % 10 == 0 ? logger.debug(`${completedPercentage} % of download complete`): null;
-                //socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
-                lastCompletedPercentage = completedPercentage;
-            }
-        });
-
-        req.on('end', async function() {
-            logger.debug('Finished download for demo ' + matchId);
-
-            // Unrar the file
-            await unrar(`${path}/${matchId}.rar`, `${path}/dem`,);
-            logger.debug('Finished unrar for demo ' + matchId);
-
-            // Delete the .rar file
-            await unlink(`${path}/${matchId}.rar`);
-
-            // Updating map status to 0 meaning they are downloaded but not parsed yet
-            await dbManager.updateMapStatus(matchId, 0, 0);
-
-            // Updating match status to 1 meaning the demos are now downloaded
-            await dbManager.updateMatchStatus(matchId, 1);
-            resolve();
-        });
-
-        req.on('error', (e) => {
-            console.error(`Problem with request: ${e.message}`);
-            reject(e)
-        });**/
     })
 }
 
@@ -201,8 +144,8 @@ async function downloadFile(url, dest) {
             }
         });
 
-        sendReq.on('error', (err) => {
-            fs.unlink(dest);
+        sendReq.on('error', async(err) => {
+            await unlink(dest);
             reject(err)
         });
 
@@ -213,10 +156,8 @@ async function downloadFile(url, dest) {
             resolve()
         });
 
-        file.on('error', (err) => {
-            fs.unlink(dest, (e) => {
-                reject(e)
-            });
+        file.on('error', async(err) => {
+            await unlink(dest)
             reject(err)
         });
     })
