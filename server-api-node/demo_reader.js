@@ -213,6 +213,7 @@ module.exports.DemoReader = class DemoReader {
                 this.demoFile.gameEvents.on(events.game.ROUND_OFFICIALLY_ENDED, () => {
                     this.matchInfos.roundOfficiallyEnd()
                     if (this.matchInfos.endMatch()) {
+                        resolve(this.matchInfos.rounds)
                         this.demoFile.cancel()
                     }
                 })
