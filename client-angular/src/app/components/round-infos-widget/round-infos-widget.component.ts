@@ -29,7 +29,7 @@ export class RoundInfosWidgetComponent implements OnInit {
   roundEndReasonWidget: EndRoundReasonWidgetComponent;
 
   @ViewChild('roundKillsWidget', {static: true})
-  roundKillsWidge: RoundKillsWidgetComponent;
+  roundKillsWidget: RoundKillsWidgetComponent;
 
   @Input() roundInfos: RoundInfo;
 
