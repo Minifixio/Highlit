@@ -219,6 +219,15 @@ async function parseDemo(matchId, mapNumber) {
         } catch(e) {
             logger.debug('Wrong parsing for map : ' + map + " for match : " + matchId);
             await dbManager.updateMapStatus(matchId, mapNumber, 3);
+
+            try {
+                await unlink(`${path}/dem/${map}`); 
+            } catch(e) {
+                logger.debug('error when deleting the dem file')
+                reject(e)
+                return;
+            }
+            
             reject(e)
             return
         }
