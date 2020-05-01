@@ -256,11 +256,14 @@ exports.matchHasDemos = async function matchHasDemos(matchId) {
     return new Promise(async (resolve) => {
         const statusQuery = "SELECT demo_id FROM match WHERE match_id = ?";
         matchesDB.get(statusQuery, [matchId], (err, row) => {
+            if (!row) {
+                resolve(false);
+                return;
+            }
+
             if (row.demo_id == null) {
-                //logger.debug("Match " + matchId + " does not have a demo_id");
                 resolve(false);
             } else {
-                //logger.debug("Match " + matchId + " has a demo_id");
                 resolve(true);
             }
         });
