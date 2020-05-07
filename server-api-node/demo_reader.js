@@ -207,6 +207,26 @@ module.exports.DemoReader = class DemoReader {
                 })
     
                 this.demoFile.gameEvents.on(events.game.ROUND_END, e => {
+                    const terrorists = this.demoFile.teams[2]
+                    const cts = this.demoFile.teams[3]
+                    let tEquipment, ctEquipment = null
+
+                    if (cts.members.length != 0 && terrorists.members.length != 0) {
+                        tEquipment = terrorists.members.filter(player => player).reduce((a, b) => (
+                            {freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue}
+                            )).freezeTimeEndEquipmentValue
+
+                        ctEquipment= cts.members.filter(player => player).reduce((a, b) => (
+                            {freezeTimeEndEquipmentValue: a.freezeTimeEndEquipmentValue + b.freezeTimeEndEquipmentValue}
+                            )).freezeTimeEndEquipmentValue
+                    }
+
+                    if (tEquipment== null || ctEquipment == null) {
+                        tEquipment, ctEquipment = 25000
+                    }
+
+                    this.matchInfos.currentRound.makeBuy(tEquipment, ctEquipment)
+
                     this.matchInfos.roundEnd(e.winner, e.reason, this.demoFile.teams, this.demoFile.currentTime)
                 })
     
