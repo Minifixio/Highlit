@@ -1,6 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 // Mainteance mode
-const maintenance = true;
+const serverMaintenance = false;
+const appMaintenance = true;
 
 // Imports
 const express = require('express');
@@ -21,7 +22,7 @@ var debugManager = require("./debug_manager.js");
 const logger = new debugManager.Logger("http");
 
 // Starting cron task
-if(!maintenance) { cronManager.cronJob.start(); logger.debug('Starting cron job') }
+if(!serverMaintenance) { cronManager.cronJob.start(); logger.debug('Starting cron job') }
 
 // Express
 app.use(cors());
@@ -29,16 +30,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}) );
 
 app.use(express.static('dist'));
+app.use(express.static('maintenance_page'));
 
 app.all("/match*", function(req, res){
-    res.sendFile("index.html", { root: __dirname + "/dist"});
+    if(appMaintenance) {
+        res.sendFile("maintenance.html", { root: __dirname + "/maintenance_page"});
+    } else {
+        res.sendFile("index.html", { root: __dirname + "/dist"});
+    }
 });
 
 app.all("/*", function(req, res, next){
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-  next();
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    if(appMaintenance) {
+        res.redirect("maintenance.html");
+    }
+    next();
 });
 
 app.post('/v1/last_matches', async function(req, res) {
