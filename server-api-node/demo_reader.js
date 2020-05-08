@@ -58,15 +58,39 @@ class Round {
     }
 
     addKill(attacker, victim, time) {
+        var victimName = "unnamed";
+        var attackerName = "unnamed";
 
-        const victimName = victim ? victim.name : "unnamed";
-        const attackerName = attacker ? attacker.name : "unnamed";
+        var victimTeam = "undefined";
+        var attackerTeam = "undefined";
+
+        // Handling the case where the player kills himself
+        if (!victim) {
+            if (attacker) {
+                attackerName = attacker.name
+                victimName = attacker.name
+
+                victimTeam = attacker.teamNumber == 2 ? 't' : 'ct'
+                attackerTeam = attacker.teamNumber == 2 ? 'ct' : 't'
+            }
+        }
+
+        // Handling the case where the player kills himself
+        if (!attacker) {
+            if (victim) {
+                attackerName = victim.name
+                victimName = victim.name
+
+                attackerTeam = victim.teamNumber == 2 ? 'ct' : 't'
+                victimTeam = victim.teamNumber == 2 ? 't' : 'ct'
+            }
+        }
         
         let killInfos = {
             attacker_name: attackerName, 
             victim_name: victimName, 
-            victim_team: victim.teamNumber == 2 ? 't' : 'ct',
-            attacker_team: attacker ? (attacker.teamNumber == 2 ? 't' : 'ct') : victim.teamNumber == 2 ? 'ct' : 't', // Handling the case where the player kills himself
+            victim_team: victimTeam,
+            attacker_team: attackerTeam, 
             time: time
         }
 
