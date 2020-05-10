@@ -65,27 +65,30 @@ class Round {
         var attackerTeam = "undefined";
 
         // Handling the case where the player kills himself
-        if (!victim) {
-            if (attacker) {
+        if (!victim || !attacker) {
+            if (attacker && !victim) {
                 attackerName = attacker.name
                 victimName = attacker.name
 
                 victimTeam = attacker.teamNumber == 2 ? 't' : 'ct'
                 attackerTeam = attacker.teamNumber == 2 ? 'ct' : 't'
             }
-        }
 
-        // Handling the case where the player kills himself
-        if (!attacker) {
-            if (victim) {
+            if (victim && !attacker) {
                 attackerName = victim.name
                 victimName = victim.name
 
                 attackerTeam = victim.teamNumber == 2 ? 'ct' : 't'
                 victimTeam = victim.teamNumber == 2 ? 't' : 'ct'
             }
+        } else {
+            attackerName = attacker.name
+            victimName = victim.name
+
+            attackerTeam = attacker.teamNumber == 2 ? 't': 'ct'
+            victimTeam = victim.teamNumber == 2 ? 't': 'ct'
         }
-        
+
         let killInfos = {
             attacker_name: attackerName, 
             victim_name: victimName, 
