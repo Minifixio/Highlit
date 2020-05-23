@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 // Mainteance mode
-const serverMaintenance = false;
-const appMaintenance = true;
+const serverMaintenance = true;
+const appMaintenance = false;
 
 // Imports
 const express = require('express');
