@@ -1,6 +1,6 @@
 import { matchesDB, logger } from '../DatabaseManager'
 
-export async function insert(query: string, params: any[]) {
+export async function run(query: string, params: any[]) {
     return new Promise((resolve, reject) => {
         matchesDB.run(query, params, (err) => {
             if(err) {

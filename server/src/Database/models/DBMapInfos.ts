@@ -4,5 +4,5 @@ export interface DBMapInfos {
     map_name: string;
     score: string;
     available: number;
-    winner_team_id: number | null;
+    winner_team_id?: number | null;
 }
