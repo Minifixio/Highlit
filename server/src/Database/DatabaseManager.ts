@@ -7,8 +7,10 @@ import { HLTVMapResult } from '../HLTV/models/HLTVMapResult';
 import { DBMapInfos } from './models/DBMapInfos';
 import { HLTVTeam } from '../HLTV/models/HLTVTeam';
 import { Logger } from '../Debug/LoggerService'
+import { HLTVMatchResult } from '../HLTV/models/HLTVMatchResult';
+import { DBLastMatch } from './models/DBLastMatch';
 
-export const matchesDB = new sq.Database(__dirname + '/database/matches.db');
+export const matchesDB = new sq.Database(__dirname + '/db/matches.db');
 export const logger = new Logger("db");
 
 export async function addMatchInfos(matchInfos: HLTVMatchInfos): Promise<void> {
@@ -43,7 +45,7 @@ export async function addMatchInfos(matchInfos: HLTVMatchInfos): Promise<void> {
                 map_number: map.number,
                 map_name: map.name,
                 winner_team_id: map.winnerTeamId? map.winnerTeamId : null,
-                score: map.result ? map.result : '-',
+                result: map.result ? map.result : '-',
                 available: 0
             }
 
@@ -85,7 +87,7 @@ export async function updateMapStatus(matchId: number, mapNumber: number, status
     }
 }
 
-export async function isMatchDowloaded(matchId: number) {
+export async function isMatchDowloaded(matchId: number): Promise<number> {
     const matchQuery = "SELECT downloaded FROM match WHERE match_id = ?";
     try {
         const res = await reqUtil.get(matchQuery, [matchId])
@@ -95,7 +97,7 @@ export async function isMatchDowloaded(matchId: number) {
     }
 }
 
-export async function isMapAvailable(matchId: number, mapNumber: number) {
+export async function isMapAvailable(matchId: number, mapNumber: number): Promise<number> {
     try {
         const matchQuery = "SELECT available FROM maps WHERE match_id = ? AND map_number = ?";
         const res = await reqUtil.get(matchQuery, [matchId, mapNumber])
@@ -105,7 +107,7 @@ export async function isMapAvailable(matchId: number, mapNumber: number) {
     }
 }
 
-export async function countMaps(matchId: number) {
+export async function countMaps(matchId: number): Promise<number> {
     try {
         const mapQuery = "SELECT * FROM maps WHERE match_id = ?";
         const res = await reqUtil.all(mapQuery, [matchId])
@@ -125,51 +127,51 @@ export async function getMapsInfos(matchId: number): Promise<HLTVMapResult[]> {
     }
 }
 
-export async function getMatchInfos(matchId: number) {
+export async function getMatchInfos(matchId: number): Promise<HLTVMatchInfos[]> {
     try {
         const matchAllInfosQuery = "SELECT * FROM match WHERE match_id = ?";
-        const res = await reqUtil.all(matchAllInfosQuery, [matchId])
+        const res = await reqUtil.all<HLTVMatchInfos>(matchAllInfosQuery, [matchId])
         return res
     } catch(e) {
         throw e
     }
 }
 
-export async function clearMatchInfos(matchId: number) {
+export async function clearMatchInfos(matchId: number): Promise<void> {
     const deleteMatchQuery = "DELETE FROM match WHERE id = ?";
     const deleteMapsQuery = "DELETE FROM maps WHERE match_id = ?";
     await reqUtil.run(deleteMatchQuery, [matchId]);
     await reqUtil.run(deleteMapsQuery, [matchId]);
 }
 
-export async function clearDatabase() {
+export async function clearDatabase(): Promise<void> {
     const deleteMatchQuery = "DELETE FROM match";
     const deleteMapsQuery = "DELETE FROM maps";
     await reqUtil.run(deleteMatchQuery, []);
     await reqUtil.run(deleteMapsQuery, []);
 }
 
-export async function getLastMatches() {
+export async function getLastMatches(): Promise<HLTVMatchInfos[]> {
     try {
         const lastMatchesQuery = "SELECT * FROM match ORDER BY date DESC LIMIT 15";
-        const res = await reqUtil.all(lastMatchesQuery, [])
+        const res = await reqUtil.all<HLTVMatchInfos>(lastMatchesQuery, [])
         return res
     } catch(e) {
         throw e
     }
 }
 
-export async function getLastMatchByDate(startDate: number, endDate: number) {
+export async function getLastMatchByDate(startDate: number, endDate: number): Promise<DBLastMatch[]> {
     try {
-        const lastMatchesQuery = "SELECT m.match_id, m.team1_id, m.team2_id, m.winner_team_id, m.tournament, m.match_format, m.score, stars, m.date, m.demo_id, m.downloaded, t1.team_name as team1_name, t2.team_name as team2_name FROM match m, team t1, team t2 WHERE date < ? AND date > ? AND t1.team_id = m.team1_id AND t2.team_id = m.team2_id ORDER BY date";
-        const res = await reqUtil.all(lastMatchesQuery, [startDate, endDate])
+        const lastMatchesQuery = "SELECT m.match_id, m.team1_id, m.team2_id, m.winner_team_id, m.tournament, m.match_format, m.result, m.stars, m.date, m.demo_id, m.downloaded, t1.team_name as team1_name, t2.team_name as team2_name FROM match m, team t1, team t2 WHERE date < ? AND date > ? AND t1.team_id = m.team1_id AND t2.team_id = m.team2_id ORDER BY date";
+        const res = await reqUtil.all<DBLastMatch>(lastMatchesQuery, [startDate, endDate])
         return res
     } catch(e) {
         throw e
     }
 }
 
-export async function addLastMatches(lastMatches: HLTVMatchInfos[]) {
+export async function addLastMatches(lastMatches: HLTVMatchResult[]): Promise<void> {
     try {
 
         for (const match of lastMatches) {
@@ -200,7 +202,7 @@ export async function addLastMatches(lastMatches: HLTVMatchInfos[]) {
     }
 }
 
-export async function updateMatchStatus(matchId: number, status: number) {
+export async function updateMatchStatus(matchId: number, status: number): Promise<void> {
     try {
         const statusQuery = "UPDATE match SET downloaded = ? WHERE match_id = ?";
         await reqUtil.run(statusQuery, [status, matchId])
@@ -210,7 +212,7 @@ export async function updateMatchStatus(matchId: number, status: number) {
     }
 }
 
-export async function updateMatchInfos(matchInfos: HLTVMatchInfos) {
+export async function updateMatchInfos(matchInfos: HLTVMatchInfos): Promise<void> {
     try {
 
         // Adding demo_id for future downloads
@@ -225,7 +227,7 @@ export async function updateMatchInfos(matchInfos: HLTVMatchInfos) {
                     match_id: matchInfos.id,
                     map_number: map.number,
                     map_name: map.name,
-                    score: map.result ? map.result : '-',
+                    result: map.result ? map.result : '-',
                     available: 0
                 }
 
@@ -240,7 +242,7 @@ export async function updateMatchInfos(matchInfos: HLTVMatchInfos) {
 }
 
 // To check if the match already EXISTS in the match table
-export async function matchExists(matchId: number) {
+export async function matchExists(matchId: number): Promise<boolean> {
     try {
         const statusQuery = "SELECT * FROM match WHERE match_id = ?";
         const res = await reqUtil.all(statusQuery, [matchId])
@@ -258,7 +260,7 @@ export async function matchExists(matchId: number) {
 }
 
 // If the match has demos, it also means his TwitchInfosJSON has already been created as well
-export async function matchHasDemos(matchId: number) {
+export async function matchHasDemos(matchId: number): Promise<boolean> {
     try {
         const statusQuery = "SELECT demo_id FROM match WHERE match_id = ?";
         const req = await reqUtil.get(statusQuery, [matchId])
@@ -278,7 +280,7 @@ export async function matchHasDemos(matchId: number) {
     }
 }
 
-export async function getMatchDemoId(matchId: number) {
+export async function getMatchDemoId(matchId: number): Promise<number> {
     try {
         const statusQuery = "SELECT demo_id FROM match WHERE match_id = ?";
         const req = await reqUtil.get(statusQuery, [matchId])
@@ -288,13 +290,13 @@ export async function getMatchDemoId(matchId: number) {
     }
 }
 
-export async function lastUndownloadedMatch() {
+export async function lastUndownloadedMatch(): Promise<number> {
     try {
         const undownloadedQuery = "SELECT match_id FROM match WHERE downloaded = 0 ORDER BY date LIMIT 1";
         const req = await reqUtil.get(undownloadedQuery, [])
 
         if (req) {
-            return req
+            return req.match_id
         } else {
             return 0
         }
@@ -303,7 +305,7 @@ export async function lastUndownloadedMatch() {
     }
 }
 
-export async function findMatchDate(matchId: number) {
+export async function findMatchDate(matchId: number): Promise<number> {
     try {
         const dateQuery = "SELECT date FROM match WHERE match_id = ?";
         const req = await reqUtil.get(dateQuery, [matchId])
@@ -313,17 +315,17 @@ export async function findMatchDate(matchId: number) {
     }
 }
 
-export async function getAllMatches() {
+export async function getAllMatches(): Promise<HLTVMatchInfos[]> {
     try {
         const dateQuery = "SELECT * FROM match";
-        const req = await reqUtil.all(dateQuery, [])
+        const req = await reqUtil.all<HLTVMatchInfos>(dateQuery, [])
         return req
     } catch(e) {
         throw e
     }
 }
 
-export async function findTeamName(teamId: number) {
+export async function findTeamName(teamId: number): Promise<string> {
     try {
         const getTeamByIdQuery = "SELECT team_name FROM team WHERE team_id = ?"
         const req = await reqUtil.get(getTeamByIdQuery, [teamId])
@@ -333,10 +335,10 @@ export async function findTeamName(teamId: number) {
     }
 }
 
-export async function lastUnavailableMatch() {
+export async function lastUnavailableMatch(): Promise<HLTVMatchInfos | null> {
     try {
         const undownloadedQuery = "SELECT * FROM match WHERE downloaded = 3 ORDER BY date LIMIT 1";
-        const req = await reqUtil.all(undownloadedQuery, [])
+        const req = await reqUtil.all<HLTVMatchInfos>(undownloadedQuery, [])
         if (req) {
             return req[0]
         } else {
@@ -348,17 +350,17 @@ export async function lastUnavailableMatch() {
     }
 }
 
-export async function findMapScore(matchId: number, mapNumber: number) {
+export async function findMapScore(matchId: number, mapNumber: number): Promise<number> {
     try {
-        const getMapScore = "SELECT score FROM maps WHERE match_id = ? AND map_number = ?"
+        const getMapScore = "SELECT result FROM maps WHERE match_id = ? AND map_number = ?"
         const req = await reqUtil.get(getMapScore, [matchId, mapNumber])
-        return req.score
+        return req.result
     } catch(e) {
         throw e
     }
 }
 
-export async function hasMapsWinnerId(matchId: number) {
+export async function hasMapsWinnerId(matchId: number): Promise<boolean> {
     try {
         const winnerIdRequest = "SELECT winner_team_id FROM maps WHERE match_id = ?"
         const req = await reqUtil.all<{winner_team_id: string}>(winnerIdRequest, [matchId])
@@ -374,7 +376,7 @@ export async function hasMapsWinnerId(matchId: number) {
     }
 }
 
-export async function updateMapsWinnerId(matchId: number) {
+export async function updateMapsWinnerId(matchId: number): Promise<void> {
     try {
         const mapsInfos = await getMapsInfos(matchId);
 
@@ -395,12 +397,12 @@ export async function updateMapsWinnerId(matchId: number) {
     }
 }
 
-async function setMapWinnerId(matchId: number, mapNumber: number, winnerId?: number) {
+async function setMapWinnerId(matchId: number, mapNumber: number, winnerId?: number): Promise<void> {
     const updateWinnerRequest = "UPDATE maps SET winner_team_id = ? WHERE match_id = ? AND map_number = ?";
     await reqUtil.run(updateWinnerRequest, [winnerId, matchId, mapNumber])
 }
 
-async function addTeam(team: HLTVTeam) {
+async function addTeam(team: HLTVTeam): Promise<void> {
     const teamQuery = "INSERT OR IGNORE INTO team(team_id, team_name) VALUES(?, ?)";
     await reqUtil.run(teamQuery, [team.id, team.name]);
 }

@@ -1,5 +1,3 @@
-/* eslint-disable no-async-promise-executor */
-
 // Imports
 import * as fs from 'fs'
 import * as request from 'request'
@@ -7,6 +5,8 @@ import * as util from 'util'
 import * as unrar from 'node-unrar-js'
 import { MatchInfos } from '../HLTV/models/MatchInfos';
 import { Logger } from '../Debug/LoggerService'
+import * as hltvMngr from '../HLTV/HLTVManager'
+import * as dbMngr from '../Database/DatabaseManager'
 
 // Files
 var demoReader = require("./demo_reader.js");
@@ -23,17 +23,17 @@ const unlink = util.promisify(fs.unlink);
 const mkdir = util.promisify(fs.mkdir);
 const rmdir = util.promisify(fs.rmdir);
 
-async function addMatchInfos(matchId: number) {
+export async function addMatchInfos(matchId: number) {
     logger.debug("Adding match")
 
-    const hltvInfos = await hltvManager.hltvMatchInfos(matchId);
-    await dbManager.addMatchInfos(hltvInfos);
+    const hltvInfos = await hltvMngr.hltvMatchInfos(matchId);
+    await dbMngr.addMatchInfos(hltvInfos);
 
-    const twitchStreams = hltvInfos.twitchStreams;
+    const twitchStreams = hltvInfos.twitchLinks;
     const mapsCount = hltvInfos.maps.length;
 
     await makeTwitchJSONfile(matchId, twitchStreams, mapsCount);
-    await dbManager.updateMapStatus(matchId, 0, 0);
+    await dbMngr.updateMapStatus(matchId, 0, 0);
 
     return hltvInfos.available
 }

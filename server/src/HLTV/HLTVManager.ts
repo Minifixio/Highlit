@@ -9,11 +9,13 @@ import { Team } from 'hltv/lib/models/Team';
 import { Demo } from 'hltv/lib/models/Demo';
 import { Errors } from '../Errors/Errors';
 import { HLTVTeam } from './models/HLTVTeam';
+import { Logger } from '../Debug/LoggerService'
+import * as dbMngr from '../Database/DatabaseManager'
+import { HLTVMatchResult } from './models/HLTVMatchResult';
+import { MatchResult } from 'hltv/lib/models/MatchResult';
 
 // Files
-var dbManager = require("./database_manager.js");
-var debugManager = require("./debug_manager.js");
-const logger = new debugManager.Logger("hltv");
+const logger = new Logger("hltv");
 
 export async function hltvMatchInfos(matchId: number): Promise<HLTVMatchInfos> {
     logger.debug('Looking for informations for match ' + matchId);
@@ -190,8 +192,24 @@ export function parseTwitchLink(twitchLink: string): TwitchInfos | null {
 }
 
 export async function getLastMatches(): Promise<void> {
-    const lastMatches = await HLTV.getResults({pages: 1, contentFilters: [ContentFilter.Demo, ContentFilter.Vod]});
-    await dbManager.addLastMatches(lastMatches);
+    const lastMatches: MatchResult[] = await HLTV.getResults({pages: 1, contentFilters: [ContentFilter.Demo, ContentFilter.Vod]});
+    const res: HLTVMatchResult[] = []
+
+    lastMatches.forEach(match => {
+        if(match.team1.id && match.team2.id){ res.push({
+            id: match.id,
+            team1: {id: match.team1.id, name: match.team1.name},
+            team2: {id: match.team2.id, name: match.team2.name},
+            format: match.format,
+            event: match.event,
+            map: match.map,
+            result: match.result,
+            stars: match.stars,
+            date: match.date,
+        })}
+    })
+
+    await dbMngr.addLastMatches(res);
 }
 
 export async function getTeamInfos(id: number): Promise<FullTeam> {

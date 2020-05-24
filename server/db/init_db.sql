@@ -10,7 +10,7 @@ create table match(
     loser_team_id INTEGER,
     tournament TEXT,
     match_format TEXT,
-    result: TEXT,
+    result TEXT,
     stars INTEGER,
     date INTERGER,
     demo_id INTEGER,
@@ -21,7 +21,7 @@ create table maps(
     match_id INTEGER NOT NULL,
     map_number INTEGER,
     map_name TEXT,
-    score TEXT,
+    result TEXT,
     available INTEGER,
     winner_team_id INTEGER
 );

@@ -11,7 +11,7 @@ export class Logger {
         this.loggers = findLoggers(this.name)
     }
 
-    debug(message: string) {
+    debug(message: any) {
         if (this.loggers.length > 0) {
             this.loggers.forEach(logger => logger.info({from: this.name, message }));
         }

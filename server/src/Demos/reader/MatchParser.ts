@@ -1,19 +1,20 @@
 import { Round } from "../models/Round"
 import { RoundParser } from "./RoundParser"
 import { Team } from "demofile"
+import { DemoReadingLogger } from "../../Debug/DemoReadingLogger"
 
 export class MatchParser {
 
     private expectedRounds: number
     public rounds: Round[]
     public currentRound: RoundParser
-    private matchLogger
+    public matchLogger: DemoReadingLogger
 
     constructor(expectedRounds: number, matchId: number) {
         this.expectedRounds = expectedRounds
         this.rounds = []
         this.currentRound = new RoundParser(0, 0)
-        this.matchLogger = new debugManager.DemoReadingLogger(matchId);
+        this.matchLogger = new DemoReadingLogger(matchId);
     }
 
     startMatch(): void {
