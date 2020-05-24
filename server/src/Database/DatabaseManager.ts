@@ -6,12 +6,10 @@ import { DBMatchInfos } from './models/DBMatchInfos';
 import { HLTVMapResult } from '../HLTV/models/HLTVMapResult';
 import { DBMapInfos } from './models/DBMapInfos';
 import { HLTVTeam } from '../HLTV/models/HLTVTeam';
-
-var debugManager = require("./debug_manager.js");
+import { Logger } from '../Debug/LoggerService'
 
 export const matchesDB = new sq.Database(__dirname + '/database/matches.db');
-export const logger = new debugManager.Logger("db");
-
+export const logger = new Logger("db");
 
 export async function addMatchInfos(matchInfos: HLTVMatchInfos): Promise<void> {
 
@@ -79,7 +77,7 @@ export async function updateMapStatus(matchId: number, mapNumber: number, status
     } else {
         try {
             const mapUpdateQuery = "UPDATE maps SET available = ? WHERE match_id = ? AND map_number = ?";
-            await reqUtil.insert(mapUpdateQuery, [status, matchId, mapNumber]);
+            await reqUtil.run(mapUpdateQuery, [status, matchId, mapNumber]);
             logger.debug("Updated map " + mapNumber + " status to " + status + " for match " + matchId);
         } catch(e) {
             throw e
@@ -117,10 +115,10 @@ export async function countMaps(matchId: number) {
     }
 }
 
-export async function getMapsInfos(matchId: number) {
+export async function getMapsInfos(matchId: number): Promise<HLTVMapResult[]> {
     try {
         const mapAllInfosQuery = "SELECT * FROM maps WHERE match_id = ?";
-        const res = await reqUtil.all(mapAllInfosQuery, [matchId])
+        const res = await reqUtil.all<HLTVMapResult>(mapAllInfosQuery, [matchId])
         return res
     } catch(e) {
         return e
@@ -363,7 +361,7 @@ export async function findMapScore(matchId: number, mapNumber: number) {
 export async function hasMapsWinnerId(matchId: number) {
     try {
         const winnerIdRequest = "SELECT winner_team_id FROM maps WHERE match_id = ?"
-        const req = await reqUtil.all(winnerIdRequest, [matchId])
+        const req = await reqUtil.all<{winner_team_id: string}>(winnerIdRequest, [matchId])
 
         if (req.filter(el => !el.winner_team_id).length > 0) {
             return false
@@ -387,7 +385,6 @@ export async function updateMapsWinnerId(matchId: number) {
         let loserId: number
         winnerId === req.team1_id ? loserId = req.team2_id : loserId = req.team1_id;
 
-        mapsInfos.map(map => map.result = map.score);
         const maps = hltvMgr.getMapWinner(mapsInfos, winnerId, loserId);
 
         for (const map of maps) {

@@ -6,6 +6,7 @@ import * as request from 'request'
 import * as util from 'util'
 import * as unrar from 'node-unrar-js'
 import { MatchInfos } from '../HLTV/models/MatchInfos';
+import { Logger } from '../Debug/LoggerService'
 
 // Files
 var demoReader = require("./demo_reader.js");
@@ -14,7 +15,7 @@ var hltvManager = require("./hltv_manager.js");
 var twitchManager = require("./twitch_manager.js");
 var socketManager = require("./socket_manager.js");
 var debugManager = require("./debug_manager.js");
-const logger = new debugManager.Logger("demo_manager");
+const logger = new Logger("demo_manager");
 
 // Promisify
 const writeFile = util.promisify(fs.writeFile);
@@ -96,13 +97,13 @@ async function dowloadDemos(matchId) {
             // Unrar the file
             await unrar(`${path}/${matchId}.rar`, `${path}/dem`,);
             logger.debug('Finished unrar for demo ' + matchId);
-    
+
             // Delete the .rar file
             await unlink(`${path}/${matchId}.rar`);
-    
+
             // Updating map status to 0 meaning they are downloaded but not parsed yet
             await dbManager.updateMapStatus(matchId, 0, 0);
-    
+
             // Updating match status to 1 meaning the demos are now downloaded
             await dbManager.updateMatchStatus(matchId, 1);
             resolve();

@@ -146,7 +146,7 @@ export function parseTwitchLink(twitchLink: string): TwitchInfos | null {
     if(timeCode.includes('m') && timeCode.includes('s') && !timeCode.includes('h')) {
         minutes = Number(timeCode.split('m')[0]);
         seconds = Number(timeCode.split('m')[1].slice(0, -1));
-    } 
+    }
     if (timeCode.includes('h') && timeCode.includes('s') && !timeCode.includes('m')) {
         hours = Number(timeCode.split('h')[0]);
         seconds = Number(timeCode.split('h')[1].slice(0, -1));
