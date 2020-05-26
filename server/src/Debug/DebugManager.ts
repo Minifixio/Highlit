@@ -31,13 +31,13 @@ class LoggerService {
 
 const mainLogger = new LoggerService(
     'main',
-    ['cron', 'db', 'demo_manager', 'hltv', 'mail', 'twitch'],
+    ['cron', 'db', 'demo_manager', 'hltv', 'mail', 'twitch', 'app'],
     winston.createLogger(new LoggerOptions('main'))
 );
 
 const serverLogger = new LoggerService(
     'server',
-    ['http', 'sockets'],
+    ['http', 'sockets', 'app'],
     winston.createLogger(new LoggerOptions('server'))
 );
 

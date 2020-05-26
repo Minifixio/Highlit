@@ -10,7 +10,7 @@ import { Logger } from '../Debug/LoggerService'
 import { HLTVMatchResult } from '../HLTV/models/HLTVMatchResult';
 import { DBLastMatch } from './models/DBLastMatch';
 
-export const matchesDB = new sq.Database(__dirname + '/db/matches.db');
+export const matchesDB = new sq.Database('./db/matches.db');
 export const logger = new Logger("db");
 
 export async function addMatchInfos(matchInfos: HLTVMatchInfos): Promise<void> {
@@ -167,7 +167,7 @@ export async function getLastMatchByDate(startDate: number, endDate: number): Pr
         const res = await reqUtil.all<DBLastMatch>(lastMatchesQuery, [startDate, endDate])
         return res
     } catch(e) {
-        throw e
+        return []
     }
 }
 

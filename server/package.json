@@ -2,22 +2,27 @@
   "name": "highlit-server",
   "version": "1.0.0",
   "description": "The backend server for Highlit",
-  "main": "index.js",
+  "main": "build/app.js",
+  "types": "build/app.d.ts",
   "scripts": {
-    "serve": "nodemon",
-    "start:watch": "npm dist/index.js",
-    "build": "rimraf ./dist && tsc"
+    "serve": "env NODE_ENV=test nodemon",
+    "start:watch": "npm dist/app.js",
+    "build": "rimraf ./build && tsc"
   },
   "author": "Minifixio",
   "license": "ISC",
   "devDependencies": {
+    "@types/cron": "^1.7.2",
     "@types/node": "^14.0.5",
+    "@types/nodemailer": "^6.4.0",
     "@types/request": "^2.48.5",
     "nodemon": "^2.0.4",
+    "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
     "@types/sqlite3": "^3.1.6",
     "cors": "^2.8.5",

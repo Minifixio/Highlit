@@ -14,6 +14,7 @@ import { DemoReader } from '../Reader/DemoReader';
 import { TwitchLinks } from '../models/TwitchLinks';
 import { Demo } from 'hltv/lib/models/Demo';
 import { Round } from '../models/Round';
+import { Errors } from '../../Errors/Errors'
 
 // Files
 const logger = new Logger("demo_manager");
@@ -47,6 +48,9 @@ export async function updateMatchInfos(matchId: number): Promise<number | undefi
         await dbMngr.updateMatchInfos(hltvInfos);
         const twitchLinks = hltvInfos.twitchLinks;
         if (hltvInfos.maps.length > 0) { await makeTwitchJSONfile(matchId, twitchLinks, hltvInfos.maps.length) }
+    } else {
+        logger.error(Errors.HLTV.invalid_match, `matchId: ${matchId}`)
+        await dbMngr.updateMatchStatus(matchId, 3)
     }
 
     return hltvInfos.available
@@ -143,14 +147,14 @@ export async function downloadFile(url: string, dest: string): Promise<void> {
             const sum = length.reduce((a, b) => a + b, 0);
             const completedPercentage = Math.round((sum / contentLength) * 100);
             if (completedPercentage !== lastCompletedPercentage) {
-                completedPercentage % 10 === 0 ? logger.debug(`${completedPercentage} % of download complete`): null;
-                //socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
+                if (completedPercentage % 10 === 0) { logger.debug(`${completedPercentage} % of download complete`) };
+                // socketManager.socketEmit('select-map', {type: 'downloading', match_id: matchId, params: completedPercentage});
                 lastCompletedPercentage = completedPercentage;
             }
         });
 
         sendReq.on('error', async(err) => {
-            logger.error('download files for demos', url)
+            logger.error(Errors.DEMOS.download_dem_files, url)
             await unlink(dest);
             reject(err)
         });
@@ -163,7 +167,7 @@ export async function downloadFile(url: string, dest: string): Promise<void> {
         });
 
         file.on('error', async(err) => {
-            logger.error('write files for demos', url)
+            logger.error(Errors.DEMOS.extract_dem_files, url)
             await unlink(dest)
             reject(err)
         });
@@ -199,9 +203,9 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
     }
 
     if (map === undefined || result.length === 0) {
-        logger.error('no demos found', `match${matchId}, map ${mapNumber}`);
+        logger.error(Errors.DEMOS.no_demos, `match${matchId}, map ${mapNumber}`);
         await dbMngr.updateMapStatus(matchId, mapNumber, 3);
-        throw new Error(('dem file not available'))
+        throw new Error(Errors.DEMOS.no_demos.message)
     }
 
     logger.debug('Map to parse is : ' + map)
@@ -225,7 +229,7 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
         try {
             await unlink(`${path}/dem/${map}`);
         } catch(e) {
-            logger.error('delete the dem file', path)
+            logger.error(Errors.DEMOS.dem_files_not_deleted, path)
         }
 
         throw e
@@ -239,7 +243,7 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
     try {
         roundInfos = await twitchMngr.calculateTwitchRating(roundInfos, path, mapNumber);
     } catch(e) {
-        logger.error('get twitch comments', `matchId: ${matchId}, map: ${mapNumber}`)
+        logger.error(Errors.DEMOS.get_twitch_comment, `matchId: ${matchId}, map: ${mapNumber}`)
     }
 
     // Making the match JSON file
@@ -247,7 +251,7 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
         await makeMatchJSONfile(matchId, mapNumber, roundInfos);
     } catch(e) {
         await dbMngr.updateMapStatus(matchId, mapNumber, 3)
-        logger.error('create the match JSON file', `matchId : ${matchId}`)
+        logger.error(Errors.DEMOS.make_match_json, `matchId : ${matchId}, map: ${mapNumber}`)
         throw e
     }
 
@@ -258,7 +262,7 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
     try {
         await unlink(`${path}/dem/${map}`);
     } catch(e) {
-        logger.error('delete the dem file', path)
+        logger.error(Errors.DEMOS.dem_files_not_deleted, path)
         throw e
     }
 
@@ -270,14 +274,14 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
             try {
                 await unlink(`${path}/dem/${f}`);
             } catch(e) {
-                logger.error('delete the dem file', path)
+                logger.error(Errors.DEMOS.dem_files_not_deleted, path)
             }
         });
 
         try {
             await rmdir(`${path}/dem`);
         } catch(e) {
-            logger.error('delete the dem folder', path)
+            logger.error(Errors.DEMOS.dem_folder_not_deleted, path)
         }
     }
 }
@@ -293,7 +297,6 @@ async function makeMatchJSONfile(matchId: number, mapNumber: number, rounds: Rou
             logger.debug('Match JSON created for match ' + matchId + ' map n°' + mapNumber);
             resolve();
         }).catch(e => {
-            logger.error('create the match JSON file', `matchId: ${matchId}, map: ${mapNumber}`)
             reject(e)
         });
     })
@@ -316,7 +319,7 @@ async function makeTwitchJSONfile(matchId: number, mapTwitchInfos: Demo[], mapsC
 
                if (!infos) {
                     await dbMngr.updateMapStatus(matchId, i, 3)
-                    logger.error('no twitch streams', `matchId: ${matchId}, map: ${i}`)
+                    logger.error(Errors.DEMOS.no_twitch_stream, `matchId: ${matchId}, map: ${i}`)
                }
            }
         }
@@ -330,7 +333,7 @@ async function makeTwitchJSONfile(matchId: number, mapTwitchInfos: Demo[], mapsC
             logger.debug('Twitch JSON created');
             resolve();
         }).catch(e => {
-            logger.error('make the twitch JSON file', `path: ${path}`)
+            logger.error(Errors.DEMOS.make_twitch_json, `path: ${path}`)
             reject(e)
         });
     })
@@ -372,7 +375,7 @@ async function findMatchPath(matchId: number): Promise<string> {
         return path;
 
     } catch(e) {
-        logger.error('create match path', `matchId: ${matchId}`)
+        logger.error(Errors.DEMOS.create_match_path, `matchId: ${matchId}`)
         throw e
     }
 
