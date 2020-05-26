@@ -132,7 +132,7 @@ export async function getMapInfos(mapId: number): Promise<void> {
     logger.debug(matchInfos);
 }
 
-export function parseTwitchLink(twitchLink: string): TwitchInfos | null {
+export function parseTwitchLink(twitchLink: string): TwitchInfos {
     const scope = twitchLink.indexOf('&t=');
     const timeCode = twitchLink.slice(scope + 3);
 

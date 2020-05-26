@@ -2,6 +2,7 @@ import * as fs from 'fs'
 import { DemoFile } from 'demofile'
 import { MatchParser } from "./MatchParser"
 import { Team } from 'demofile'
+import { Round } from '../models/Round'
 
 export class DemoReader {
 
@@ -14,7 +15,7 @@ export class DemoReader {
     }
 
 
-    async read() {
+    async read(): Promise<Round[]> {
         return new Promise((resolve, reject) => {
             fs.readFile(this.fileInput, (err, buffer) => {
 

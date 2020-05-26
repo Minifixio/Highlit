@@ -350,7 +350,7 @@ export async function lastUnavailableMatch(): Promise<HLTVMatchInfos | null> {
     }
 }
 
-export async function findMapScore(matchId: number, mapNumber: number): Promise<number> {
+export async function findMapScore(matchId: number, mapNumber: number): Promise<string> {
     try {
         const getMapScore = "SELECT result FROM maps WHERE match_id = ? AND map_number = ?"
         const req = await reqUtil.get(getMapScore, [matchId, mapNumber])

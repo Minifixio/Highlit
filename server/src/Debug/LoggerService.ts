@@ -1,5 +1,5 @@
 import * as winston from 'winston'
-import { loggers } from './DebugManager';
+import { loggers, errorsLogger } from './DebugManager';
 
 export class Logger {
 
@@ -15,6 +15,10 @@ export class Logger {
         if (this.loggers.length > 0) {
             this.loggers.forEach(logger => logger.info({from: this.name, message }));
         }
+    }
+
+    error(error: string, content?: any) {
+        errorsLogger.logger.info({from: this.name, error, message: content})
     }
 }
 

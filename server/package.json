@@ -29,7 +29,10 @@
     "nodemailer": "^6.4.6",
     "socket.io": "^2.3.0",
     "sqlite3": "^4.2.0",
+    "twitch-video-comments-analyser": "^1.0.4",
+    "unrar": "^0.2.0",
     "unrar-promise": "^2.0.1",
+    "unzipper": "^0.10.11",
     "winston": "^3.2.1"
   }
 }

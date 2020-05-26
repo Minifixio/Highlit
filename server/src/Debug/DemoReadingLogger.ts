@@ -4,7 +4,7 @@ import { demoReadingLogger, debugMode } from "./DebugManager";
 export class DemoReadingLogger {
 
     public matchId: number
-    matchLogsInfos: DemoLog[]
+    public matchLogsInfos: DemoLog[]
 
     constructor(matchId: number) {
         this.matchId = matchId;

@@ -1,7 +1,7 @@
 import { Round } from "../models/Round"
 import { RoundParser } from "./RoundParser"
-import { Team } from "demofile"
 import { DemoReadingLogger } from "../../Debug/DemoReadingLogger"
+import { Team } from 'demofile'
 
 export class MatchParser {
 
@@ -48,7 +48,7 @@ export class MatchParser {
                 side: 't',
                 team_name: teams[2].clanName
             };
-        } 
+        }
         if (winner === 3) { // else it is CTs
             this.currentRound.winningTeam = {
                 side: 'ct',

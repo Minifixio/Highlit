@@ -1,5 +1,5 @@
 import * as winston from 'winston'
-import { demoReadingLoggerOpts, LoggerOptions, consoleFormat } from './LoggerOptions';
+import { demoReadingLoggerOpts, LoggerOptions, consoleFormat, errorsLoggerOpts } from './LoggerOptions';
 
 export const logLocation = (__dirname + '/logs/');
 const LEVEL = Symbol.for('level');
@@ -47,13 +47,19 @@ const demosLogger = new LoggerService(
     winston.createLogger(new LoggerOptions('demos'))
 );
 
+export const errorsLogger = new LoggerService(
+    'errors',
+    [],
+    winston.createLogger(errorsLoggerOpts)
+);
+
 export const demoReadingLogger = new LoggerService(
     'demos_reading',
     [],
     winston.createLogger(demoReadingLoggerOpts)
 );
 
-export const loggers = [mainLogger, serverLogger, demosLogger, demoReadingLogger];
+export const loggers = [mainLogger, serverLogger, demosLogger, demoReadingLogger, errorsLogger];
 
 if (debugMode) {
     mainLogger.logger.add(new winston.transports.Console({

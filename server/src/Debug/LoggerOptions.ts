@@ -1,7 +1,7 @@
 import * as winston from 'winston'
 import { FileTransportInstance } from "winston/lib/winston/transports"
 import { format } from 'winston'
-import { logLocation } from './DebugManager';
+import { logLocation, errorsLogger } from './DebugManager';
 const { combine, prettyPrint } = format;
 
 function dateLog() {
@@ -19,6 +19,12 @@ export const consoleFormat = winston.format.printf(
 export const fileFormat = winston.format.printf(
     (info) => {
         const message = {date: dateLog(), level: info.level.toLocaleUpperCase(), from: info.from, message: info.message}
+        return JSON.stringify(message)
+    })
+
+export const errorsFormat = winston.format.printf(
+    (info) => {
+        const message = {date: dateLog(), level: info.level.toLocaleUpperCase(), from: info.from, error: info.error, message: info.message}
         return JSON.stringify(message)
     })
 
@@ -47,4 +53,6 @@ export class LoggerOptions implements winston.LoggerOptions {
 }
 
 export const demoReadingLoggerOpts = new LoggerOptions('demos_reading');
+export const errorsLoggerOpts = new LoggerOptions('errors');
 demoReadingLoggerOpts.format = demoFormat;
+errorsLoggerOpts.format = errorsFormat;

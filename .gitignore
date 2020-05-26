@@ -12,6 +12,7 @@ test.html
 client-angular/dist
 client-angular/tmp
 client-angular/out-tsc
+
 # Only exists if Bazel was run
 client-angular/bazel-out
 
@@ -78,3 +79,6 @@ server-api-node/logs/demos_reading.log
 server-api-node/logs/error.log
 server-api-node/logs/errors.log
 server-api-node/demo_readerV3.js
+
+server/src/CREDENTIALS.ts
+server/src/CREDENTIALS.ts

@@ -1,8 +1,7 @@
 /**
  * Imports
  */
-var debugManager = require("./debug_manager.js");
-//var socketManager = require("./socket_manager.js");
+// var socketManager = require("./socket_manager.js");
 
 /**
  * Utils

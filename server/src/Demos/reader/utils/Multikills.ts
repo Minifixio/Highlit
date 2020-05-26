@@ -25,7 +25,7 @@ export function computeMultiKills (roundKills: Kill[]): MultipleKills {
         };
 
         roundKills.forEach(kill => {
-            if(kill.attacker_name == attacker) {
+            if(kill.attacker_name === attacker) {
                 multiKill.kills.push(kill);
                 killCount += 1;
             }
