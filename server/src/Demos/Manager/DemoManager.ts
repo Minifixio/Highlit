@@ -4,6 +4,7 @@ import * as request from 'request'
 import * as util from 'util'
 import * as hltvMngr from '../../HLTV/HLTVManager'
 import * as dbMngr from '../../Database/DatabaseManager'
+import * as twitchMngr from '../../Twitch/TwitchManager'
 
 import { MatchInfos } from '../../HLTV/models/MatchInfos';
 import { Logger } from '../../Debug/LoggerService'
@@ -234,7 +235,12 @@ export async function parseDemo(matchId: number, mapNumber: number): Promise<voi
 
     // Computing a rating for each round based on average viewers during the livestream of the match
     // TODO : Make a function to test if twitch comments are available or no
-    roundInfos = await twitchMngr.calculateTwitchRating(roundInfos, path, mapNumber);
+
+    try {
+        roundInfos = await twitchMngr.calculateTwitchRating(roundInfos, path, mapNumber);
+    } catch(e) {
+        logger.error('get twitch comments', `matchId: ${matchId}, map: ${mapNumber}`)
+    }
 
     // Making the match JSON file
     try {
