@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
-import { MatchInfos } from 'src/app/services/models/MatchInfos';
-import { MapInfo } from 'src/app/services/models/MapInfo';
+import { MatchInfos } from 'src/app/models/Match/MatchInfos';
+import { MapInfo } from 'src/app/models/Match/MapInfo';
 import { HttpService } from 'src/app/services/http.service';
 import { MapInfosWidgetComponent } from '../map-infos-widget/map-infos-widget.component';
 

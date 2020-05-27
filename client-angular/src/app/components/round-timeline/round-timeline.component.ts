@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
+import { RoundTimelineInfos } from 'src/app/models/UI/RoundTimelineInfos';
 
 @Component({
   selector: 'app-round-timeline',

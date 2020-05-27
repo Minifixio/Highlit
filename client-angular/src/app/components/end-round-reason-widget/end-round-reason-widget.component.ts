@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RoundEndReasons } from 'src/app/services/models/RoundEndReasons';
+import { RoundEndReasons } from 'src/app/models/Demo/RoundEndReasons';
 
 @Component({
   selector: 'app-end-round-reason-widget',

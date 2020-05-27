@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { GameInfos } from './models/GameInfos';
-import { MapInfo } from './models/MapInfo';
+import { MapInfo } from '../models/Match/MapInfo';
 import { environment } from 'src/environments/environment';
 
 interface Comments {
@@ -27,28 +26,27 @@ export class HttpService {
     private http: HttpClient
   ) { }
 
-  get(tag): Observable<any> {
-    return this.http.get(this.mainUrl + tag);
+  async get<T>(tag: string): Promise<T> {
+    try {
+      return await this.http.get<T>(this.mainUrl + tag).toPromise();
+    } catch (e) {
+      throw e;
+    }
   }
 
-  post(tag, postParams): Observable<any> {
+  async post<T>(tag: string, postParams: any): Promise<T> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<any>(this.mainUrl + tag, JSON.stringify(postParams), httpOptions);
-  }
 
-  getGameInfos(matchId, mapNumber): Observable<GameInfos> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<GameInfos>(this.mainUrl + 'map', JSON.stringify({match_id: matchId, map_number: mapNumber}), httpOptions);
+    try {
+      return await this.http.post<T>(this.mainUrl + tag, JSON.stringify(postParams), httpOptions).toPromise();
+    } catch (e) {
+      throw e;
+    }
   }
 
   getMapInfos(matchId): Observable<MapInfo[]> {

@@ -1,6 +1,6 @@
-<app-menu-bar *ngIf="!loading" id="menu-bar" #menuBar></app-menu-bar>
+<app-menu-bar *ngIf="!pageLoading" id="menu-bar" #menuBar></app-menu-bar>
 
-<div id="main-page" *ngIf="!loading">
+<div id="main-page" *ngIf="!pageLoading">
     <div id="last-match-div">
         <mat-expansion-panel id="add-panel" (closed)="panelClosed()">
             <mat-expansion-panel-header>
@@ -22,30 +22,40 @@
             </div>
             
         </mat-expansion-panel>
+
         <mat-toolbar id="list-toolbar">
+
             <button disableRipple="true" mat-button (click)="changePage('backward')">
                 <mat-icon>keyboard_arrow_left</mat-icon>
             </button>
+
             <span id="date-span">{{currentDate | date:'MMMM d yyyy'}}</span>
+
             <mat-form-field id="date-picker">
                 <input matInput [matDatepicker]="picker" (dateChange)="pickDate($event)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+
             <button mat-button (click)="changePage('forward')">
                 <mat-icon *ngIf="currentPage > 0">keyboard_arrow_right</mat-icon>
             </button>
+
         </mat-toolbar>
 
-        <div *ngIf="!loading" id="matchinfos-container">
+        <div *ngIf="!pageLoading" id="matchinfos-container">
+
             <div id="no-matches-error-div" *ngIf="currentMatches.length == 0 && !listLoading">
                 <mat-icon id="no-matches-error-icon" inline="false">sentiment_very_dissatisfied</mat-icon>
-                <p id="no-matches-error-text">No matches for this day !</p>
+                <p id="no-matches-error-text">{{listErrorMessage}}</p>
             </div>
+
             <mat-spinner *ngIf="listLoading" id="list-loading-spinner"></mat-spinner>
+    
             <div id="matchinfos-div" *ngFor="let match of currentMatches" [matBadge]="getMatchStars(match.stars)" matBadgeColor="warn" [matBadgeHidden]="match.stars == 0 ? true: false">
                 <app-match-infos-widget #matchInfosWidget [matchInfos]=match (mapSelected)="selectMap($event)" class="app-match-infos-widget"></app-match-infos-widget>
             </div>
+
         </div>
     </div>
 
@@ -66,7 +76,7 @@
     </ul>
 </div>
 
-<div *ngIf="loading" id="loading-div">
+<div *ngIf="pageLoading" id="loading-div">
     <mat-spinner id="page-loading-spinner"></mat-spinner>
     <mat-label *ngIf="downloadPercentage !== 0">Download percentage : {{downloadPercentage}} %</mat-label>
     <mat-label *ngIf="parsingRound !== 0">Parsing round n° {{parsingRound}}</mat-label>

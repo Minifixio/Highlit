@@ -1,4 +1,4 @@
-export interface ClutchInfos {
+export interface Clutch {
     team: string;
     player: string;
     vs: number;

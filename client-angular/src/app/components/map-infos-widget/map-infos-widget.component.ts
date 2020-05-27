@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { MapInfo } from 'src/app/services/models/MapInfo';
+import { MapInfo } from 'src/app/models/Match/MapInfo';
 
 @Component({
   selector: 'app-map-infos-widget',

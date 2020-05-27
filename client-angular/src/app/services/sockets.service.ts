@@ -19,7 +19,7 @@ export class SocketsService {
   socket: any;
 
   constructor() {
-    this.socket = io(this.urlApi);
+    //this.socket = io(this.urlApi);
   }
 
   emit(tag, params) {

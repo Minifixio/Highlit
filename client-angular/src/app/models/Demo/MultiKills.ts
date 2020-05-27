@@ -1,4 +1,4 @@
-import { MultiKill } from '../models/MultiKill';
+import { MultiKill } from './MultiKill';
 
 export interface MultiKills {
     triples: MultiKill[];

@@ -1,5 +1,5 @@
-import { MultiKill } from './MultiKill';
-import { Kill } from './Kill';
+import { MultiKill } from '../Demo/MultiKill';
+import { Kill } from '../Demo/Kill';
 
 export interface RoundTimelineInfos {
     roundId: number;

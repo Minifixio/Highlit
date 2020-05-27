@@ -1,7 +1,7 @@
+export const logLocation = ('./logs/');
 import * as winston from 'winston'
 import { demoReadingLoggerOpts, LoggerOptions, consoleFormat, errorsLoggerOpts } from './LoggerOptions';
 
-export const logLocation = (__dirname + '/logs/');
 const LEVEL = Symbol.for('level');
 const MESSAGE = Symbol.for('message');
 export let debugMode: boolean = false;

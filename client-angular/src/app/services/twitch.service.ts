@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
-import { GameInfos } from './models/GameInfos';
-import { RoundInfo } from './models/RoundInfo';
+import { GameInfos } from '../models/Demo/GameInfos';
+import { RoundInfo } from '../models/Demo/RoundInfo';
 
 @Injectable({
   providedIn: 'root'

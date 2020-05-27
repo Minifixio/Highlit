@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BuyInfos } from 'src/app/services/models/BuyInfos';
+import { BuyInfos } from 'src/app/models/Demo/BuyInfos';
 
 @Component({
   selector: 'app-buy-infos-widget',

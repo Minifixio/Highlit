@@ -122,5 +122,18 @@ export const Errors = {
             message: 'Other error related to the stream',
             level: 1
         }
+    },
+
+    SERVER: {
+        unreachable_server: {
+            name: 'UNREACHABLE_SERVER',
+            message: 'Unable to access servers for now',
+            level: 3
+        },
+        no_matches_on_this_date: {
+            name: 'NO_MATCHES_ON_THIS_DATE',
+            message: 'No matches for this day',
+            level: 3
+        }
     }
-}
+};

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
-import { Kill } from '../../services/models/Kill';
-import { MultiKill } from '../../services/models/MultiKill';
-import { ClutchInfos } from '../../services/models/ClutchInfos';
-import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
-import { RoundInfo } from 'src/app/services/models/RoundInfo';
+import { Kill } from '../../models/Demo/Kill';
+import { MultiKill } from '../../models/Demo/MultiKill';
+import { Clutch } from '../../models/Demo/Clutch';
+import { RoundTimelineInfos } from 'src/app/models/UI/RoundTimelineInfos';
+import { RoundInfo } from 'src/app/models/Demo/RoundInfo';
 import * as round_example from './round-example.json';
 import { BuyInfosWidgetComponent } from '../buy-infos-widget/buy-infos-widget.component';
 import { EndRoundReasonWidgetComponent } from '../end-round-reason-widget/end-round-reason-widget.component';

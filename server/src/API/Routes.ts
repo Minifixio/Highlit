@@ -15,10 +15,11 @@ export class Routes {
 
     constructor(app: express.Express) {
         this.app = app
-        this.init()
+        this.mountRoutes()
     }
 
-    public init() {
+    public mountRoutes() {
+
         this.app.post('/v1/last_matches', async(req, res) => {
             const date = new Date(req.body.date);
             const endDate = new Date(date);
@@ -76,7 +77,7 @@ export class Routes {
         this.app.post('/v1/mail', (req, res) => {
             if (req.body.type === 'error') {
                 const matchId = req.body.match_id;
-                const error = req.body.message;
+                const error = req.body.error;
                 mailMngr.mailError(matchId, error);
             }
             res.json(true);

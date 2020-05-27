@@ -13,7 +13,6 @@ export const serverMaintenance = true;
 export const appMaintenance = false;
 
 const logger = new Logger("app");
-const routes = new Routes(app)
 
 // Starting cron task
 if(!serverMaintenance) { cronTasks.lastMatchesTask.start(); logger.debug('Starting cron job') }
@@ -47,6 +46,8 @@ app.all("/match*", (req, res) => {
 app.listen(3000, () => {
     logger.debug('App is listening on port 3000')
 })
+
+const routes = new Routes(app)
 
 
 /**http.listen(3000, () => {

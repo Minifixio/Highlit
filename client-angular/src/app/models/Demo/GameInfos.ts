@@ -1,4 +1,4 @@
-import { RoundInfo } from '../models/RoundInfo';
+import { RoundInfo } from './RoundInfo';
 
 export interface GameInfos {
     matchId: number;

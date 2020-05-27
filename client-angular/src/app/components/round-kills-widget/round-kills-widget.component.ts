@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Kill } from 'src/app/services/models/Kill';
+import { Kill } from 'src/app/models/Demo/Kill';
 
 @Component({
   selector: 'app-round-kills-widget',

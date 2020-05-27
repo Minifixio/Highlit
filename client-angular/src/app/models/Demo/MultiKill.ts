@@ -1,4 +1,4 @@
-import { Kill } from '../models/Kill';
+import { Kill } from './Kill';
 
 export interface MultiKill {
     attacker_name: string;

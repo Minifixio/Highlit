@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoundInfosWidgetComponent } from '../../components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from '../../components/twitch-player/twitch-player.component';
 import { TwitchService } from 'src/app/services/twitch.service';
-import { GameInfos } from 'src/app/services/models/GameInfos';
-import { RoundInfo } from 'src/app/services/models/RoundInfo';
+import { GameInfos } from 'src/app/models/Demo/GameInfos';
+import { RoundInfo } from 'src/app/models/Demo/RoundInfo';
 import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
 import { RoundTimelineComponent } from '../../components/round-timeline/round-timeline.component';
-import { RoundTimelineInfos } from 'src/app/services/models/RoundTimelineInfos';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ErrorTemplate, Errors } from 'src/app/models/Errors/Errors';
 
 interface SelectActionContent {
   roundId: number;
@@ -20,6 +20,7 @@ interface SelectActionContent {
   templateUrl: './match-timeline.component.html',
   styleUrls: ['./match-timeline.component.scss']
 })
+
 export class MatchTimelineComponent implements OnInit {
 
   @ViewChild('roundInfos', {static: true})
@@ -34,8 +35,6 @@ export class MatchTimelineComponent implements OnInit {
   startVideoTime: number;
   gameInfos: GameInfos;
   rounds: RoundInfo[];
-  //videoId: number;
-  //displayClipList = false;
   roundId: number;
   playerLoading: boolean;
 
@@ -53,8 +52,6 @@ export class MatchTimelineComponent implements OnInit {
       this.gameInfos = this.twitchService.gameInfos;
       this.rounds = this.gameInfos.roundInfos;
       this.startVideoTime = this.gameInfos.startVideoTime;
-      //this.videoId = this.gameInfos.videoId;
-      //this.startVideoTime = this.gameInfos.startVideoTime;
       this.playerLoading = true;
 
       this.syncClips();
@@ -67,7 +64,6 @@ export class MatchTimelineComponent implements OnInit {
   }
 
   syncClips() {
-    //this.displayClipList = true;
 
     this.rounds.forEach((item, index) => {
       if (item.round_number !== 0) { // Syncing timings from Twitch Video and match timings
@@ -124,23 +120,22 @@ export class MatchTimelineComponent implements OnInit {
   }
 
   async reportIssue(errorId: number) {
-    let errorMessage: string;
+    let error: ErrorTemplate;
     switch (errorId) {
       case 1:
-        errorMessage = 'Wrong twitch stream';
+        error = Errors.MAIL.wrong_twitch_stream;
         break;
       case 2:
-        errorMessage = 'Incorrect round timings';
+        error = Errors.MAIL.incorrect_round_timings;
         break;
       case 3:
-        errorMessage = 'Multikills are wrong';
+        error = Errors.MAIL.wrong_multikills;
         break;
       case 4:
-        errorMessage = 'Other';
+        error = Errors.MAIL.other;
         break;
     }
-    await this.httpService.post('mail', {type: 'error', match_id: this.gameInfos.matchId, message: errorMessage}).toPromise();
-
+    await this.httpService.post('mail', {type: 'error', match_id: this.gameInfos.matchId, error});
     this.showErrorToast('Thanks for your feedback !', null);
   }
 

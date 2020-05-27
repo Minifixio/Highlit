@@ -42,7 +42,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AboutComponent } from './pages/about/about.component';
 import { RoundTimelineComponent } from './components/round-timeline/round-timeline.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
-import { MaintenancePageComponent } from './pages/maintenance-page/maintenance-page.component';
 import { BuyInfosWidgetComponent } from './components/buy-infos-widget/buy-infos-widget.component';
 import { EndRoundReasonWidgetComponent } from './components/end-round-reason-widget/end-round-reason-widget.component';
 import { RoundKillsWidgetComponent } from './components/round-kills-widget/round-kills-widget.component';
@@ -61,7 +60,6 @@ import { MatchInfosComponent } from './components/match-infos/match-infos.compon
     AboutComponent,
     RoundTimelineComponent,
     MenuBarComponent,
-    MaintenancePageComponent,
     BuyInfosWidgetComponent,
     EndRoundReasonWidgetComponent,
     RoundKillsWidgetComponent,

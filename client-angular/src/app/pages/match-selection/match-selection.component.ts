@@ -3,18 +3,15 @@ import { TwitchService } from 'src/app/services/twitch.service';
 import { Router } from '@angular/router';
 import { MatchInfosWidgetComponent } from '../../components/match-infos-widget/match-infos-widget.component';
 import { HttpService } from 'src/app/services/http.service';
-import { Observable } from 'rxjs';
-import { MatchInfos } from 'src/app/services/models/MatchInfos';
+import { MatchInfos } from 'src/app/models/Match/MatchInfos';
 import { SocketsService } from 'src/app/services/sockets.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MapInfosWidgetComponent } from '../../components/map-infos-widget/map-infos-widget.component';
-import { MapInfo } from 'src/app/services/models/MapInfo';
+import { MapInfo } from 'src/app/models/Match/MapInfo';
 import { MenuBarComponent } from '../../components/menu-bar/menu-bar.component';
-
-interface MatchPerDate {
-  date: string;
-  matches: MatchInfos[];
-}
+import { MatchPerDate } from 'src/app/models/Match/MatchesPerDate';
+import { GameInfos } from 'src/app/models/Demo/GameInfos';
+import { Errors } from 'src/app/models/Errors/Errors';
 
 interface SocketInfos {
   type: string;
@@ -22,12 +19,12 @@ interface SocketInfos {
   params: any;
 }
 
-
 @Component({
   selector: 'app-match-selection',
   templateUrl: './match-selection.component.html',
   styleUrls: ['./match-selection.component.scss']
 })
+
 export class MatchSelectionComponent implements OnInit {
 
   @ViewChild('matchInfosWidget', {static: true})
@@ -40,18 +37,20 @@ export class MatchSelectionComponent implements OnInit {
   menuBar: MenuBarComponent;
 
   inputLink: string;
-  loading = false;
-  lastMatches: Observable<MatchInfos[]>;
-  addingMatchSocket: any;
-  mapSocket: Observable<any>;
+  pageLoading = false;
+  listLoading = false;
+  listErrorMessage = Errors.SERVER.no_matches_on_this_date.message;
+
+  // addingMatchSocket: any;
+  // mapSocket: Observable<any>;
   downloadPercentage = 0;
   parsingRound = 0;
   mapsToSelect: Array<MapInfo>;
+
   currentPage = 0;
   currentDate: number;
-  currentMatches: Array<MatchInfos>;
-  matches: Array<MatchPerDate>;
-  listLoading = false;
+  currentMatches: MatchInfos[];
+  matchesPerDate: MatchPerDate[];
 
   constructor(
     private twitchService: TwitchService,
@@ -63,63 +62,172 @@ export class MatchSelectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = new Date().valueOf();
-    this.matches = [];
+    this.matchesPerDate = [];
     this.currentMatches = [];
     this.listLoading = true;
-    this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
-      this.matches.push({date: new Date(this.currentDate).toDateString(), matches: res});
+
+    this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate})
+    .then(res => {
+      console.log(res)
+      this.matchesPerDate.push({date: new Date(this.currentDate).toDateString(), matches: res});
       this.currentMatches = res;
-      this.listLoading = false;
+    })
+    .catch(() => {
+      this.listErrorMessage = Errors.SERVER.unreachable_server.message;
     });
+    this.listLoading = false;
   }
 
-  async hltvLinkAdded() {
-    if (this.isLinkCorrect(this.inputLink)) {
-      const matchId = Number(this.twitchService.parseHltvLink(this.inputLink));
-      await this.httpService.post('add-match', {match_id: matchId}).toPromise();
-      this.mapSocket = this.sockets.subscribe('select-map');
-      this.mapSocket.subscribe(info => {
-        this.loadingStatus(info, matchId);
-      });
-    } else {
-      this.showErrorToast('Please add a correct match link. The link must come from HLTV\'s results page', null);
-    }
-  }
+  // async hltvLinkAdded() {
+  //   if (this.isLinkCorrect(this.inputLink)) {
+  //     const matchId = Number(this.twitchService.parseHltvLink(this.inputLink));
+  //     await this.httpService.post('add-match', {match_id: matchId}).toPromise();
+  //     this.mapSocket = this.sockets.subscribe('select-map');
+  //     this.mapSocket.subscribe(info => {
+  //       this.loadingStatus(info, matchId);
+  //     });
+  //   } else {
+  //     this.showErrorToast('Please add a correct match link. The link must come from HLTV\'s results page', null);
+  //   }
+  // }
 
   async selectMap(mapInfos: MapInfo) {
     if (mapInfos.available === 1) {
-      const gameInfos = await this.httpService.getGameInfos(mapInfos.match_id, mapInfos.map_number).toPromise();
+
+      let gameInfos: GameInfos;
+
+      try {
+        gameInfos = await this.httpService.post<GameInfos>('map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
+      } catch (e) {
+        this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
+        return;
+      }
       this.twitchService.gameInfos = gameInfos;
       this.router.navigate(['/match']);
+
     } else {
       this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
     }
   }
 
   addMap(mapInfos: MapInfo) {
-    this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
-    this.mapSocket = this.sockets.subscribe('select-map');
-    this.mapSocket.subscribe(info => {
-      this.loadingStatus(info, mapInfos.match_id);
+    // this.sockets.emit('select-map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
+    // this.mapSocket = this.sockets.subscribe('select-map');
+    // this.mapSocket.subscribe(info => {
+    //   this.loadingStatus(info, mapInfos.match_id);
+    // });
+  }
+
+  async changePage(direction: string) {
+    const date = new Date(this.currentDate);
+    this.listLoading = true;
+
+    if (direction === 'forward') {
+      if (this.currentPage === 0) {
+        this.listLoading = false;
+        this.currentDate = date.valueOf();
+        return false;
+      }
+      this.currentPage = this.currentPage - 1;
+      date.setDate(date.getDate() + 1);
+    }
+    if (direction === 'backward') {
+      this.currentPage += 1;
+      date.setDate(date.getDate() - 1);
+    }
+
+
+    // Parse the matchesPerDate to find the ones with the corresponding date
+    // The date corresponds to the current date minus / plus one day
+    this.matchesPerDate.forEach(async matches => {
+      if (matches.date === date.toDateString()) {
+        this.currentMatches = matches.matches;
+        this.currentDate = date.valueOf();
+        this.listLoading = false;
+      } else {
+        this.currentDate = date.valueOf();
+
+        try {
+          const lastMatches = await this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate});
+          this.matchesPerDate.push({date: date.toDateString(), matches: lastMatches});
+        } catch (e) {
+          this.currentMatches = [];
+          this.listErrorMessage = Errors.SERVER.no_matches_on_this_date.message;
+        }
+        this.listLoading = false;
+      }
     });
+  }
+
+  async pickDate(event: any): Promise<void> {
+    this.listLoading = true;
+    const today = Date.now();
+    const differenceDays = Math.trunc((today - new Date(event.value).valueOf()) / (1000 * 3600 * 24));
+    this.currentPage = differenceDays;
+    this.currentDate = new Date(event.value).valueOf();
+
+    const searchedDate = new Date(event.value).toDateString();
+
+    this.matchesPerDate.forEach(async match => {
+      if (match.date === searchedDate) {
+        this.currentMatches = match.matches;
+        this.listLoading = false;
+      } else {
+
+        try {
+          const lastMatches = await this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate});
+          this.matchesPerDate.push({date: searchedDate, matches: lastMatches});
+        } catch (e) {
+          this.currentMatches = [];
+          this.listErrorMessage = Errors.SERVER.no_matches_on_this_date.message;
+        }
+        this.listLoading = false;
+
+      }
+    });
+  }
+
+  isLinkCorrect(link: string): boolean {
+    if (!link) {
+      return false;
+    }
+    if (link.includes('www.hltv.org/matches/')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getMatchStars(stars: number) {
+    return ' ★ '.repeat(stars);
+  }
+
+  showErrorToast(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000,
+    });
+  }
+
+  panelClosed() {
+    this.sockets.unsubscribe();
   }
 
   loadingStatus(loadingInfos: SocketInfos, matchId: number) {
     if (loadingInfos.match_id === matchId) {
       switch (loadingInfos.type) {
         case 'starting_download':
-          this.loading = true;
+          this.pageLoading = true;
           break;
         case 'downloading':
-          this.loading = true;
+          this.pageLoading = true;
           this.downloadPercentage = loadingInfos.params;
           break;
         case 'starting_parsing':
-          this.loading = true;
+          this.pageLoading = true;
           this.downloadPercentage = 0;
           break;
         case 'parsing':
-          this.loading = true;
+          this.pageLoading = true;
           this.parsingRound = loadingInfos.params;
           break;
         case 'map_being_downloaded':
@@ -147,100 +255,5 @@ export class MatchSelectionComponent implements OnInit {
           break;
       }
     }
-  }
-
-  async changePage(direction: string) {
-    const date = new Date(this.currentDate);
-    this.listLoading = true;
-
-    if (direction === 'forward') {
-      if (this.currentPage === 0) {
-        this.listLoading = false;
-        this.currentDate = date.valueOf();
-        return false;
-      }
-      this.currentPage = this.currentPage - 1;
-      date.setDate(date.getDate() + 1);
-    }
-    if (direction === 'backward') {
-      this.currentPage += 1;
-      date.setDate(date.getDate() - 1);
-    }
-
-    const searchForMatch = new Promise((resolve) => {
-      this.matches.forEach(match => {
-        if (match.date === date.toDateString()) {
-          this.currentMatches = match.matches;
-          this.currentDate = date.valueOf();
-          this.listLoading = false;
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
-
-    if (!(await searchForMatch)) {
-      this.currentDate = date.valueOf();
-      this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
-        this.matches.push({date: date.toDateString(), matches: res});
-        this.currentMatches = res;
-        this.listLoading = false;
-      });
-    }
-  }
-
-  async pickDate(event) {
-    this.listLoading = true;
-    const today = Date.now();
-    const differenceDays = Math.trunc((today - new Date(event.value).valueOf()) / (1000 * 3600 * 24));
-    this.currentPage = differenceDays;
-    this.currentDate = new Date(event.value).valueOf();
-    const searchedDate = new Date(event.value).toDateString();
-
-    const searchForMatch = new Promise((resolve) => {
-      this.matches.forEach(match => {
-        if (match.date === searchedDate) {
-          this.currentMatches = match.matches;
-          this.listLoading = false;
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
-
-    if (!(await searchForMatch)) {
-      this.httpService.post('last_matches', {date: this.currentDate}).toPromise().then(res => {
-        this.matches.push({date: searchedDate, matches: res});
-        this.currentMatches = res;
-        this.listLoading = false;
-      });
-    }
-  }
-
-  showErrorToast(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 5000,
-    });
-  }
-
-  isLinkCorrect(link: string) {
-    if (!link) {
-      return false;
-    }
-    if (link.includes('www.hltv.org/matches/')) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  panelClosed() {
-    this.sockets.unsubscribe();
-  }
-
-  getMatchStars(stars: number) {
-    return ' ★ '.repeat(stars);
   }
 }
