@@ -228,6 +228,7 @@ export async function updateMatchInfos(matchInfos: HLTVMatchInfos): Promise<void
                     map_number: map.number,
                     map_name: map.name,
                     result: map.result ? map.result : '-',
+                    winner_team_id: map.winnerTeamId,
                     available: 0
                 }
 

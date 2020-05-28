@@ -1,0 +1,59 @@
+{"date":"Thu, 28 May 2020 18:09:31 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:09:36 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:09:39 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:09:43 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:13:48 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:09:34 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:10:46 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:10:57 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:11:17 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:12:24 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:13:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:14:56 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:21:36 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:21:57 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341026 map 1"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341026 map 2"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341026 map 3"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341446 map 1"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341446 map 2"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341446 map 3"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341489 map 1"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"demo_manager","message":"Download demos for match 2341508 demo id is : 57439"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341508 map 1"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Download demos for match 2341600 demo id is : 57480"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341600 map 1"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341600 map 2"}
+{"date":"Thu, 28 May 2020 20:43:39 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Thu, 28 May 2020 20:44:49 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341602 demo id is : 57476"}
+{"date":"Thu, 28 May 2020 20:45:46 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Thu, 28 May 2020 20:46:16 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Thu, 28 May 2020 20:46:47 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Thu, 28 May 2020 20:47:22 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Thu, 28 May 2020 20:48:01 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Thu, 28 May 2020 20:48:39 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Thu, 28 May 2020 20:49:16 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Thu, 28 May 2020 20:49:56 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Thu, 28 May 2020 20:50:28 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Thu, 28 May 2020 20:50:56 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Thu, 28 May 2020 20:50:57 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341602 map 1"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m1-overpass.dem"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m1-overpass.dem for match : 2341602"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°1"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341602 map 2"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m2-vertigo.dem"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m2-vertigo.dem for match : 2341602"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°2"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341602 map 3"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m3-train.dem"}
+{"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m3-train.dem for match : 2341602"}
+{"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°3"}

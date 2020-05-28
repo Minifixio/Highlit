@@ -15,6 +15,7 @@ import { TwitchLinks } from '../models/TwitchLinks';
 import { Demo } from 'hltv/lib/models/Demo';
 import { Round } from '../models/Round';
 import { Errors } from '../../Errors/Errors'
+import { HLTVMatchInfos } from '../../HLTV/models/HLTVMatchInfos'
 
 // Files
 const logger = new Logger("demo_manager");
@@ -41,19 +42,26 @@ export async function addMatchInfos(matchId: number): Promise<number | undefined
     return hltvInfos.available
 }
 
-export async function updateMatchInfos(matchId: number): Promise<number | undefined>{
-    const hltvInfos = await hltvMngr.hltvMatchInfos(matchId);
+export async function updateMatchInfos(matchId: number): Promise<boolean>{
 
-    if(hltvInfos.id) { // Is the match valid ?
-        await dbMngr.updateMatchInfos(hltvInfos);
-        const twitchLinks = hltvInfos.twitchLinks;
-        if (hltvInfos.maps.length > 0) { await makeTwitchJSONfile(matchId, twitchLinks, hltvInfos.maps.length) }
-    } else {
-        logger.error(Errors.HLTV.invalid_match, `matchId: ${matchId}`)
-        await dbMngr.updateMatchStatus(matchId, 3)
+    let hltvInfos: HLTVMatchInfos;
+
+    try {
+        hltvInfos = await hltvMngr.hltvMatchInfos(matchId);
+        if(hltvInfos.id) { // Is the match valid ?
+            await dbMngr.updateMatchInfos(hltvInfos);
+            const twitchLinks = hltvInfos.twitchLinks;
+            if (hltvInfos.maps.length > 0) { await makeTwitchJSONfile(matchId, twitchLinks, hltvInfos.maps.length) }
+            return true
+        } else {
+            logger.error(Errors.HLTV.invalid_match, `matchId: ${matchId}`)
+            await dbMngr.updateMatchStatus(matchId, 3)
+            return false
+        }
+    } catch (e) {
+        logger.error(e)
+        return false
     }
-
-    return hltvInfos.available
 }
 
 export async function findMatchInfos(matchId: number, mapNumber: number): Promise<MatchInfos> {
@@ -82,47 +90,52 @@ export async function findMatchInfos(matchId: number, mapNumber: number): Promis
 
 export async function dowloadDemos(matchId: number): Promise<void> {
 
-    try {
-        // Get the demo id to download the demo files
-        const demoId = await dbMngr.getMatchDemoId(matchId);
-        logger.debug('Download demos for match ' + matchId + ' demo id is : ' + demoId);
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Get the demo id to download the demo files
+            const demoId = await dbMngr.getMatchDemoId(matchId);
+            logger.debug('Downloading demos for match ' + matchId + ' demo id is : ' + demoId);
 
-        // Updating match/map status to 2 meaning they are being downloaded
-        await dbMngr.updateMapStatus(matchId, 0, 2);
-        await dbMngr.updateMatchStatus(matchId, 2);
+            // Updating match/map status to 2 meaning they are being downloaded
+            await dbMngr.updateMapStatus(matchId, 0, 2);
+            await dbMngr.updateMatchStatus(matchId, 2);
 
-        // Find the match folder's path
-        const path = await findMatchPath(matchId);
+            // Find the match folder's path
+            const path = await findMatchPath(matchId);
 
-        // URL of the match demos from HLTV
-        const fileUrl = 'http://www.hltv.org/download/demo/' + demoId;
+            // URL of the match demos from HLTV
+            const fileUrl = 'http://www.hltv.org/download/demo/' + demoId;
 
-        downloadFile(fileUrl, `${path}/${matchId}.rar`).then(async() => {
-            logger.debug('Finished download for demo ' + matchId);
+            downloadFile(fileUrl, `${path}/${matchId}.rar`).then(async() => {
+                logger.debug('Finished download for demo ' + matchId);
 
-            // Unrar the file
-            await extract(`${path}/${matchId}.rar`, `${path}/dem`,);
-            logger.debug('Finished unrar for demo ' + matchId);
+                // Unrar the file
+                await extract(`${path}/${matchId}.rar`, `${path}/dem`,);
+                logger.debug('Finished unrar for demo ' + matchId);
 
-            // Delete the .rar file
-            await unlink(`${path}/${matchId}.rar`);
+                // Delete the .rar file
+                await unlink(`${path}/${matchId}.rar`);
 
-            // Updating map status to 0 meaning they are downloaded but not parsed yet
-            await dbMngr.updateMapStatus(matchId, 0, 0);
+                // Updating map status to 0 meaning they are downloaded but not parsed yet
+                await dbMngr.updateMapStatus(matchId, 0, 0);
 
-            // Updating match status to 1 meaning the demos are now downloaded
-            await dbMngr.updateMatchStatus(matchId, 1);
+                // Updating match status to 1 meaning the demos are now downloaded
+                await dbMngr.updateMatchStatus(matchId, 1);
 
-        }).catch((err) => {
-            throw err
-        })
+                resolve()
 
-    } catch(err) {
-        logger.debug('Aborting dodwnload demos for match ' + matchId)
-        await dbMngr.updateMapStatus(matchId, 0, 4);
-        await dbMngr.updateMatchStatus(matchId, 4);
-        throw err
-    }
+            }).catch((err) => {
+                reject(err)
+            })
+
+        } catch(err) {
+            logger.debug('Aborting dodwnload demos for match ' + matchId)
+            await dbMngr.updateMapStatus(matchId, 0, 4);
+            await dbMngr.updateMatchStatus(matchId, 4);
+            reject(err)
+        }
+    })
+
 
 }
 

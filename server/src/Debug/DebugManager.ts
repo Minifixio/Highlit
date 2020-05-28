@@ -31,7 +31,7 @@ class LoggerService {
 
 const mainLogger = new LoggerService(
     'main',
-    ['cron', 'db', 'demo_manager', 'hltv', 'mail', 'twitch', 'app'],
+    ['cron', 'db', 'demo_manager', 'hltv', 'mail', 'twitch', 'app', 'test'],
     winston.createLogger(new LoggerOptions('main'))
 );
 

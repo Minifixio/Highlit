@@ -50,10 +50,11 @@ export class Routes {
             if (!matchHasDemos) {
                 logger.debug("Maps for match " + matchId + " does not exist");
                 const update = await demoMngr.updateMatchInfos(matchId);
-                if (update === 3) {
+
+                if (update === false) {
                     response = [];
                 }
-                if (update === 0) {
+                if (update === true) {
                     response = await dbMngr.getMapsInfos(matchId);
                 }
             }

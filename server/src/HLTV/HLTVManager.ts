@@ -119,8 +119,8 @@ export async function hltvMatchInfos(matchId: number): Promise<HLTVMatchInfos> {
         date: HLTVMatch.date,
         event: HLTVMatch.event,
         maps: playedMaps,
-        twitchLinks
-
+        twitchLinks,
+        available: 0
     }
 
     return matchInfos

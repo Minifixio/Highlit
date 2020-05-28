@@ -3,9 +3,11 @@ export const app = express();
 import cors from 'cors';
 import * as bodyParser from 'body-parser'
 import * as cronTasks from './Cron/CronTasks'
+import * as testManager from './Tests/TestManager'
 import { Logger } from './Debug/LoggerService';
 import { Routes } from './API/Routes'
 
+testManager.testCron()
 // const http = require('http').createServer(app);
 
 // Mainteance mode

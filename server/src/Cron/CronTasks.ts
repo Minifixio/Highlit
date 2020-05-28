@@ -19,14 +19,14 @@ export const lastMatchesTask = new CronJob('*/30 * * * *', async() => {
     lastMatchId === 0 ? checkUnavailableMatch() : updateMatch(lastMatchId);
 });
 
-async function updateMatch(matchId: number) {
+export async function updateMatch(matchId: number) {
 
     if ((await dbMngr.matchHasDemos(matchId)) === false) {
         logger.debug("Match " + matchId + " has no demoId");
 
         const update = await demoMngr.updateMatchInfos(matchId);
 
-        if (update === 3) {
+        if (update === false) {
             logger.debug("Last match is currently not available, trying again");
             const lastMatchId = await dbMngr.lastUndownloadedMatch();
             updateMatch(lastMatchId);
@@ -56,7 +56,7 @@ async function updateMatch(matchId: number) {
     }
 }
 
-async function checkUnavailableMatch() {
+export async function checkUnavailableMatch() {
     const lastUnavailable = await dbMngr.lastUnavailableMatch();
 
     if (lastUnavailable === null) {
@@ -64,11 +64,11 @@ async function checkUnavailableMatch() {
     } else {
         const update = await demoMngr.updateMatchInfos(lastUnavailable.id);
 
-        if (update === 0) {
+        if (update === true) {
             updateMatch(lastUnavailable.id);
             return
         } else {
-            if (update === 3) {
+            if (update === false) {
                 const today = Date.now()
                 const matchDate = await Number(dbMngr.findMatchDate(lastUnavailable.id));
 

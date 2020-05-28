@@ -11,3 +11,191 @@
 {"date":"Wed, 27 May 2020 17:38:15 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
 {"date":"Wed, 27 May 2020 17:40:02 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
 {"date":"Wed, 27 May 2020 17:40:16 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 17:05:04 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 17:19:56 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341035"}
+{"date":"Thu, 28 May 2020 17:19:58 GMT","level":"INFO","from":"hltv","message":"Match : Evil Geniuses VS Cloud9"}
+{"date":"Thu, 28 May 2020 17:25:32 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 18:08:44 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341408"}
+{"date":"Thu, 28 May 2020 18:08:44 GMT","level":"INFO","from":"hltv","message":"Match : Syman VS Nemiga"}
+{"date":"Thu, 28 May 2020 18:09:27 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 18:09:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341626"}
+{"date":"Thu, 28 May 2020 18:09:31 GMT","level":"INFO","from":"hltv","message":"Match : HAVU VS Gambit Youngsters"}
+{"date":"Thu, 28 May 2020 18:09:31 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:09:36 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341627"}
+{"date":"Thu, 28 May 2020 18:09:36 GMT","level":"INFO","from":"hltv","message":"Match : Heroic VS Ambush"}
+{"date":"Thu, 28 May 2020 18:09:36 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:09:38 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341622"}
+{"date":"Thu, 28 May 2020 18:09:39 GMT","level":"INFO","from":"hltv","message":"Match : Ground Zero VS TRUCKERS WITH ATTITUDE"}
+{"date":"Thu, 28 May 2020 18:09:39 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:09:43 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341477"}
+{"date":"Thu, 28 May 2020 18:09:43 GMT","level":"INFO","from":"hltv","message":"Match : Skyfire VS AVANT"}
+{"date":"Thu, 28 May 2020 18:09:43 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 18:13:48 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341654"}
+{"date":"Thu, 28 May 2020 18:13:48 GMT","level":"INFO","from":"hltv","message":"Match : TeamOne VS AA"}
+{"date":"Thu, 28 May 2020 18:13:48 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:07:53 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:09:28 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:09:33 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341655"}
+{"date":"Thu, 28 May 2020 20:09:34 GMT","level":"INFO","from":"hltv","message":"Match : Chaos VS Recon 5"}
+{"date":"Thu, 28 May 2020 20:09:34 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:10:41 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:10:46 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341657"}
+{"date":"Thu, 28 May 2020 20:10:46 GMT","level":"INFO","from":"hltv","message":"Match : Chaos VS Infinity"}
+{"date":"Thu, 28 May 2020 20:10:46 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:10:57 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341647"}
+{"date":"Thu, 28 May 2020 20:10:57 GMT","level":"INFO","from":"hltv","message":"Match : NAVI Junior VS Winstrike"}
+{"date":"Thu, 28 May 2020 20:10:57 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:11:16 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341606"}
+{"date":"Thu, 28 May 2020 20:11:17 GMT","level":"INFO","from":"hltv","message":"Match : CR4ZY VS LDLC"}
+{"date":"Thu, 28 May 2020 20:11:17 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:12:24 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341719"}
+{"date":"Thu, 28 May 2020 20:12:24 GMT","level":"INFO","from":"hltv","message":"Match : Gambit Youngsters VS Ambush"}
+{"date":"Thu, 28 May 2020 20:12:24 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:13:26 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:13:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341630"}
+{"date":"Thu, 28 May 2020 20:13:32 GMT","level":"INFO","from":"hltv","message":"Match : FATE VS Sprout"}
+{"date":"Thu, 28 May 2020 20:13:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:14:54 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:14:55 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341724"}
+{"date":"Thu, 28 May 2020 20:14:56 GMT","level":"INFO","from":"hltv","message":"Match : HAVU VS Gambit Youngsters"}
+{"date":"Thu, 28 May 2020 20:14:56 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:21:31 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:21:35 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341631"}
+{"date":"Thu, 28 May 2020 20:21:36 GMT","level":"INFO","from":"hltv","message":"Match : pro100 VS Wisla Krakow"}
+{"date":"Thu, 28 May 2020 20:21:36 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:21:49 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:21:56 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341618"}
+{"date":"Thu, 28 May 2020 20:21:57 GMT","level":"INFO","from":"hltv","message":"Match : HellRaisers VS Pompa"}
+{"date":"Thu, 28 May 2020 20:21:57 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:28:26 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:31:00 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:31:15 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:34:01 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:34:05 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:35:17 GMT","level":"INFO","from":"test","message":"Starting last matches task"}
+{"date":"Thu, 28 May 2020 20:35:17 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:35:19 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Thu, 28 May 2020 20:35:19 GMT","level":"INFO","from":"test","message":"Last undownloaded match : 2341026"}
+{"date":"Thu, 28 May 2020 20:35:19 GMT","level":"INFO","from":"cron","message":"Match 2341026 has no demoId"}
+{"date":"Thu, 28 May 2020 20:35:19 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341026"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"hltv","message":"Match : Liquid VS FURIA"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341026"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341026 map 1"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341026"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 2 for match 2341026"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341026 map 2"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 2 for match 2341026"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"db","message":"Updated map 3 status to 2 for match 2341026"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341026 map 3"}
+{"date":"Thu, 28 May 2020 20:35:21 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 3 for match 2341026"}
+{"date":"Thu, 28 May 2020 20:39:04 GMT","level":"INFO","from":"test","message":"Starting last matches task"}
+{"date":"Thu, 28 May 2020 20:39:04 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"test","message":"Last undownloaded match : 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"cron","message":"Match 2341446 has no demoId"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"hltv","message":"Match : Evidence VS Redemption POA"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341446 map 1"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 2 for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341446 map 2"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 2 for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"db","message":"Updated map 3 status to 2 for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341446 map 3"}
+{"date":"Thu, 28 May 2020 20:39:05 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 3 for match 2341446"}
+{"date":"Thu, 28 May 2020 20:39:31 GMT","level":"INFO","from":"test","message":"Starting last matches task"}
+{"date":"Thu, 28 May 2020 20:39:31 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:39:31 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Thu, 28 May 2020 20:39:31 GMT","level":"INFO","from":"test","message":"Last undownloaded match : 2341489"}
+{"date":"Thu, 28 May 2020 20:39:31 GMT","level":"INFO","from":"cron","message":"Match 2341489 has no demoId"}
+{"date":"Thu, 28 May 2020 20:39:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341489"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"hltv","message":"Match : New England Whalers VS Thunder Logic"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341489"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341489 map 1"}
+{"date":"Thu, 28 May 2020 20:39:32 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341489"}
+{"date":"Thu, 28 May 2020 20:41:52 GMT","level":"INFO","from":"test","message":"Starting last matches task"}
+{"date":"Thu, 28 May 2020 20:41:52 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:41:53 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Thu, 28 May 2020 20:41:53 GMT","level":"INFO","from":"test","message":"Last undownloaded match : 2341508"}
+{"date":"Thu, 28 May 2020 20:41:53 GMT","level":"INFO","from":"cron","message":"Match 2341508 has no demoId"}
+{"date":"Thu, 28 May 2020 20:41:53 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341508"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"hltv","message":"Match : TeamOne VS Rugratz"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"demo_manager","message":"Download demos for match 2341508 demo id is : 57439"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341508"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341508"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341508"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341508 map 1"}
+{"date":"Thu, 28 May 2020 20:41:54 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341508"}
+{"date":"Thu, 28 May 2020 20:42:32 GMT","level":"INFO","from":"test","message":"Starting last matches task"}
+{"date":"Thu, 28 May 2020 20:42:32 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:42:33 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Thu, 28 May 2020 20:42:33 GMT","level":"INFO","from":"test","message":"Last undownloaded match : 2341600"}
+{"date":"Thu, 28 May 2020 20:42:33 GMT","level":"INFO","from":"cron","message":"Match 2341600 has no demoId"}
+{"date":"Thu, 28 May 2020 20:42:33 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341600"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"hltv","message":"Match : Syman VS SMASH"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Download demos for match 2341600 demo id is : 57480"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341600"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341600"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341600"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341600 map 1"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341600"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 2 for match 2341600"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341600 map 2"}
+{"date":"Thu, 28 May 2020 20:42:34 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 2 for match 2341600"}
+{"date":"Thu, 28 May 2020 20:43:39 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Thu, 28 May 2020 20:44:49 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Thu, 28 May 2020 20:45:13 GMT","level":"INFO","from":"test","message":"Starting last matches task"}
+{"date":"Thu, 28 May 2020 20:45:13 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Thu, 28 May 2020 20:45:14 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Thu, 28 May 2020 20:45:14 GMT","level":"INFO","from":"test","message":"Last undownloaded match : 2341602"}
+{"date":"Thu, 28 May 2020 20:45:14 GMT","level":"INFO","from":"cron","message":"Match 2341602 has no demoId"}
+{"date":"Thu, 28 May 2020 20:45:14 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341602"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"hltv","message":"Match : Movistar Riders VS sAw"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341602 demo id is : 57476"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:45:15 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:45:46 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Thu, 28 May 2020 20:46:16 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Thu, 28 May 2020 20:46:47 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Thu, 28 May 2020 20:47:22 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Thu, 28 May 2020 20:48:01 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Thu, 28 May 2020 20:48:39 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Thu, 28 May 2020 20:49:16 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Thu, 28 May 2020 20:49:56 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Thu, 28 May 2020 20:50:28 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Thu, 28 May 2020 20:50:56 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Thu, 28 May 2020 20:50:57 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341602 map 1"}
+{"date":"Thu, 28 May 2020 20:51:03 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m1-overpass.dem"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m1-overpass.dem for match : 2341602"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°1"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 1 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 2 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341602 map 2"}
+{"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m2-vertigo.dem"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m2-vertigo.dem for match : 2341602"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°2"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 1 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"db","message":"Updated map 3 status to 2 for match 2341602"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341602 map 3"}
+{"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m3-train.dem"}
+{"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m3-train.dem for match : 2341602"}
+{"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°3"}
+{"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"db","message":"Updated map 3 status to 1 for match 2341602"}
