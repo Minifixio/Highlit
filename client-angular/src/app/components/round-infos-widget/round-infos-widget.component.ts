@@ -4,7 +4,7 @@ import { Kill } from '../../models/Demo/Kill';
 import { MultiKill } from '../../models/Demo/MultiKill';
 import { Clutch } from '../../models/Demo/Clutch';
 import { RoundTimelineInfos } from 'src/app/models/UI/RoundTimelineInfos';
-import { RoundInfo } from 'src/app/models/Demo/RoundInfo';
+import { Round } from 'src/app/models/Demo/Round';
 import * as round_example from './round-example.json';
 import { BuyInfosWidgetComponent } from '../buy-infos-widget/buy-infos-widget.component';
 import { EndRoundReasonWidgetComponent } from '../end-round-reason-widget/end-round-reason-widget.component';
@@ -31,7 +31,7 @@ export class RoundInfosWidgetComponent implements OnInit {
   @ViewChild('roundKillsWidget', {static: true})
   roundKillsWidget: RoundKillsWidgetComponent;
 
-  @Input() roundInfos: RoundInfo;
+  @Input() roundInfos: Round;
 
   @Output() selectActionEvent = new EventEmitter<SelectActionContent>();
   @Output() selectRoundEvent = new EventEmitter<number>();

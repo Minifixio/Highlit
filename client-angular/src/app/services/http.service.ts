@@ -43,6 +43,7 @@ export class HttpService {
     };
 
     try {
+      console.log('post')
       return await this.http.post<T>(this.mainUrl + tag, JSON.stringify(postParams), httpOptions).toPromise();
     } catch (e) {
       throw e;

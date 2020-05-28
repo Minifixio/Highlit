@@ -43,20 +43,23 @@
 
         </mat-toolbar>
 
-        <div *ngIf="!pageLoading" id="matchinfos-container">
+        <div *ngIf="!pageLoading && !listLoading" id="matchinfos-container">
 
-            <div id="no-matches-error-div" *ngIf="currentMatches.length == 0 && !listLoading">
-                <mat-icon id="no-matches-error-icon" inline="false">sentiment_very_dissatisfied</mat-icon>
-                <p id="no-matches-error-text">{{listErrorMessage}}</p>
-            </div>
-
-            <mat-spinner *ngIf="listLoading" id="list-loading-spinner"></mat-spinner>
-    
             <div id="matchinfos-div" *ngFor="let match of currentMatches" [matBadge]="getMatchStars(match.stars)" matBadgeColor="warn" [matBadgeHidden]="match.stars == 0 ? true: false">
                 <app-match-infos-widget #matchInfosWidget [matchInfos]=match (mapSelected)="selectMap($event)" class="app-match-infos-widget"></app-match-infos-widget>
             </div>
 
         </div>
+
+        <div id="no-matches-error-div" *ngIf="currentMatches.length == 0 && !listLoading">
+            <mat-icon id="no-matches-error-icon" inline="false">sentiment_very_dissatisfied</mat-icon>
+            <p id="no-matches-error-text">{{listErrorMessage}}</p>
+        </div>
+
+        <div id="list-loading-spinner-div">
+            <mat-spinner *ngIf="listLoading" id="list-loading-spinner"></mat-spinner>
+        </div>
+
     </div>
 
     <ul class="circles">

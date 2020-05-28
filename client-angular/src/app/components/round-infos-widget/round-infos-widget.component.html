@@ -9,7 +9,7 @@
         <p id="round-number-p">{{roundInfos.round_number}}</p>
         <mat-icon id="round-number-icon">play_circle_outline</mat-icon>
     </div>
-    <app-end-round-reason-widget #roundEndReasonWidget [roundEndReason]="roundInfos.round_end_reason" [winningTeam]="roundInfos.winning_team.side" id="end-round-reason-widget"></app-end-round-reason-widget>
+    <app-end-round-reason-widget #roundEndReasonWidget [roundEndReason]="roundInfos.end_reason" [winningTeam]="roundInfos.winning_team.side" id="end-round-reason-widget"></app-end-round-reason-widget>
 
     <div id="top-infos-div">
         <app-buy-infos-widget #buyInfosWidget [buyInfos]="roundInfos.buy" id="buy-infos-widget"></app-buy-infos-widget>

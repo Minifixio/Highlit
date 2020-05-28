@@ -14,6 +14,7 @@ export class MapInfosWidgetComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.map)
   }
 
   async selectMap() {

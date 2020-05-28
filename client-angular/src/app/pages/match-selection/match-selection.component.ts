@@ -65,7 +65,6 @@ export class MatchSelectionComponent implements OnInit {
     this.matchesPerDate = [];
     this.currentMatches = [];
     this.listLoading = true;
-
     this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate})
     .then(res => {
       console.log(res)
@@ -139,24 +138,27 @@ export class MatchSelectionComponent implements OnInit {
 
     // Parse the matchesPerDate to find the ones with the corresponding date
     // The date corresponds to the current date minus / plus one day
-    this.matchesPerDate.forEach(async matches => {
-      if (matches.date === date.toDateString()) {
-        this.currentMatches = matches.matches;
-        this.currentDate = date.valueOf();
-        this.listLoading = false;
-      } else {
-        this.currentDate = date.valueOf();
 
-        try {
-          const lastMatches = await this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate});
-          this.matchesPerDate.push({date: date.toDateString(), matches: lastMatches});
-        } catch (e) {
-          this.currentMatches = [];
-          this.listErrorMessage = Errors.SERVER.no_matches_on_this_date.message;
-        }
-        this.listLoading = false;
+    const todaysMatches = this.matchesPerDate.find(match => match.date === date.toDateString());
+
+    if (todaysMatches) {
+      this.currentMatches = todaysMatches.matches;
+      this.currentDate = date.valueOf();
+      this.listLoading = false;
+    } else {
+      this.currentDate = date.valueOf();
+
+      try {
+        const lastMatches = await this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate});
+        this.matchesPerDate.push({date: date.toDateString(), matches: lastMatches});
+        this.currentMatches = lastMatches;
+      } catch (e) {
+        this.currentMatches = [];
+        this.listErrorMessage = Errors.SERVER.no_matches_on_this_date.message;
       }
-    });
+      this.listLoading = false;
+    }
+
   }
 
   async pickDate(event: any): Promise<void> {

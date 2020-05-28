@@ -1,6 +1,6 @@
 import { MultiKill } from './MultiKill';
 
-export interface MultiKills {
+export interface MultipleKills {
     triples: MultiKill[];
     quads: MultiKill[];
     aces: MultiKill[];

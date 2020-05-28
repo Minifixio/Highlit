@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { GameInfos } from '../models/Demo/GameInfos';
-import { RoundInfo } from '../models/Demo/RoundInfo';
+import { Round } from '../models/Demo/Round';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { RoundInfo } from '../models/Demo/RoundInfo';
 export class TwitchService {
 
   gameInfos: GameInfos;
-  roundInfos: RoundInfo[];
+  roundInfos: Round[];
 
   inputLink: string;
   videoId: number;

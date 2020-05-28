@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BuyInfos } from 'src/app/models/Demo/BuyInfos';
+import { Buy } from 'src/app/models/Demo/Buy';
 
 @Component({
   selector: 'app-buy-infos-widget',
@@ -8,7 +8,7 @@ import { BuyInfos } from 'src/app/models/Demo/BuyInfos';
 })
 export class BuyInfosWidgetComponent implements OnInit {
 
-  @Input() buyInfos: BuyInfos;
+  @Input() buyInfos: Buy;
 
   path = '../../../assets/img/guns_img/';
 

@@ -20,7 +20,7 @@ export class MatchInfosWidgetComponent implements OnInit {
   mapsInfos: MapInfo[];
   loading: boolean;
   winnerSide: string;
-  score: Array<number>;
+  result: number[];
   mapError = false;
 
   constructor(
@@ -28,8 +28,8 @@ export class MatchInfosWidgetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.score = this.matchInfos.score.split('-').map(obj => parseFloat(obj));
-    if (this.score[0] > this.score[1]) {
+    this.result = this.matchInfos.result.split('-').map(obj => parseFloat(obj));
+    if (this.result[0] > this.result[1]) {
       this.winnerSide = 'left';
     } else {
       this.winnerSide = 'right';

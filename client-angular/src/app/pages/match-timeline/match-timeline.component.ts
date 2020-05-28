@@ -3,7 +3,7 @@ import { RoundInfosWidgetComponent } from '../../components/round-infos-widget/r
 import { TwitchPlayerComponent } from '../../components/twitch-player/twitch-player.component';
 import { TwitchService } from 'src/app/services/twitch.service';
 import { GameInfos } from 'src/app/models/Demo/GameInfos';
-import { RoundInfo } from 'src/app/models/Demo/RoundInfo';
+import { Round } from 'src/app/models/Demo/Round';
 import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
 import { RoundTimelineComponent } from '../../components/round-timeline/round-timeline.component';
@@ -34,11 +34,11 @@ export class MatchTimelineComponent implements OnInit {
 
   startVideoTime: number;
   gameInfos: GameInfos;
-  rounds: RoundInfo[];
+  rounds: Round[];
   roundId: number;
   playerLoading: boolean;
 
-  currentRoundInfos: RoundInfo;
+  currentRoundInfos: Round;
 
   constructor(
     private twitchService: TwitchService,
