@@ -1,8 +1,8 @@
 import { Round } from './Round';
 
-export interface GameInfos {
+export interface DemoInfos {
     matchId: number;
     videoId: number;
     startVideoTime: number;
-    roundInfos: Round[];
+    rounds: Round[];
 }

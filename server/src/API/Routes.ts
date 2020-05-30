@@ -38,6 +38,7 @@ export class Routes {
                 const response = await demoMngr.findMatchInfos(matchId, mapNumber);
                 res.json(response);
             } catch(e) {
+                console.log(e)
                 res.json([])
             }
 

@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { HttpService } from './http.service';
-import { GameInfos } from '../models/Demo/GameInfos';
-import { Round } from '../models/Demo/Round';
+import { DemoInfos } from '../models/Demo/DemoInfos';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TwitchService {
+export class DemosService {
 
-  gameInfos: GameInfos;
-  roundInfos: Round[];
-
-  inputLink: string;
-  videoId: number;
-  startVideoTime: number;
+  currentDemo: DemoInfos;
 
   constructor(
-    private httpService: HttpService
+    private router: Router
   ) { }
 
   parseHltvLink(hltvLink) {
@@ -32,5 +25,10 @@ export class TwitchService {
       }
     }
     return matchId;
+  }
+
+  startDemo(demo: DemoInfos) {
+    this.currentDemo = demo;
+    this.router.navigate(['/match']);
   }
 }

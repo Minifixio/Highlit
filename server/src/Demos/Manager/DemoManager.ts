@@ -65,27 +65,35 @@ export async function updateMatchInfos(matchId: number): Promise<boolean>{
 }
 
 export async function findMatchInfos(matchId: number, mapNumber: number): Promise<MatchInfos> {
-    const path = await findMatchPath(matchId);
-    const matchJSONfile = require(`${path}/${matchId}-map${mapNumber}.json`);
-    const twitchJSONfile = require(`${path}/twitch_infos.json`);
-    let twitchLink: string;
 
-    if (mapNumber === 1) {
-        twitchLink = twitchJSONfile.map1[0].link;
-    } else {
-        twitchLink = twitchJSONfile["map" + mapNumber][0].link;
+    try {
+        const path = await findMatchPath(matchId);
+        const matchDatas = JSON.parse(fs.readFileSync(`${path}/${matchId}-map${mapNumber}.json`, 'utf8'));
+        const twitchDatas = JSON.parse(fs.readFileSync(`${path}/twitch_infos.json`, 'utf8'));
+        let twitchLink: string;
+
+        if (mapNumber === 1) {
+            twitchLink = twitchDatas.map1[0].link;
+        } else {
+            twitchLink = twitchDatas["map" + mapNumber][0].link;
+        }
+
+        const twitchInfos: TwitchInfos = hltvMngr.parseTwitchLink(twitchLink);
+
+        const response: MatchInfos = {
+            matchId,
+            videoId: twitchInfos.videoId,
+            startVideoTime: twitchInfos.startVideoTime,
+            rounds: matchDatas
+        }
+
+        return response
+
+    } catch (e) {
+        logger.error(Errors.DEMOS.find_map_infos)
+        throw e
     }
 
-    const twitchInfos: TwitchInfos = hltvMngr.parseTwitchLink(twitchLink);
-
-    const response: MatchInfos = {
-        matchId,
-        videoId: twitchInfos.videoId,
-        startVideoTime: twitchInfos.startVideoTime,
-        roundInfos: matchJSONfile
-    }
-
-    return response
 }
 
 export async function dowloadDemos(matchId: number): Promise<void> {
@@ -341,7 +349,7 @@ async function makeTwitchJSONfile(matchId: number, mapTwitchInfos: Demo[], mapsC
         const path = await findMatchPath(matchId);
 
         // Make the JSON file
-        const output = JSON.stringify(mapTwitchInfos);
+        const output = JSON.stringify(twitchInfos);
         writeFile(`${path}/twitch_infos.json`, output, 'utf8').then(() => {
             logger.debug('Twitch JSON created');
             resolve();

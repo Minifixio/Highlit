@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { TwitchService } from 'src/app/services/twitch.service';
 import { Router } from '@angular/router';
 import { MatchInfosWidgetComponent } from '../../components/match-infos-widget/match-infos-widget.component';
 import { HttpService } from 'src/app/services/http.service';
@@ -10,8 +9,9 @@ import { MapInfosWidgetComponent } from '../../components/map-infos-widget/map-i
 import { MapInfo } from 'src/app/models/Match/MapInfo';
 import { MenuBarComponent } from '../../components/menu-bar/menu-bar.component';
 import { MatchPerDate } from 'src/app/models/Match/MatchesPerDate';
-import { GameInfos } from 'src/app/models/Demo/GameInfos';
+import { DemoInfos } from 'src/app/models/Demo/DemoInfos';
 import { Errors } from 'src/app/models/Errors/Errors';
+import { DemosService } from 'src/app/services/demos.service';
 
 interface SocketInfos {
   type: string;
@@ -53,11 +53,11 @@ export class MatchSelectionComponent implements OnInit {
   matchesPerDate: MatchPerDate[];
 
   constructor(
-    private twitchService: TwitchService,
     private httpService: HttpService,
     private sockets: SocketsService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private demosService: DemosService
   ) { }
 
   ngOnInit(): void {
@@ -79,7 +79,7 @@ export class MatchSelectionComponent implements OnInit {
 
   // async hltvLinkAdded() {
   //   if (this.isLinkCorrect(this.inputLink)) {
-  //     const matchId = Number(this.twitchService.parseHltvLink(this.inputLink));
+  //     const matchId = Number(this.demosService.parseHltvLink(this.inputLink));
   //     await this.httpService.post('add-match', {match_id: matchId}).toPromise();
   //     this.mapSocket = this.sockets.subscribe('select-map');
   //     this.mapSocket.subscribe(info => {
@@ -93,16 +93,16 @@ export class MatchSelectionComponent implements OnInit {
   async selectMap(mapInfos: MapInfo) {
     if (mapInfos.available === 1) {
 
-      let gameInfos: GameInfos;
+      let demoInfos: DemoInfos;
 
       try {
-        gameInfos = await this.httpService.post<GameInfos>('map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
+        demoInfos = await this.httpService.post<DemoInfos>('map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
+        console.log(demoInfos)
+        this.demosService.startDemo(demoInfos);
       } catch (e) {
         this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
         return;
       }
-      this.twitchService.gameInfos = gameInfos;
-      this.router.navigate(['/match']);
 
     } else {
       this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
@@ -251,9 +251,8 @@ export class MatchSelectionComponent implements OnInit {
           this.showErrorToast('Sorry but the demos are not available for this match', null);
           break;
         case 'game_infos':
-          this.twitchService.gameInfos = loadingInfos.params;
+          this.demosService.startDemo(loadingInfos.params);
           this.sockets.unsubscribe();
-          this.router.navigate(['/match']);
           break;
       }
     }

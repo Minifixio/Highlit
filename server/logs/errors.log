@@ -3,3 +3,4 @@
 {"date":"Thu, 28 May 2020 20:55:47 GMT","level":"INFO","from":"demo_manager","error":"CANT_GET_TWITCH_COMMENT","message":"matchId: 2341602, map: 1"}
 {"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","error":"CANT_GET_TWITCH_COMMENT","message":"matchId: 2341602, map: 2"}
 {"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","error":"CANT_GET_TWITCH_COMMENT","message":"matchId: 2341602, map: 3"}
+{"date":"Sat, 30 May 2020 17:39:42 GMT","level":"INFO","message":{"from":"demo_manager","error":"FIND_MAP_INFOS"}}

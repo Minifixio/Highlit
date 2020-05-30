@@ -57,3 +57,31 @@
 {"date":"Thu, 28 May 2020 20:59:26 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : movistar-riders-vs-saw-m3-train.dem"}
 {"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : movistar-riders-vs-saw-m3-train.dem for match : 2341602"}
 {"date":"Thu, 28 May 2020 21:05:21 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341602 map n°3"}
+{"date":"Sat, 30 May 2020 17:15:13 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sat, 30 May 2020 17:15:13 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341043 demo id is : 57478"}
+{"date":"Sat, 30 May 2020 17:15:54 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Sat, 30 May 2020 17:16:37 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Sat, 30 May 2020 17:17:19 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Sat, 30 May 2020 17:18:02 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Sat, 30 May 2020 17:18:45 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Sat, 30 May 2020 17:19:28 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Sat, 30 May 2020 17:20:02 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sat, 30 May 2020 17:20:02 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341612 demo id is : 57477"}
+{"date":"Sat, 30 May 2020 17:20:13 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Sat, 30 May 2020 17:20:24 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Sat, 30 May 2020 17:20:36 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Sat, 30 May 2020 17:20:47 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Sat, 30 May 2020 17:20:58 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Sat, 30 May 2020 17:21:10 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Sat, 30 May 2020 17:21:21 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Sat, 30 May 2020 17:21:32 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Sat, 30 May 2020 17:21:43 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Sat, 30 May 2020 17:21:54 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Sat, 30 May 2020 17:21:55 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341612"}
+{"date":"Sat, 30 May 2020 17:22:03 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341612"}
+{"date":"Sat, 30 May 2020 17:22:03 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341612 map 1"}
+{"date":"Sat, 30 May 2020 17:22:03 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : unicorns-of-love-vs-sprout-m1-overpass.dem"}
+{"date":"Sat, 30 May 2020 17:23:26 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sat, 30 May 2020 17:23:26 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341601 demo id is : 57481"}
+{"date":"Sat, 30 May 2020 17:23:44 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Sat, 30 May 2020 17:44:29 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}

@@ -1,5 +1,5 @@
 import * as winston from 'winston'
-import { loggers, errorsLogger } from './DebugManager';
+import { loggers, errorsLogger, debugMode } from './DebugManager';
 import { ErrorTemplate } from '../Errors/Errors';
 
 export class Logger {
@@ -19,6 +19,7 @@ export class Logger {
     }
 
     error(error: ErrorTemplate, content?: any) {
+        if (debugMode) { console.error(error) }
         errorsLogger.logger.info({from: this.name, error: error.name, message: content})
     }
 }

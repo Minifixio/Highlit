@@ -81,6 +81,7 @@ export class MatchParser {
 
     syncRounds(): void {
         this.rounds.forEach(round => {
+            round.round_number += 1
             round.start = round.start - this.rounds[0].start
         })
     }

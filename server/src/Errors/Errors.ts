@@ -65,6 +65,11 @@ export const Errors = {
             name: 'CREATE_MATCH_PATH',
             message: 'Unable to create the match path',
             level: 3
+        },
+        find_map_infos: {
+            name: 'FIND_MAP_INFOS',
+            message: 'Can\'t find infos for this map',
+            level: 2
         }
     },
 

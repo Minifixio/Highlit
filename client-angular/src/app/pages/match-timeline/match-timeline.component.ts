@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoundInfosWidgetComponent } from '../../components/round-infos-widget/round-infos-widget.component';
 import { TwitchPlayerComponent } from '../../components/twitch-player/twitch-player.component';
-import { TwitchService } from 'src/app/services/twitch.service';
-import { GameInfos } from 'src/app/models/Demo/GameInfos';
+import { DemoInfos } from 'src/app/models/Demo/DemoInfos';
 import { Round } from 'src/app/models/Demo/Round';
 import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
 import { RoundTimelineComponent } from '../../components/round-timeline/round-timeline.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorTemplate, Errors } from 'src/app/models/Errors/Errors';
+import { DemosService } from 'src/app/services/demos.service';
 
 interface SelectActionContent {
   roundId: number;
@@ -33,7 +33,7 @@ export class MatchTimelineComponent implements OnInit {
   roundTimeline: RoundTimelineComponent;
 
   startVideoTime: number;
-  gameInfos: GameInfos;
+  gameInfos: DemoInfos;
   rounds: Round[];
   roundId: number;
   playerLoading: boolean;
@@ -41,20 +41,21 @@ export class MatchTimelineComponent implements OnInit {
   currentRoundInfos: Round;
 
   constructor(
-    private twitchService: TwitchService,
     private httpService: HttpService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private demosService: DemosService
   ) { }
 
   ngOnInit(): void {
-    if (this.twitchService.gameInfos) {
-      this.gameInfos = this.twitchService.gameInfos;
-      this.rounds = this.gameInfos.roundInfos;
+    if (this.demosService.currentDemo) {
+      this.gameInfos = this.demosService.currentDemo;
+      this.rounds = this.gameInfos.rounds;
       this.startVideoTime = this.gameInfos.startVideoTime;
       this.playerLoading = true;
 
       this.syncClips();
+
       this.twitchPlayer.displayTwitchVideo(this.gameInfos.videoId, this.startVideoTime).then(() => {
         this.playerLoading = false;
       });

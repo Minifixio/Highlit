@@ -4,5 +4,5 @@ export interface MatchInfos {
     matchId: number;
     videoId: number;
     startVideoTime: number;
-    roundInfos: Round[]
+    rounds: Round[]
 }

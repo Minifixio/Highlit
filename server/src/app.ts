@@ -7,7 +7,7 @@ import * as testManager from './Tests/TestManager'
 import { Logger } from './Debug/LoggerService';
 import { Routes } from './API/Routes'
 
-testManager.testCron()
+// testManager.testCron()
 // const http = require('http').createServer(app);
 
 // Mainteance mode
