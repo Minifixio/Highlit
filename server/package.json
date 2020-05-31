@@ -6,8 +6,9 @@
   "types": "build/app.d.ts",
   "scripts": {
     "serve": "env NODE_ENV=test nodemon",
-    "inspect:test": "env NODE_ENV=test node --inspect build/app.js",
+    "start:test": "env NODE_ENV=test node --inspect build/app.js",
     "build": "rimraf ./build && tsc",
+    "start:prod": "pm2 start build/app.js",
     "rebuild-db": "sqlite3 -init db/init_db.sql db/matches.db \"\""
   },
   "author": "Minifixio",
