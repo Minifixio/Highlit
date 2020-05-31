@@ -271,3 +271,68 @@
 {"date":"Sat, 30 May 2020 17:44:29 GMT","level":"INFO","from":"hltv","message":"Match : Natus Vincere VS FaZe"}
 {"date":"Sat, 30 May 2020 17:44:29 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
 {"date":"Sat, 30 May 2020 17:52:41 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Sun, 31 May 2020 09:39:24 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Sun, 31 May 2020 09:39:36 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341654"}
+{"date":"Sun, 31 May 2020 09:39:36 GMT","level":"INFO","from":"hltv","message":"Match : TeamOne VS AA"}
+{"date":"Sun, 31 May 2020 09:39:36 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 09:40:03 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341080"}
+{"date":"Sun, 31 May 2020 09:40:04 GMT","level":"INFO","from":"hltv","message":"Match : New England Whalers VS Swedish Canadians"}
+{"date":"Sun, 31 May 2020 09:40:04 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 09:42:47 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341643"}
+{"date":"Sun, 31 May 2020 09:42:48 GMT","level":"INFO","from":"hltv","message":"Match : Secret VS AGF"}
+{"date":"Sun, 31 May 2020 09:42:48 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 09:42:52 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341671"}
+{"date":"Sun, 31 May 2020 09:42:52 GMT","level":"INFO","from":"hltv","message":"Match : RBG VS Triumph"}
+{"date":"Sun, 31 May 2020 09:42:52 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 09:42:55 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341663"}
+{"date":"Sun, 31 May 2020 09:42:55 GMT","level":"INFO","from":"hltv","message":"Match : Chaos VS blood, sweat, and tears"}
+{"date":"Sun, 31 May 2020 09:42:55 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 09:47:54 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341660"}
+{"date":"Sun, 31 May 2020 09:47:55 GMT","level":"INFO","from":"hltv","message":"Match : blood, sweat, and tears VS Buffdaddy's Paypal"}
+{"date":"Sun, 31 May 2020 09:47:55 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 09:53:41 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341669"}
+{"date":"Sun, 31 May 2020 09:53:41 GMT","level":"INFO","from":"hltv","message":"Match : Yeah VS New England Whalers"}
+{"date":"Sun, 31 May 2020 09:53:41 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:05:25 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Sun, 31 May 2020 19:06:12 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341042"}
+{"date":"Sun, 31 May 2020 19:06:13 GMT","level":"INFO","from":"hltv","message":"Match : Evil Geniuses VS 100 Thieves"}
+{"date":"Sun, 31 May 2020 19:06:13 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:11:32 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341731"}
+{"date":"Sun, 31 May 2020 19:11:33 GMT","level":"INFO","from":"hltv","message":"Match : AVEZ VS Wisla Krakow"}
+{"date":"Sun, 31 May 2020 19:11:33 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:19:14 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341448"}
+{"date":"Sun, 31 May 2020 19:19:15 GMT","level":"INFO","from":"hltv","message":"Match : BOOM VS Imperial"}
+{"date":"Sun, 31 May 2020 19:19:15 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:24:18 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341774"}
+{"date":"Sun, 31 May 2020 19:24:19 GMT","level":"INFO","from":"hltv","message":"Match : Hard Legion VS AGF"}
+{"date":"Sun, 31 May 2020 19:24:19 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:28:05 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341544"}
+{"date":"Sun, 31 May 2020 19:28:05 GMT","level":"INFO","from":"hltv","message":"Match : FWRD VS Sector One"}
+{"date":"Sun, 31 May 2020 19:28:05 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:28:12 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341771"}
+{"date":"Sun, 31 May 2020 19:28:12 GMT","level":"INFO","from":"hltv","message":"Match : forZe VS Virtus.pro"}
+{"date":"Sun, 31 May 2020 19:28:12 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 19:54:28 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341449"}
+{"date":"Sun, 31 May 2020 19:54:29 GMT","level":"INFO","from":"hltv","message":"Match : Sharks VS Redemption POA"}
+{"date":"Sun, 31 May 2020 19:54:29 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:04:46 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341776"}
+{"date":"Sun, 31 May 2020 20:04:46 GMT","level":"INFO","from":"hltv","message":"Match : Gambit Youngsters VS Secret"}
+{"date":"Sun, 31 May 2020 20:04:46 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:06:59 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341783"}
+{"date":"Sun, 31 May 2020 20:06:59 GMT","level":"INFO","from":"hltv","message":"Match : 9z VS Paquetá"}
+{"date":"Sun, 31 May 2020 20:06:59 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341777"}
+{"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341060"}
+{"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341650"}
+{"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341545"}
+{"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341778"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"hltv","message":"Match : Complexity VS Endpoint"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"hltv","message":"Match : EURONICS VS Sprout"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"hltv","message":"Match : Heroic VS Hard Legion"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"hltv","message":"Match : LowLandLions VS Tenerife Titans"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"hltv","message":"Match : NiP VS ENCE"}
+{"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}

@@ -11,10 +11,14 @@ export class MapInfosWidgetComponent implements OnInit {
   @Input() map: MapInfo;
   @Output() mapSelected = new EventEmitter<any>();
 
+  globalResult: string;
+  detailledResult: string;
+
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.map)
+    this.globalResult = this.map.result.slice(0, this.map.result.indexOf('('));
+    this.detailledResult = this.map.result.slice(this.map.result.indexOf('('));
   }
 
   async selectMap() {

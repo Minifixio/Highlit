@@ -1,11 +1,11 @@
 
-<mat-expansion-panel (opened)="getMaps()">
+<mat-expansion-panel [expanded]="matchInfos.active" (opened)="getMaps()">
     <mat-expansion-panel-header>
             <mat-panel-title id="card-title">
                 <mat-icon *ngIf="matchInfos.downloaded == 3" id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">cancel</mat-icon>
-                <mat-spinner [diameter]="20" *ngIf="matchInfos.downloaded == 2"></mat-spinner>
-                <mat-icon *ngIf="matchInfos.downloaded == 1" id="downloaded-icon" inline="true" aria-label="Match downloaded">cloud_done</mat-icon>
-                <mat-icon *ngIf="matchInfos.downloaded == 0" id="not-downloaded-icon" inline="true" aria-label="Match not downloaded">cloud_download</mat-icon>
+                <mat-spinner [diameter]="20" *ngIf="matchInfos.downloaded == 2" matTooltip="Match is downloading" matTooltipPosition="below"></mat-spinner>
+                <mat-icon *ngIf="matchInfos.downloaded == 1" id="downloaded-icon" inline="true" matTooltip="Match downloaded" matTooltipPosition="below">cloud_done</mat-icon>
+                <mat-icon *ngIf="matchInfos.downloaded == 0" id="not-downloaded-icon" inline="true" matTooltip="Match not downloaded" matTooltipPosition="below">cloud_download</mat-icon>
                 <div id="result-div">
                     <img class="team-logo-img" mat-card-image [src]="'https://static.hltv.org/images/team/logo/'+ matchInfos.team1_id">
                     <p class="team-text">&nbsp; {{matchInfos.team1_name}} &nbsp;</p>
@@ -17,7 +17,7 @@
                 </div>
             </mat-panel-title>
             <mat-panel-description>
-                <p id="desc-text">{{matchInfos.match_format}}</p>
+                <p [matTooltip]="matchInfos.tournament" id="desc-text">{{matchInfos.match_format}}</p>
             </mat-panel-description>
     </mat-expansion-panel-header>
 

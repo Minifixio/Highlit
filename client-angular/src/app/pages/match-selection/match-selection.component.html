@@ -43,10 +43,11 @@
 
         </mat-toolbar>
 
+
         <div *ngIf="!pageLoading && !listLoading" id="matchinfos-container">
 
             <div id="matchinfos-div" *ngFor="let match of currentMatches" [matBadge]="getMatchStars(match.stars)" matBadgeColor="warn" [matBadgeHidden]="match.stars == 0 ? true: false">
-                <app-match-infos-widget #matchInfosWidget [matchInfos]=match (mapSelected)="selectMap($event)" class="app-match-infos-widget"></app-match-infos-widget>
+                <app-match-infos-widget #matchInfosWidget (click)="closePanels(match.match_id)" [matchInfos]=match (mapSelected)="selectMap($event)" class="app-match-infos-widget"></app-match-infos-widget>
             </div>
 
         </div>

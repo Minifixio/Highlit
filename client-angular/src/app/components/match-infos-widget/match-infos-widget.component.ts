@@ -28,6 +28,9 @@ export class MatchInfosWidgetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Setting active to false because the value is actually undefined at the initialization
+    if (!this.matchInfos.active) { this.matchInfos.active = false; }
+
     this.result = this.matchInfos.result.split('-').map(obj => parseFloat(obj));
     if (this.result[0] > this.result[1]) {
       this.winnerSide = 'left';

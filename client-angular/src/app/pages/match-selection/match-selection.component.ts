@@ -91,13 +91,13 @@ export class MatchSelectionComponent implements OnInit {
   // }
 
   async selectMap(mapInfos: MapInfo) {
+
     if (mapInfos.available === 1) {
 
       let demoInfos: DemoInfos;
 
       try {
         demoInfos = await this.httpService.post<DemoInfos>('map', {match_id: mapInfos.match_id, map_number: mapInfos.map_number});
-        console.log(demoInfos)
         this.demosService.startDemo(demoInfos);
       } catch (e) {
         this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
@@ -107,6 +107,16 @@ export class MatchSelectionComponent implements OnInit {
     } else {
       this.showErrorToast('Map is not available for now. It will be downloaded soon...', null);
     }
+  }
+
+  closePanels(matchId: number): void {
+    this.currentMatches.forEach(match => {
+      if (match.match_id === matchId) {
+        match.active = true;
+      } else {
+        match.active = false;
+      }
+    });
   }
 
   addMap(mapInfos: MapInfo) {

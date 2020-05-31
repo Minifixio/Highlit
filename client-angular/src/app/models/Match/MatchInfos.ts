@@ -12,4 +12,5 @@ export interface MatchInfos {
     date: number;
     demo_id: number;
     downloaded: number;
+    active?: boolean;
 }
