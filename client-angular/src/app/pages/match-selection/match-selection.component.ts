@@ -67,7 +67,6 @@ export class MatchSelectionComponent implements OnInit {
     this.listLoading = true;
     this.httpService.post<MatchInfos[]>('last_matches', {date: this.currentDate})
     .then(res => {
-      console.log(res)
       this.matchesPerDate.push({date: new Date(this.currentDate).toDateString(), matches: res});
       this.currentMatches = res;
     })
