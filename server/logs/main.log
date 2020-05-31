@@ -336,3 +336,5 @@
 {"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
 {"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"hltv","message":"Match : NiP VS ENCE"}
 {"date":"Sun, 31 May 2020 20:09:32 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Sun, 31 May 2020 20:42:54 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Sun, 31 May 2020 21:16:46 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}

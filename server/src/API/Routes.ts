@@ -15,7 +15,6 @@ export class Routes {
 
     constructor(app: express.Express) {
         this.app = app
-        this.mountRoutes()
     }
 
     public mountRoutes() {

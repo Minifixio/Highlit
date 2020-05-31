@@ -83,3 +83,5 @@
 {"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"http","message":"Maps for match 2341650 does not exist"}
 {"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"http","message":"Maps for match 2341545 does not exist"}
 {"date":"Sun, 31 May 2020 20:09:31 GMT","level":"INFO","from":"http","message":"Maps for match 2341778 does not exist"}
+{"date":"Sun, 31 May 2020 20:42:54 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Sun, 31 May 2020 21:16:46 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
