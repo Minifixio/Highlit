@@ -96,11 +96,11 @@ class Routes {
             }
             res.json(true);
         });
-        /**app.post('/v1/add-match', async(req, res) => {
-            const matchId = req.body.match_id;
-            socketManager.addMatch(matchId);
-            res.json(true);
-        });**/
+        // app.post('/v1/add-match', async(req, res) => {
+        //     const matchId = req.body.match_id;
+        //     socketManager.addMatch(matchId);
+        //     res.json(true);
+        // });
     }
 }
 exports.Routes = Routes;

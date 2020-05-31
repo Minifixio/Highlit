@@ -23,8 +23,16 @@ if(!serverMaintenance) { cronTasks.lastMatchesTask.start(); logger.debug('Starti
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}) );
-app.use(express.static('../dist'));
+app.use(express.static('./webapp'));
 app.use(express.static('../maintenance_page'));
+
+app.all("/match*", (req, res) => {
+    if(appMaintenance) {
+        res.sendFile("maintenance.html", { root: __dirname + "/maintenance_page"});
+    } else {
+        res.sendFile("index.html", { root: "./webapp"});
+    }
+});
 
 app.all("/*", (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -35,14 +43,6 @@ app.all("/*", (req, res, next) => {
         res.redirect("maintenance.html");
     }
     next();
-});
-
-app.all("/match*", (req, res) => {
-    if(appMaintenance) {
-        res.sendFile("maintenance.html", { root: __dirname + "/maintenance_page"});
-    } else {
-        res.sendFile("index.html", { root: __dirname + "/dist"});
-    }
 });
 
 app.listen(3000, () => {
