@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatchInfosWidgetComponent } from '../../components/match-infos-widget/match-infos-widget.component';
 import { HttpService } from 'src/app/services/http.service';
 import { MatchInfos } from 'src/app/models/Match/MatchInfos';
@@ -55,7 +54,6 @@ export class MatchSelectionComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private sockets: SocketsService,
-    private router: Router,
     private snackBar: MatSnackBar,
     private demosService: DemosService
   ) { }

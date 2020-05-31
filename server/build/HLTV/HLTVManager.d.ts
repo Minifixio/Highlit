@@ -1,0 +1,12 @@
+import { HLTVMatchInfos } from './models/HLTVMatchInfos';
+import { HLTVMapResult } from './models/HLTVMapResult';
+import { TwitchInfos } from './models/TwitchInfos';
+import { FullTeam } from 'hltv/lib/models/FullTeam';
+import { FullMatch } from 'hltv/lib/models/FullMatch';
+export declare function hltvMatchInfos(matchId: number): Promise<HLTVMatchInfos>;
+export declare function getMapInfos(mapId: number): Promise<void>;
+export declare function parseTwitchLink(twitchLink: string): TwitchInfos;
+export declare function getLastMatches(): Promise<void>;
+export declare function getTeamInfos(id: number): Promise<FullTeam>;
+export declare function getMatchInfos(id: number): Promise<FullMatch>;
+export declare function getMapWinner(maps: HLTVMapResult[], winningTeam: number, losingTeam: number | undefined): HLTVMapResult[];
