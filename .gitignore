@@ -1,8 +1,6 @@
 # main dir
 node_modules
-server-api-node/node_modules
-server-api-node/matches
-server-api-node/output
+server-api-node
 output.ts
 radio.mp3
 test.html
@@ -63,25 +61,24 @@ client-angular/dist
 server-api-node/database/matches.db
 server-api-node/database/
 
-server-api-node/moveScript.sh
-server-api-node/tests.txt
-server-api-node/deleteScript.sh
-server-api-node/credentials.js
-backups/database-28-03-2020.db
-server-api-node/demo_readerV2.js
-server-api-node/test_manager.js
-server-api-node/utils/lastMatches.sql
-server-api-node/logs/demos.log
-server-api-node/logs/main.log
-server-api-node/logs/server.log
-server-api-node/logs/demos_reading.log
-server-api-node/logs/error.log
-server-api-node/logs/errors.log
-server-api-node/demo_readerV3.js
+# server-api-node/moveScript.sh
+# server-api-node/tests.txt
+# server-api-node/deleteScript.sh
+# server-api-node/credentials.js
+# backups/database-28-03-2020.db
+# server-api-node/demo_readerV2.js
+# server-api-node/test_manager.js
+# server-api-node/utils/lastMatches.sql
+# server-api-node/logs/demos.log
+# server-api-node/logs/main.log
+# server-api-node/logs/server.log
+# server-api-node/logs/demos_reading.log
+# server-api-node/logs/error.log
+# server-api-node/logs/errors.log
+# server-api-node/demo_readerV3.js
 
 server/src/CREDENTIALS.ts
 server/src/CREDENTIALS.ts
 server/matches/
 server/logs/*
 backups
-server-api-node

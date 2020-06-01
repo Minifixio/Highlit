@@ -2,10 +2,13 @@ version: "3"
 services:
     app:
         build: 
-            context: .            
+            context: . 
         user: "node"
         working_dir: "/home/node/app"
         environment: 
             - NODE_ENV=production
+        volumes: 
+            - ./server:/home/node/app
         ports:
           - "82:3000"
+        command: npm run start:prod
