@@ -6,4 +6,4 @@ RUN npm install pm2 -g
 
 # RUN cd /home/node/app && npm install && mkdir logs
 
-CMD ["pm2-runtime", "build/app.js"]
+# CMD ["pm2-runtime", "build/app.js"]
