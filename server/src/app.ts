@@ -11,7 +11,7 @@ import { Routes } from './API/Routes'
 // const http = require('http').createServer(app);
 
 // Mainteance mode
-export const serverMaintenance = true;
+export const serverMaintenance = false;
 export const appMaintenance = false;
 
 const logger = new Logger("app");

@@ -3,7 +3,6 @@ node_modules
 server-api-node/node_modules
 server-api-node/matches
 server-api-node/output
-app.js
 output.ts
 radio.mp3
 test.html
