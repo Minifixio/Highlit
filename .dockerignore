@@ -1,0 +1,8 @@
+*
+!server/src
+!server/*.json
+!server/maintenance_page
+!server/db
+!server/build
+!server/webapp
+
