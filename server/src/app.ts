@@ -52,8 +52,8 @@ app.listen(3000, () => {
 const routes = new Routes(app)
 routes.mountRoutes()
 
-/**http.listen(3000, () => {
-    socketManager = require("./socket_manager.js");
-    socketManager.startSockets(http);
-    logger.debug('App listening on port 3000');
-});**/
+// http.listen(3000, () => {
+//     socketManager = require("./socket_manager.js");
+//     socketManager.startSockets(http);
+//     logger.debug('App listening on port 3000');
+// });

@@ -7,8 +7,8 @@ services:
         environment: 
             - NODE_ENV=production
         volumes: 
-            - ./server-api-node:/home/node/app
+            - ./server:/home/node/app
             # - ./client-angular/dist/highlightsCSGO:/home/node/app/dist
         ports:
           - "82:3000"
-        command: npm run 
+        command: npm run start:prod

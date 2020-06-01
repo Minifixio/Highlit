@@ -5,7 +5,7 @@ FROM node:12
 WORKDIR /usr/src/app/
 
 # API files
-COPY server
+COPY server server
 
 # Copy Angular build 
-COPY client-angular/dist ./dist/
+# COPY client-angular/dist ./dist/
