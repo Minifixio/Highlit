@@ -7,9 +7,10 @@
   "scripts": {
     "serve": "env NODE_ENV=test nodemon",
     "start:test": "env NODE_ENV=test node --inspect build/app.js",
-    "build": "rimraf ./build && tsc",
     "start:prod": "pm2 start build/app.js",
-    "rebuild-db": "sqlite3 -init db/init_db.sql db/matches.db \"\""
+    "build": "rimraf ./build && tsc",
+    "db:build": "sqlite3 -init db/init_db.sql db/matches.db \"\"",
+    "db:clear": "sqlite3 db/matches.db < db/reset_db.sql"
   },
   "author": "Minifixio",
   "license": "ISC",

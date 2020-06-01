@@ -1,0 +1,3 @@
+DELETE FROM match;
+DELETE FROM maps;
+DELETE FROM team;
