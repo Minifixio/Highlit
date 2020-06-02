@@ -11,4 +11,4 @@ services:
             - ./server:/home/node/app
         ports:
           - "82:3000"
-        command: npm run start:prod
+        #command: npm run start:prod
