@@ -45,7 +45,6 @@ import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { BuyInfosWidgetComponent } from './components/buy-infos-widget/buy-infos-widget.component';
 import { EndRoundReasonWidgetComponent } from './components/end-round-reason-widget/end-round-reason-widget.component';
 import { RoundKillsWidgetComponent } from './components/round-kills-widget/round-kills-widget.component';
-import { MatchInfosComponent } from './components/match-infos/match-infos.component';
 
 
 @NgModule({
@@ -62,8 +61,7 @@ import { MatchInfosComponent } from './components/match-infos/match-infos.compon
     MenuBarComponent,
     BuyInfosWidgetComponent,
     EndRoundReasonWidgetComponent,
-    RoundKillsWidgetComponent,
-    MatchInfosComponent
+    RoundKillsWidgetComponent
   ],
   imports: [
     FormsModule,

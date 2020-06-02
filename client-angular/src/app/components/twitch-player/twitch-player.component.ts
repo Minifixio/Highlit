@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { interval } from 'rxjs';
 declare const Twitch: any;
 
@@ -11,10 +11,12 @@ export class TwitchPlayerComponent implements OnInit {
 
   @Input() videoId: number;
   @Input() startVideoTime: number;
+  @Output() playerReloaded = new EventEmitter<boolean>();
 
   twitchPlayer: any;
   playerLoading = false;
   playerBuffering = false;
+  playerTooLong = false;
 
   constructor() { }
 
@@ -22,7 +24,7 @@ export class TwitchPlayerComponent implements OnInit {
     this.onResize();
   }
 
-  displayTwitchVideo(videoId, startTime) {
+  displayPlayer(videoId: number, startTime: number) {
     return new Promise((resolve) => {
       this.playerLoading = true;
       const options = {
@@ -40,9 +42,29 @@ export class TwitchPlayerComponent implements OnInit {
           }, 1000);
         }
       });
+
+      setTimeout(() => {
+        console.log(document.querySelectorAll('iframe')[0].childNodes)
+      }, 10000)
+
+      // setTimeout(() => {
+      //   const twitchIframe = document.querySelectorAll('iframe')[0];
+      //   if (twitchIframe.querySelector())
+      // }, 3000);
     });
   }
 
+  reloadPlayer() {
+    this.playerLoading = false;
+    this.playerTooLong = false;
+    this.playerBuffering = false;
+    this.playerReloaded.emit(true);
+  }
+
+  askForReload() {
+    console.log('reloading player');
+    this.playerTooLong = true;
+  }
 
   seekTo(timestamp) {
     this.twitchPlayer.pause();
@@ -62,14 +84,14 @@ export class TwitchPlayerComponent implements OnInit {
 
   }
 
-  getCurrentTime() {
-    console.log(this.startVideoTime, this.twitchPlayer.getCurrentTime());
-  }
-
   onResize() {
     const twitchIframe = document.querySelectorAll('iframe')[0];
     twitchIframe.width = (window.innerWidth - 400).toString();
     twitchIframe.height = (window.innerHeight - 35).toString();
+  }
+
+  getCurrentTime() {
+    console.log(this.startVideoTime, this.twitchPlayer.getCurrentTime());
   }
 
 }

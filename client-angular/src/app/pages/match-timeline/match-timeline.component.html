@@ -35,6 +35,6 @@
                 <button mat-menu-item (click)="reportIssue(4)">Other</button>
             </mat-menu>
         </mat-card>
-        <app-twitch-player #twitchPlayer startVideoTime={{gameInfos.startVideoTime}}></app-twitch-player>
+        <app-twitch-player #twitchPlayer (playerReloaded)="playerReloaded()" startVideoTime={{gameInfos.startVideoTime}}></app-twitch-player>
     </div>
 </div>

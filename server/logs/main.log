@@ -352,3 +352,270 @@
 {"date":"Sun, 31 May 2020 21:48:06 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
 {"date":"Sun, 31 May 2020 21:48:24 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
 {"date":"Mon, 01 Jun 2020 14:21:30 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 19:53:08 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Mon, 01 Jun 2020 19:53:08 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 19:53:18 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Mon, 01 Jun 2020 19:53:18 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 20:00:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Mon, 01 Jun 2020 20:00:02 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Mon, 01 Jun 2020 20:00:02 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:02 GMT","level":"INFO","from":"cron","message":"Match 2341737 has no demoId"}
+{"date":"Mon, 01 Jun 2020 20:00:02 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:03 GMT","level":"INFO","from":"hltv","message":"Match : AVANT VS PC419"}
+{"date":"Mon, 01 Jun 2020 20:00:03 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Mon, 01 Jun 2020 20:00:03 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Mon, 01 Jun 2020 20:00:03 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341737 demo id is : 57566"}
+{"date":"Mon, 01 Jun 2020 20:00:03 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:03 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:08 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:13 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:18 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:22 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:27 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:32 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:36 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:42 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:46 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:52 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:00:52 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:55 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:55 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:55 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:55 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:00:55 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341737 map 1"}
+{"date":"Mon, 01 Jun 2020 20:00:55 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : avant-vs-pc419-dust2.dem"}
+{"date":"Mon, 01 Jun 2020 20:03:40 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : avant-vs-pc419-dust2.dem for match : 2341737"}
+{"date":"Mon, 01 Jun 2020 20:03:40 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341737 map n°1"}
+{"date":"Mon, 01 Jun 2020 20:03:40 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 1 for match 2341737"}
+{"date":"Mon, 01 Jun 2020 20:30:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Mon, 01 Jun 2020 20:30:00 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Mon, 01 Jun 2020 20:30:00 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341725"}
+{"date":"Mon, 01 Jun 2020 20:30:00 GMT","level":"INFO","from":"cron","message":"Match 2341725 has no demoId"}
+{"date":"Mon, 01 Jun 2020 20:30:00 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:30:01 GMT","level":"INFO","from":"hltv","message":"Match : Espada VS NAVI Junior"}
+{"date":"Mon, 01 Jun 2020 20:30:01 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Mon, 01 Jun 2020 20:30:01 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Mon, 01 Jun 2020 20:30:01 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341725 demo id is : 57573"}
+{"date":"Mon, 01 Jun 2020 20:30:01 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:30:01 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:30:13 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:30:25 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:30:36 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:30:52 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:31:05 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:31:18 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:31:28 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:31:37 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:31:49 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:32:05 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Mon, 01 Jun 2020 20:32:05 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341725"}
+{"date":"Mon, 01 Jun 2020 20:32:13 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341725"}
+{"date":"Mon, 01 Jun 2020 20:32:13 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:32:13 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:32:13 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:32:13 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341725 map 1"}
+{"date":"Mon, 01 Jun 2020 20:32:13 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : espada-vs-navi-junior-m1-train.dem"}
+{"date":"Mon, 01 Jun 2020 20:41:49 GMT","level":"INFO","from":"demo_manager","message":"Wrong parsing for map : espada-vs-navi-junior-m1-train.dem for match : 2341725"}
+{"date":"Mon, 01 Jun 2020 20:41:49 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 3 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:41:49 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:41:49 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 2 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:41:49 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341725 map 2"}
+{"date":"Mon, 01 Jun 2020 20:41:49 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : espada-vs-navi-junior-m2-inferno.dem"}
+{"date":"Mon, 01 Jun 2020 20:46:41 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : espada-vs-navi-junior-m2-inferno.dem for match : 2341725"}
+{"date":"Mon, 01 Jun 2020 20:46:41 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341725 map n°2"}
+{"date":"Mon, 01 Jun 2020 20:46:41 GMT","level":"INFO","from":"db","message":"Updated map 2 status to 1 for match 2341725"}
+{"date":"Mon, 01 Jun 2020 20:47:22 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Mon, 01 Jun 2020 20:47:22 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 21:00:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Mon, 01 Jun 2020 21:00:00 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Mon, 01 Jun 2020 21:00:00 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:00 GMT","level":"INFO","from":"cron","message":"Match 2341742 has no demoId"}
+{"date":"Mon, 01 Jun 2020 21:00:00 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:01 GMT","level":"INFO","from":"hltv","message":"Match : Justice VS ORDER"}
+{"date":"Mon, 01 Jun 2020 21:00:01 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Mon, 01 Jun 2020 21:00:01 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Mon, 01 Jun 2020 21:00:01 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341742 demo id is : 57567"}
+{"date":"Mon, 01 Jun 2020 21:00:01 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:01 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:06 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:10 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:14 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:19 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:23 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:27 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:31 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:37 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:40 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:44 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Mon, 01 Jun 2020 21:00:44 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:47 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:47 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:47 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:47 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341742"}
+{"date":"Mon, 01 Jun 2020 21:00:47 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341742 map 1"}
+{"date":"Mon, 01 Jun 2020 21:00:47 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : justice-vs-order-train.dem"}
+{"date":"Mon, 01 Jun 2020 21:04:03 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : justice-vs-order-train.dem for match : 2341742"}
+{"date":"Mon, 01 Jun 2020 21:04:03 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341742 map n°1"}
+{"date":"Mon, 01 Jun 2020 21:04:03 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 1 for match 2341742"}
+{"date":"Tue, 02 Jun 2020 09:33:37 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Tue, 02 Jun 2020 09:33:37 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Tue, 02 Jun 2020 09:53:29 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Tue, 02 Jun 2020 09:53:29 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Tue, 02 Jun 2020 10:00:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Tue, 02 Jun 2020 10:00:01 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Tue, 02 Jun 2020 10:00:01 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341740"}
+{"date":"Tue, 02 Jun 2020 10:00:01 GMT","level":"INFO","from":"cron","message":"Match 2341740 has no demoId"}
+{"date":"Tue, 02 Jun 2020 10:00:01 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:00:03 GMT","level":"INFO","from":"hltv","message":"Match : Incept VS AVANT"}
+{"date":"Tue, 02 Jun 2020 10:00:03 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Tue, 02 Jun 2020 10:00:03 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Tue, 02 Jun 2020 10:00:03 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341740 demo id is : 57568"}
+{"date":"Tue, 02 Jun 2020 10:00:03 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:00:03 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:00:18 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:00:35 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:00:53 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:01:10 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:01:24 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:01:39 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:01:56 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:02:10 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:02:24 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:02:39 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:02:40 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341740"}
+{"date":"Tue, 02 Jun 2020 10:02:45 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341740"}
+{"date":"Tue, 02 Jun 2020 10:02:45 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:02:45 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:02:45 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:02:45 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341740 map 1"}
+{"date":"Tue, 02 Jun 2020 10:02:45 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : incept-vs-avant-dust2.dem"}
+{"date":"Tue, 02 Jun 2020 10:16:27 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : incept-vs-avant-dust2.dem for match : 2341740"}
+{"date":"Tue, 02 Jun 2020 10:16:27 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341740 map n°1"}
+{"date":"Tue, 02 Jun 2020 10:16:27 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 1 for match 2341740"}
+{"date":"Tue, 02 Jun 2020 10:30:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Tue, 02 Jun 2020 10:30:00 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Tue, 02 Jun 2020 10:30:00 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341641"}
+{"date":"Tue, 02 Jun 2020 10:30:00 GMT","level":"INFO","from":"cron","message":"Match 2341641 has no demoId"}
+{"date":"Tue, 02 Jun 2020 10:30:00 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:30:01 GMT","level":"INFO","from":"hltv","message":"Match : sAw VS Salamander"}
+{"date":"Tue, 02 Jun 2020 10:30:01 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Tue, 02 Jun 2020 10:30:01 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Tue, 02 Jun 2020 10:30:01 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341641 demo id is : 57563"}
+{"date":"Tue, 02 Jun 2020 10:30:01 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:30:01 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:30:24 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:30:49 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:31:13 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:31:37 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:32:02 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:32:26 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:32:49 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:33:13 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:33:37 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:34:01 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Tue, 02 Jun 2020 10:34:02 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341641"}
+{"date":"Tue, 02 Jun 2020 10:34:07 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341641"}
+{"date":"Tue, 02 Jun 2020 10:34:07 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:34:07 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:34:07 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:34:07 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341641 map 1"}
+{"date":"Tue, 02 Jun 2020 10:34:07 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : saw-vs-salamander-inferno.dem"}
+{"date":"Tue, 02 Jun 2020 10:42:17 GMT","level":"INFO","from":"demo_manager","message":"Wrong parsing for map : saw-vs-salamander-inferno.dem for match : 2341641"}
+{"date":"Tue, 02 Jun 2020 10:42:17 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 3 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 10:42:17 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341641"}
+{"date":"Tue, 02 Jun 2020 11:00:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Tue, 02 Jun 2020 11:00:00 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Tue, 02 Jun 2020 11:00:00 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341738"}
+{"date":"Tue, 02 Jun 2020 11:00:00 GMT","level":"INFO","from":"cron","message":"Match 2341738 has no demoId"}
+{"date":"Tue, 02 Jun 2020 11:00:00 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:00:01 GMT","level":"INFO","from":"hltv","message":"Match : Skyfire VS Ground Zero"}
+{"date":"Tue, 02 Jun 2020 11:00:01 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Tue, 02 Jun 2020 11:00:01 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Tue, 02 Jun 2020 11:00:01 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341738 demo id is : 57569"}
+{"date":"Tue, 02 Jun 2020 11:00:01 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:00:01 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:00:07 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:13 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:19 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:25 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:31 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:37 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:43 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:48 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:00:55 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:01:01 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:01:01 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341738"}
+{"date":"Tue, 02 Jun 2020 11:01:05 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341738"}
+{"date":"Tue, 02 Jun 2020 11:01:05 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:01:05 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:01:05 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:01:05 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341738 map 1"}
+{"date":"Tue, 02 Jun 2020 11:01:05 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : skyfire-vs-ground-zero-nuke.dem"}
+{"date":"Tue, 02 Jun 2020 11:08:06 GMT","level":"INFO","from":"demo_manager","message":"Wrong parsing for map : skyfire-vs-ground-zero-nuke.dem for match : 2341738"}
+{"date":"Tue, 02 Jun 2020 11:08:06 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 3 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:08:06 GMT","level":"INFO","from":"cron","message":"Error during the parsing of the map 1 for match 2341738"}
+{"date":"Tue, 02 Jun 2020 11:17:32 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341448"}
+{"date":"Tue, 02 Jun 2020 11:17:34 GMT","level":"INFO","from":"hltv","message":"Match : BOOM VS Imperial"}
+{"date":"Tue, 02 Jun 2020 11:17:34 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Tue, 02 Jun 2020 11:30:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Tue, 02 Jun 2020 11:30:00 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Tue, 02 Jun 2020 11:30:00 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:00 GMT","level":"INFO","from":"cron","message":"Match 2341744 has no demoId"}
+{"date":"Tue, 02 Jun 2020 11:30:00 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:01 GMT","level":"INFO","from":"hltv","message":"Match : Bantz VS Forbidden"}
+{"date":"Tue, 02 Jun 2020 11:30:01 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Tue, 02 Jun 2020 11:30:01 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Tue, 02 Jun 2020 11:30:01 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341744 demo id is : 57570"}
+{"date":"Tue, 02 Jun 2020 11:30:01 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:01 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:05 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:09 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:14 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:18 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:22 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:26 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:30 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:35 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:39 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:43 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Tue, 02 Jun 2020 11:30:43 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:51 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:51 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:51 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:51 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341744"}
+{"date":"Tue, 02 Jun 2020 11:30:51 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341744 map 1"}
+{"date":"Tue, 02 Jun 2020 11:30:51 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : bantz-vs-forbidden-mirage.dem"}
+{"date":"Tue, 02 Jun 2020 11:35:56 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : bantz-vs-forbidden-mirage.dem for match : 2341744"}
+{"date":"Tue, 02 Jun 2020 11:35:56 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341744 map n°1"}
+{"date":"Tue, 02 Jun 2020 11:35:56 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 1 for match 2341744"}
+{"date":"Tue, 02 Jun 2020 12:00:00 GMT","level":"INFO","from":"cron","message":"Starting last matches task"}
+{"date":"Tue, 02 Jun 2020 12:00:00 GMT","level":"INFO","from":"db","message":"Added last matches to DB"}
+{"date":"Tue, 02 Jun 2020 12:00:00 GMT","level":"INFO","from":"cron","message":"Last undownloaded match : 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:00 GMT","level":"INFO","from":"cron","message":"Match 2341741 has no demoId"}
+{"date":"Tue, 02 Jun 2020 12:00:00 GMT","level":"INFO","from":"hltv","message":"Looking for informations for match 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:01 GMT","level":"INFO","from":"hltv","message":"Match : Rooster VS Incept"}
+{"date":"Tue, 02 Jun 2020 12:00:01 GMT","level":"INFO","from":"demo_manager","message":"Twitch JSON created"}
+{"date":"Tue, 02 Jun 2020 12:00:01 GMT","level":"INFO","from":"cron","message":"Match updated successfully"}
+{"date":"Tue, 02 Jun 2020 12:00:01 GMT","level":"INFO","from":"demo_manager","message":"Downloading demos for match 2341741 demo id is : 57571"}
+{"date":"Tue, 02 Jun 2020 12:00:01 GMT","level":"INFO","from":"db","message":"Updated maps status to 2 for match 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:01 GMT","level":"INFO","from":"db","message":"Updated match status to 2 for match 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:04 GMT","level":"INFO","from":"demo_manager","message":"10 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:08 GMT","level":"INFO","from":"demo_manager","message":"20 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:11 GMT","level":"INFO","from":"demo_manager","message":"30 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:15 GMT","level":"INFO","from":"demo_manager","message":"40 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:18 GMT","level":"INFO","from":"demo_manager","message":"50 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:21 GMT","level":"INFO","from":"demo_manager","message":"60 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:25 GMT","level":"INFO","from":"demo_manager","message":"70 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:28 GMT","level":"INFO","from":"demo_manager","message":"80 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:31 GMT","level":"INFO","from":"demo_manager","message":"90 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:35 GMT","level":"INFO","from":"demo_manager","message":"100 % of download complete"}
+{"date":"Tue, 02 Jun 2020 12:00:35 GMT","level":"INFO","from":"demo_manager","message":"Finished download for demo 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:38 GMT","level":"INFO","from":"demo_manager","message":"Finished unrar for demo 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:38 GMT","level":"INFO","from":"db","message":"Updated maps status to 0 for match 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:38 GMT","level":"INFO","from":"db","message":"Updated match status to 1 for match 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:38 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 2 for match 2341741"}
+{"date":"Tue, 02 Jun 2020 12:00:38 GMT","level":"INFO","from":"demo_manager","message":"Parsing demo for match 2341741 map 1"}
+{"date":"Tue, 02 Jun 2020 12:00:38 GMT","level":"INFO","from":"demo_manager","message":"Map to parse is : rooster-vs-incept-mirage.dem"}
+{"date":"Tue, 02 Jun 2020 12:02:57 GMT","level":"INFO","from":"demo_manager","message":"Good parsing for map : rooster-vs-incept-mirage.dem for match : 2341741"}
+{"date":"Tue, 02 Jun 2020 12:02:57 GMT","level":"INFO","from":"demo_manager","message":"Match JSON created for match 2341741 map n°1"}
+{"date":"Tue, 02 Jun 2020 12:02:57 GMT","level":"INFO","from":"db","message":"Updated map 1 status to 1 for match 2341741"}

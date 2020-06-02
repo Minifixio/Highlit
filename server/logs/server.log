@@ -99,3 +99,14 @@
 {"date":"Sun, 31 May 2020 21:48:06 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
 {"date":"Sun, 31 May 2020 21:48:24 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
 {"date":"Mon, 01 Jun 2020 14:21:30 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 19:53:08 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Mon, 01 Jun 2020 19:53:08 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 19:53:18 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Mon, 01 Jun 2020 19:53:18 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Mon, 01 Jun 2020 20:47:22 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Mon, 01 Jun 2020 20:47:22 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Tue, 02 Jun 2020 09:33:37 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Tue, 02 Jun 2020 09:33:37 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Tue, 02 Jun 2020 09:53:29 GMT","level":"INFO","from":"app","message":"Starting cron job"}
+{"date":"Tue, 02 Jun 2020 09:53:29 GMT","level":"INFO","from":"app","message":"App is listening on port 3000"}
+{"date":"Tue, 02 Jun 2020 11:17:32 GMT","level":"INFO","from":"http","message":"Maps for match 2341448 does not exist"}

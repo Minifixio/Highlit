@@ -6,7 +6,15 @@
     <div [style.display]="playerLoading ? 'none': 'block'" id="player"></div>
 </div>
 
-<div *ngIf="playerLoading" id="loading-div">
+<div *ngIf="playerLoading" class="loading-div">
     <mat-spinner></mat-spinner>
     <p id="loading-text">Player is loading</p>
+
+    <div *ngIf="playerTooLong">
+        <p id="loading-text">Player is taking to long to load ?</p>
+        <button mat-raised-button (click)="reloadPlayer()">Reload</button>
+    </div>
 </div>
+
+
+

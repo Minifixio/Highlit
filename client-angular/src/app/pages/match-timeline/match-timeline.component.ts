@@ -56,12 +56,22 @@ export class MatchTimelineComponent implements OnInit {
 
       this.syncClips();
 
-      this.twitchPlayer.displayTwitchVideo(this.gameInfos.videoId, this.startVideoTime).then(() => {
+      this.twitchPlayer.displayPlayer(this.gameInfos.videoId, this.startVideoTime).then(() => {
         this.playerLoading = false;
       });
+
+      setTimeout(() => {
+        this.twitchPlayer.reloadPlayer();
+        this.playerLoading = false;
+      }, 8000);
+
     } else {
       this.router.navigate(['/match-selection']);
     }
+  }
+
+  playerReloaded() {
+    this.playerLoading = false;
   }
 
   syncClips() {
