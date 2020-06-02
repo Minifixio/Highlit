@@ -1,9 +1,6 @@
 # main dir
 node_modules
 server-api-node
-output.ts
-radio.mp3
-test.html
 
 # compiled output
 client-angular/dist
@@ -55,25 +52,13 @@ Thumbs.db
 pitch.pages
 
 # Others
-server-api-node/tests/
 client-angular/src/app/services/models/ServerInfos.ts
 client-angular/dist
-server-api-node/database/matches.db
-server-api-node/database/
 
 server/src/CREDENTIALS.ts
 server/matches/
-server/logs/*
+server/logs/
+server/db/
 backups
-server/db/*
-*.log
-*.db
 
-server/logs/demos.log
-server/logs/main.log
-server/logs/server.log
-server/logs/demos_reading.log
-server/logs/error.log
-server/logs/errors.log
-server/db/reset_db.sql
-server/db/matches.db
+
