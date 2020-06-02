@@ -42,15 +42,6 @@ export class TwitchPlayerComponent implements OnInit {
           }, 1000);
         }
       });
-
-      setTimeout(() => {
-        console.log(document.querySelectorAll('iframe')[0].childNodes)
-      }, 10000)
-
-      // setTimeout(() => {
-      //   const twitchIframe = document.querySelectorAll('iframe')[0];
-      //   if (twitchIframe.querySelector())
-      // }, 3000);
     });
   }
 

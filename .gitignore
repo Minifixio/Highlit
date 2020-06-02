@@ -84,3 +84,10 @@ server/logs/*
 server/db/matches.db
 backups
 *.log
+
+server/logs/demos.log
+server/logs/main.log
+server/logs/server.log
+server/logs/demos_reading.log
+server/logs/error.log
+server/logs/errors.log
