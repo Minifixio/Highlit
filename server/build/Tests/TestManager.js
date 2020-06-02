@@ -28,13 +28,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.testCron = void 0;
+exports.triggerCron = void 0;
 const cronTasks = __importStar(require("../Cron/CronTasks"));
 const LoggerService_1 = require("../Debug/LoggerService");
 const dbMngr = __importStar(require("../Database/DatabaseManager"));
 const hltvMngr = __importStar(require("../HLTV/HLTVManager"));
 const logger = new LoggerService_1.Logger("test");
-function testCron() {
+function triggerCron() {
     return __awaiter(this, void 0, void 0, function* () {
         logger.debug('Starting last matches task');
         yield hltvMngr.getLastMatches();
@@ -43,5 +43,5 @@ function testCron() {
         lastMatchId === 0 ? cronTasks.checkUnavailableMatch() : cronTasks.updateMatch(lastMatchId);
     });
 }
-exports.testCron = testCron;
+exports.triggerCron = triggerCron;
 //# sourceMappingURL=TestManager.js.map

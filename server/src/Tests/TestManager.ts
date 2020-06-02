@@ -4,7 +4,7 @@ import * as dbMngr from '../Database/DatabaseManager'
 import * as hltvMngr from '../HLTV/HLTVManager'
 const logger = new Logger("test");
 
-export async function testCron() {
+export async function triggerCron() {
     logger.debug('Starting last matches task');
     await hltvMngr.getLastMatches();
 

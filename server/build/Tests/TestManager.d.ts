@@ -1,1 +1,1 @@
-export declare function testCron(): Promise<void>;
+export declare function triggerCron(): Promise<void>;

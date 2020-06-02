@@ -28,6 +28,7 @@ exports.app = express_1.default();
 const cors_1 = __importDefault(require("cors"));
 const bodyParser = __importStar(require("body-parser"));
 const cronTasks = __importStar(require("./Cron/CronTasks"));
+const testManager = __importStar(require("./Tests/TestManager"));
 const LoggerService_1 = require("./Debug/LoggerService");
 const Routes_1 = require("./API/Routes");
 // testManager.testCron()
@@ -69,6 +70,7 @@ exports.app.listen(3000, () => {
 });
 const routes = new Routes_1.Routes(exports.app);
 routes.mountRoutes();
+testManager.triggerCron();
 // http.listen(3000, () => {
 //     socketManager = require("./socket_manager.js");
 //     socketManager.startSockets(http);
