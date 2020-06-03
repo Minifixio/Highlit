@@ -360,7 +360,7 @@ async function makeTwitchJSONfile(matchId: number, mapTwitchInfos: Demo[], mapsC
     })
 }
 
-async function findMatchPath(matchId: number): Promise<string> {
+export async function findMatchPath(matchId: number): Promise<string> {
 
     try {
         const date = new Date(await dbMngr.findMatchDate(matchId));

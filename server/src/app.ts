@@ -51,7 +51,7 @@ app.listen(3000, () => {
 
 const routes = new Routes(app)
 routes.mountRoutes()
-testManager.triggerCron()
+cronTasks.triggerCron()
 
 // http.listen(3000, () => {
 //     socketManager = require("./socket_manager.js");

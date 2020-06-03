@@ -80,9 +80,14 @@ export class MatchParser {
     }
 
     syncRounds(): void {
+        const timeRef = this.rounds[0].start
         this.rounds.forEach(round => {
             round.round_number += 1
-            round.start = round.start - this.rounds[0].start
+            round.start = round.start - timeRef
+            round.kills.map(kill => kill.time = kill.time - timeRef)
+            round.multiple_kills.aces.forEach(ace => ace.kills.map(kill => kill.time = kill.time - timeRef))
+            round.multiple_kills.quads.forEach(ace => ace.kills.map(kill => kill.time = kill.time - timeRef))
+            round.multiple_kills.triples.forEach(ace => ace.kills.map(kill => kill.time = kill.time - timeRef))
         })
     }
 

@@ -10,6 +10,10 @@ const logger = new Logger("cron");
 
 // Cron tasks
 export const lastMatchesTask = new CronJob('*/30 * * * *', async() => {
+    triggerCron()
+});
+
+export async function triggerCron() {
     logger.debug('Starting last matches task');
     await hltvMngr.getLastMatches();
 
@@ -17,7 +21,7 @@ export const lastMatchesTask = new CronJob('*/30 * * * *', async() => {
     logger.debug("Last undownloaded match : " + lastMatchId);
 
     lastMatchId === 0 ? checkUnavailableMatch() : updateMatch(lastMatchId);
-});
+}
 
 export async function updateMatch(matchId: number) {
 

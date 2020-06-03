@@ -1,5 +1,6 @@
 import * as hltvMngr from '../HLTV/HLTVManager'
 import * as CREDENTIALS from '../CREDENTIALS'
+import * as fs from 'fs'
 import * as twitchAnalyser from 'twitch-video-comments-analyser'
 import { Round } from '../Demos/models/Round';
 
@@ -7,7 +8,7 @@ const twitchClientId = CREDENTIALS.twitchClientId
 const commentAnalyser = new twitchAnalyser.CommentAnalyser(twitchClientId, false)
 
 export async function calculateTwitchRating(rounds: Round[], path: string, mapNumber: number): Promise<Round[]> {
-    const twitchJSONfile = require(`${path}/twitch_infos.json`);
+    const twitchJSONfile = JSON.parse(fs.readFileSync(`${path}/twitch_infos.json`, 'utf8'));
     let roundsRating: number[] = [];
     let twitchLink: string;
 
@@ -31,6 +32,7 @@ export async function calculateTwitchRating(rounds: Round[], path: string, mapNu
         try {
             const comments = await commentAnalyser.getComments(videoId, startVideoTime + round.start, startVideoTime + round.end)
             roundsRating.push(comments.length)
+            console.log(comments.length)
         } catch(e) {
             throw e
         }

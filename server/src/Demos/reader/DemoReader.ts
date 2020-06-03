@@ -29,6 +29,7 @@ export class DemoReader {
                 demoFile.on('end', () => {
                     this.matchParser.roundOfficiallyEnd()
                     if(this.matchParser.endMatch()) {
+                        demoFile.cancel()
                         resolve(this.matchParser.rounds)
                     } else {
                         this.matchParser.matchLogger.matchLog('wrong parsing')
@@ -76,8 +77,8 @@ export class DemoReader {
                 demoFile.gameEvents.on('round_officially_ended', () => {
                     this.matchParser.roundOfficiallyEnd()
                     if (this.matchParser.endMatch()) {
-                        resolve(this.matchParser.export())
                         demoFile.cancel()
+                        resolve(this.matchParser.export())
                     }
                 })
 
@@ -91,7 +92,8 @@ export class DemoReader {
                     }
 
                     if (this.matchParser.rounds.length > 15) {
-                        if (this.matchParser.endMatch() !== false) {
+                        if (this.matchParser.endMatch()) {
+                            demoFile.cancel()
                             resolve(this.matchParser.rounds)
                         }
                     }

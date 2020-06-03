@@ -54,8 +54,6 @@ export class MatchTimelineComponent implements OnInit {
       this.startVideoTime = this.gameInfos.startVideoTime;
       this.playerLoading = true;
 
-      this.syncClips();
-
       this.twitchPlayer.displayPlayer(this.gameInfos.videoId, this.startVideoTime).then(() => {
         this.playerLoading = false;
       });
@@ -72,41 +70,6 @@ export class MatchTimelineComponent implements OnInit {
 
   playerReloaded() {
     this.playerLoading = false;
-  }
-
-  syncClips() {
-
-    this.rounds.forEach((item, index) => {
-      if (item.round_number !== 0) { // Syncing timings from Twitch Video and match timings
-        if (item.round_number === 1) { // Don't add buy time for 1st round
-          this.rounds[index].start = this.startVideoTime + item.start;
-        } else {
-          this.rounds[index].start = this.startVideoTime + item.start + 25; // Adding 25 seconds for buy-time
-          this.rounds[index].end = this.startVideoTime + item.end + 25; // Adding 25 seconds for buy-time
-        }
-      }
-      if (item.multiple_kills) { // Same for multi kills
-        item.multiple_kills.triples.forEach(triple => {
-          triple.kills.forEach(kill => {
-            kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
-          });
-        });
-        item.multiple_kills.quads.forEach(quad => {
-          quad.kills.forEach(kill => {
-            kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
-          });
-        });
-        item.multiple_kills.aces.forEach(ace => {
-          ace.kills.forEach(kill => {
-            kill.time += this.startVideoTime - 10; // Removing 10 sec to make sure the clip will start fex seconds before the action
-          });
-        });
-      }
-
-      if (item.clutch) {
-        item.clutch.time += this.startVideoTime - 10;
-      }
-    });
   }
 
   twitchSeekTo(timestamp: number) {
