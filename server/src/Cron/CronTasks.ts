@@ -10,7 +10,7 @@ const logger = new Logger("cron");
 
 // Cron tasks
 export const lastMatchesTask = new CronJob('*/30 * * * *', async() => {
-    triggerCron()
+    await triggerCron()
 });
 
 export async function triggerCron() {
