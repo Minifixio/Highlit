@@ -40,7 +40,7 @@
     "hltv": "^2.19.4",
     "lodash": "^4.17.15",
     "node-unrar-js": "^0.8.1",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "socket.io": "^2.3.0",
     "sqlite3": "^4.2.0",
     "twitch-video-comments-analyser": "^1.0.4",
