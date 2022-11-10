@@ -5,6 +5,8 @@
 **[HIGHLIT.ME](https://highlit.me)** is an **open sourced** web application running under Angular which allows you to easily rewatch **Counter-Strike Global Offensive** esport matches when you missed them live. <br>
 Match highlights videos are often quite long. Highlit offers a visual and interactive timeline of the match and let you navigate through the best moments of the match and access to them quickly.
 
+See [this video](https://www.youtube.com/watch?v=JRLpymSlAX4) for a quick showcase !
+
 <br><br>
 # How it works ?
 
