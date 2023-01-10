@@ -2,10 +2,28 @@
 
 # Highlit ? Whats is it ?
 
-**[HIGHLIT.ME](https://highlit.me)** (**CURRENTLY UNAVAILABLE**) is an **open sourced** web application running under Angular which allows you to easily rewatch **Counter-Strike Global Offensive** esport matches when you missed them live. <br>
+**[HIGHLIT.ME](https://highlit.me)** (**currently unavailable**) is an **open sourced** web application running under Angular which allows you to easily rewatch **Counter-Strike Global Offensive** esport matches when you missed them live. <br>
 Match highlights videos are often quite long. Highlit offers a visual and interactive timeline of the match and let you navigate through the best moments of the match and access to them quickly.
 
 See [this video](https://www.youtube.com/watch?v=JRLpymSlAX4) for a quick showcase !
+
+<br>
+
+Here is some screenshot of the App :
+| *The menu page where the mathes are listed* |
+|:--:| 
+| ![](https://github.com/Minifixio/Highlit/blob/master/screenshots/menu.png?raw=true) | 
+
+<br>
+
+| *Watching a match* |
+|:--:| 
+| ![](https://github.com/Minifixio/Highlit/blob/master/screenshots/match1.png?raw=true) |
+
+| ![](https://github.com/Minifixio/Highlit/blob/master/screenshots/match1.png?raw=true) |
+|:--:| 
+
+You can click on the round you want to watch on the right panel. This right panel highlights the main events for each round (multi-kills, clutch...) but also the hype of the round (based on the number of Twitch comments written during the round) so you can decide which round is worth watching.
 
 <br><br>
 # How it works ?
@@ -13,7 +31,7 @@ See [this video](https://www.youtube.com/watch?v=JRLpymSlAX4) for a quick showca
 There are two parts to the project :
 
 
-## 1) The backend server (nodejs)
+## The backend server (nodejs)
 
 The backend server is takes care of getting matches datas, downloading the demos and parsing them. There are several steps to create a demo parsing file :
 
@@ -23,7 +41,7 @@ The backend server is takes care of getting matches datas, downloading the demos
 Then, the older unparsed match is selected to be analyzed. The match demo's are then downloaded and the files are ready to be parsed.
 
 **2. The Demo Reader :**<br>
-* The demo reader takes the demo (.dem) file extracted from the downloaded and start analyzing it.
+* The demo reader takes the demo (.dem) file extracted from the downloaded and start analyzing it using [Demofile](https://github.com/saul/demofile)
 Round timings, tactical pauses, kills, multi-kills and others datas are listed from the analysis.
 
 **3. The Demo Manager :**<br>
@@ -31,7 +49,7 @@ Round timings, tactical pauses, kills, multi-kills and others datas are listed f
 A file is also created referencing all the twitch streams links associated to the match.
 
 **4. The Twitch Analyser :**<br>
-* The HLTV's result page refers twitch streams links of the match. The Twitch Analyser will anaylse those streams and count the number of comments sent during each round duration.
+* The HLTV's result page refers twitch streams links of the match. The Twitch Analyser will anaylse those streams and count the number of comments sent during each round duration using [Twitch comments anaylser](https://github.com/Minifixio/twitch-video-comments-analyser)
 A rating is then generated for each round of the match. A round with a high Twitch rating means many comments have been sent during the round on the live stream.
 
 Files are then sorted in folders named after match id's. These folders are also sorted by date for an easier management.
@@ -39,7 +57,7 @@ The backend server also hosts the databse.
 
 <br>
 
-## 2) The web app (Angular):
+## The web app (Angular):
 
 There are two main pages on the app :
 
@@ -66,11 +84,3 @@ Also, any thoughts, advices, issues, fixes, improvements, etc... are really stro
 I'm not very talented in UI design. If you have any skills in the subject it would be great !<br>
 Finally, I'm not a very experienced developper so sometimes my code is quite draft...<br>
 Enjoy !
-
-
-
-
-
-
-
-
